@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarbonX – MRV Verifier Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<style>
+:root{--bg:#f5f8f5;--card:#fff;--text:#17251c;--muted:#68766d;--line:#dfe7e1;--green:#173d28;--green2:#e4f1e8;--gold:#e5b84f;--red:#b52b24;--redbg:#fde9e7;--yellow:#a76d18;--yellowbg:#fff2d8;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.hidden{display:none!important}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.page{min-height:100vh}.landing{min-height:100vh;background:linear-gradient(135deg,#f5fbf6,#eaf6ed);display:grid;place-items:center;padding:30px}.landing-card{width:min(900px,100%);background:#fff;border:1px solid var(--line);border-radius:28px;padding:52px;box-shadow:0 24px 70px #173d2818;display:grid;grid-template-columns:1.3fr .8fr;gap:45px}.brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:800}.logo{width:42px;height:42px;border-radius:12px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-size:21px}.badge{display:inline-flex;align-items:center;gap:7px;margin-top:42px;background:var(--green2);color:#315f43;border-radius:999px;padding:7px 12px;font-size:11px;font-weight:800;letter-spacing:.06em}.badge i{width:7px;height:7px;background:#4ca967;border-radius:50%}.landing h1{font-size:48px;line-height:1.02;margin:20px 0 14px;letter-spacing:-.04em}.landing p{color:var(--muted);line-height:1.7;max-width:520px}.primary{border:0;background:var(--green);color:#fff;border-radius:11px;padding:12px 18px;font-weight:700}.primary:hover{background:#0e2c1b}.secondary{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:11px;padding:11px 16px;font-weight:650}.visual{border-radius:24px;background:linear-gradient(145deg,#e4f2e8,#f8fbf8);display:grid;place-items:center;min-height:310px}.shield{width:150px;height:180px;border-radius:70px 70px 85px 85px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-size:55px;box-shadow:0 20px 45px #173d2830}
+.login-overlay{position:fixed;inset:0;background:#173d2866;backdrop-filter:blur(5px);display:none;place-items:center;padding:20px;z-index:20}.login-overlay.open{display:grid}.login{width:min(420px,100%);background:#fff;border-radius:20px;padding:28px;position:relative;box-shadow:0 25px 80px #0003}.close{position:absolute;right:16px;top:12px;border:0;background:none;font-size:25px;color:var(--muted)}.login h2{margin:5px 0}.login p{color:var(--muted);font-size:13px;line-height:1.5}.field{margin:14px 0}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#f7faf7;border-radius:10px;padding:11px 12px;outline:none}.field input:focus,.field textarea:focus{border-color:#94bca1;box-shadow:0 0 0 3px #94bca122}.login-error{background:var(--redbg);color:var(--red);padding:9px 11px;border-radius:9px;font-size:12px;margin:10px 0}.demo{font-size:11px;color:var(--muted);background:#f4f7f4;padding:10px;border-radius:9px;margin-top:12px}
+.app{display:flex;min-height:100vh}.sidebar{width:235px;background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}.side-brand{display:flex;align-items:center;gap:9px;font-weight:800;padding:4px 9px 24px}.side-brand .logo{width:34px;height:34px;font-size:16px}.section-label{font-size:10px;font-weight:800;letter-spacing:.08em;color:#87948b;margin:5px 10px 8px}.nav{width:100%;border:0;background:transparent;text-align:left;border-radius:10px;padding:10px 11px;margin-bottom:3px;color:#526058;font-weight:600}.nav.active,.nav:hover{background:var(--green2);color:var(--green)}.nav .count{float:right;background:#edf1ee;border-radius:99px;padding:1px 7px;font-size:10px}.side-spacer{flex:1}.verifier-card{background:#f0f7f2;border:1px solid #dce9df;border-radius:12px;padding:11px;display:flex;gap:9px;align-items:center;font-size:12px}.avatar{width:32px;height:32px;border-radius:50%;background:var(--green);color:var(--gold);display:grid;place-items:center;font-weight:800}.main{flex:1;min-width:0}.topbar{padding:25px 34px 10px;display:flex;align-items:center;gap:12px}.topbar .grow{flex:1}.topbar h1{font-size:25px;margin:0 0 5px}.topbar p{margin:0;color:var(--muted);font-size:13px}.network{padding:7px 11px;background:#fff;border:1px solid var(--line);border-radius:99px;font-size:11px;font-weight:700;color:var(--muted)}.network i{display:inline-block;width:7px;height:7px;background:#48aa63;border-radius:50%;margin-right:5px}.content{padding:18px 34px 35px;max-width:1400px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px}.stat-label{color:var(--muted);font-size:12px}.stat-value{font-size:27px;font-weight:800;margin:12px 0 4px}.stat-note{font-size:11px;color:#87948b}.toolbar{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;gap:9px;margin-bottom:15px}.toolbar input{flex:1;border:1px solid var(--line);background:#f6faf7;border-radius:10px;padding:10px}.list{display:grid;gap:11px}.activity{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px}.activity-icon{width:43px;height:43px;border-radius:11px;background:var(--green2);display:grid;place-items:center;font-size:20px}.activity-main{flex:1;min-width:200px}.activity-main h3{font-size:14px;margin:0 0 5px}.meta{color:var(--muted);font-size:11px}.pill{display:inline-block;border-radius:99px;padding:4px 9px;font-size:10px;font-weight:800}.pending{background:var(--yellowbg);color:var(--yellow)}.verified{background:var(--green2);color:#2d7546}.rejected{background:var(--redbg);color:var(--red)}.activity-credit{text-align:right;margin-right:8px}.activity-credit b{font-size:18px}.empty,.error{background:#fff;border:1px solid var(--line);border-radius:15px;padding:30px;text-align:center;color:var(--muted)}.error{border-color:#efc2bd;background:#fff7f6;text-align:left;color:var(--red)}.error b{display:block;margin-bottom:5px}.error small{color:#7e4a45}.error code{display:block;background:#fff0ee;padding:8px;border-radius:7px;margin-top:10px;color:#693b36;word-break:break-all}.review{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}.panel h2{font-size:20px;margin:0 0 7px}.panel h3{font-size:13px;margin:20px 0 9px;color:#647168}.impact{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.impact div{background:#f2f8f3;border:1px solid #deebe1;border-radius:11px;padding:13px}.impact b{display:block;font-size:22px;margin-top:4px}.kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #edf1ee;font-size:12px}.kv span{color:var(--muted)}.check{display:flex;gap:9px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:9px;margin:7px 0;font-size:12px;cursor:pointer}.check input{margin-top:2px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.danger{border:1px solid #d98b84;background:#fff;color:var(--red);border-radius:10px;padding:11px;font-weight:700}.back{margin-bottom:12px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:11px;border-bottom:1px solid #edf1ee;font-size:11px}.table th{font-size:10px;text-transform:uppercase;color:#87948b}.tx{color:#2e7547;text-decoration:none}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--green);color:#fff;padding:11px 17px;border-radius:10px;display:none;z-index:40;font-size:12px}.toast.show{display:block}
+@media(max-width:950px){.landing-card{grid-template-columns:1fr}.visual{display:none}.stats{grid-template-columns:1fr 1fr}.review{grid-template-columns:1fr}.sidebar{width:190px}}@media(max-width:700px){.app{display:block}.sidebar{width:100%;height:auto;position:static;flex-direction:row;overflow:auto}.side-spacer,.verifier-card,.section-label{display:none}.topbar,.content{padding-left:16px;padding-right:16px}.stats{grid-template-columns:1fr}.activity{align-items:flex-start}.activity-credit{display:none}.landing-card{padding:28px}.landing h1{font-size:38px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="toast" class="toast"></div>
+
+<div id="loginOverlay" class="login-overlay">
+  <div class="login">
+    <button class="close" onclick="closeLogin()">×</button>
+    <div class="brand"><span class="logo">🌱</span> CarbonX</div>
+    <h2>Verifier Login</h2>
+    <p>Sign in to review submitted environmental activities.</p>
+    <div id="loginError" class="login-error hidden"></div>
+    <div class="field"><label>Verifier ID</label><input id="verifierId" placeholder="VX-0042"></div>
+    <div class="field"><label>Password</label><input id="verifierPassword" type="password" placeholder="Password"></div>
+    <button class="primary" style="width:100%" onclick="login()">Sign In</button>
+    <div class="demo">Demo credentials: <b>VX-0042</b> / <b>Verifier@2026</b></div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   CARBONX VERIFIER PORTAL - CLEAN VERSION
+   Backend expected:
+   http://localhost:5002/api/verifier/stats
+   http://localhost:500/api/verifier/activities?status=pending
+   ========================================================== */
+const CONFIG={
+  API_BASE:'http://localhost:5002/api',
+  CONTRACT_ADDRESS:localStorage.getItem('carbonxContractAddress')||'',
+  SEPOLIA:'0xaa36a7',
+  TOKEN_DECIMALS:18
+};
+
+let verifier=JSON.parse(sessionStorage.getItem('carbonxVerifier')||'null');
+let state={pending:[],verified:[],rejected:[],stats:{pending:0,verified:0,rejected:0,creditsVerified:0},current:null};
+const CHECKS=[
+ 'Evidence is relevant to the submitted activity',
+ 'Evidence appears authentic and tamper-free',
+ 'Activity details and dates are complete',
+ 'Environmental impact estimate is reasonable',
+ 'Proposed CXC amount is appropriate',
+ 'Activity has not been previously submitted or double-counted'
+];
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const short=v=>v?String(v).slice(0,7)+'…'+String(v).slice(-5):'—';
+const money=v=>Number(v||0).toFixed(2);
+const date=v=>{if(!v)return'—';const d=new Date(v);return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})};
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove('show'),3000)}
+function getErrorMessage(err){return err?.message||'Request failed'}
+
+async function api(path,options={}){
+  const response=await fetch(CONFIG.API_BASE+path,{method:options.method||'GET',headers:{'Content-Type':'application/json',...(options.headers||{})},body:options.body});
+  const text=await response.text();
+  let data={};try{data=text?JSON.parse(text):{}}catch{data={message:text}}
+  if(!response.ok){
+    if(response.status===404) throw new Error(`Verifier API route not found (404): ${CONFIG.API_BASE+path}`);
+    throw new Error(data.message||data.error||`Request failed (${response.status})`);
+  }
+  return data;
+}
+function normalize(x){
+  const u=x.user||x.userId||{};const impact=x.impact||{};const credits=x.credits||{};
+  return {...x,
+    id:x.id||x._id,
+    activityId:x.activityId||x.id||x._id,
+    title:x.activityName||x.activityType||'Environmental Activity',
+    userName:u.name||x.userName||'Unknown User',
+    userEmail:u.email||x.userEmail||'',
+    walletAddress:x.walletAddress||u.walletAddress||'',
+    co2:Number(impact.co2e||0)/1000,
+    co2Kg:Number(impact.co2e||0),
+    proposedCredits:Number(credits.estimated||0),
+    issuedCredits:Number(credits.issued||0),
+    description:x.description||'',
+    locationText:typeof x.location==='string'?x.location:(x.location?.address||'—'),
+    txHash:x.blockchain?.transactionHash||x.transactionHash||'',
+    status:String(x.status||'pending').toLowerCase()
+  };
+}
+function listOf(data){return Array.isArray(data?.activities)?data.activities:Array.isArray(data)?data:[]}
+
+function landing(){
+ return `<div class="landing"><div class="landing-card"><div><div class="brand"><span class="logo">🌱</span>CarbonX</div><span class="badge"><i></i> CARBONX VERIFIER PORTAL</span><h1>Verify Impact.<br>Build Trust.</h1><p>Review submitted environmental activities and approve eligible carbon credits. Verified credits are issued only after blockchain confirmation.</p><button class="primary" onclick="openLogin()">Verifier Login →</button></div><div class="visual"><div class="shield">✓</div></div></div></div>`;
+}
+function sidebar(active){
+ return `<aside class="sidebar"><div class="side-brand"><span class="logo">🌱</span>CarbonX</div><div class="section-label">VERIFICATION CONSOLE</div><button class="nav ${active==='pending'?'active':''}" onclick="go('dashboard')">◷ Pending Reviews <span class="count">${state.stats.pending}</span></button><button class="nav ${active==='verified'?'active':''}" onclick="go('verified')">✓ Verified Activities <span class="count">${state.stats.verified}</span></button><button class="nav ${active==='rejected'?'active':''}" onclick="go('rejected')">⊗ Rejected <span class="count">${state.stats.rejected}</span></button><div class="side-spacer"></div><div class="verifier-card"><span class="avatar">RS</span><div><b>Rahul Sharma</b><br><small>Verifier · VX-0042</small></div></div></aside>`;
+}
+function topBar(title,subtitle){return `<div class="topbar"><div class="grow"><h1>${esc(title)}</h1><p>${esc(subtitle)}</p></div><span class="network"><i></i> Sepolia</span><button class="secondary" onclick="logout()">↪ Log Out</button></div>`}
+function stat(label,value,note){return `<div class="stat"><div class="stat-label">${label}</div><div class="stat-value">${value}</div><div class="stat-note">${note}</div></div>`}
+function activityCard(x){const icon=String(x.activityType||'').toLowerCase().includes('recycl')?'♻':String(x.activityType||'').toLowerCase().includes('tree')?'🌲':'☀';return `<div class="activity"><div class="activity-icon">${icon}</div><div class="activity-main"><h3>${esc(x.title)}</h3><div class="meta">${esc(x.userName)} · ${esc(x.activityId)} · ${date(x.dateOfActivity||x.createdAt)}</div></div><div><span class="pill pending">PENDING</span></div><div class="activity-credit"><b>${money(x.proposedCredits)}</b><div class="meta">CXC proposed</div></div><button class="primary" onclick="review('${esc(x.id)}')">Review</button></div>`}
+function dashboard(){
+ return `<div class="app">${sidebar('pending')}<main class="main">${topBar('Verifier Dashboard','Review submitted environmental activities and approve eligible credits.') }<div class="content"><div class="stats">${stat('Pending Reviews',state.stats.pending,'Awaiting verification')}${stat('Verified Activities',state.stats.verified,'Successfully verified')}${stat('Rejected / Returned',state.stats.rejected,'No credits issued')}${stat('Credits Verified',money(state.stats.creditsVerified)+' CXC','Issued after confirmation')}</div><div class="toolbar"><input id="search" placeholder="🔍 Search activities, contributors, or IDs..." oninput="renderPending()"><button class="secondary" onclick="loadAll()">↻ Refresh</button></div><div id="pendingList" class="list"></div></div></main></div>`;
+}
+function renderPending(){const q=($('search')?.value||'').toLowerCase();const rows=state.pending.filter(x=>`${x.title} ${x.userName} ${x.activityId} ${x.activityType}`.toLowerCase().includes(q));$('pendingList').innerHTML=rows.length?rows.map(activityCard).join(''):`<div class="empty">${q?'No matching activities.':'No pending activities. Submit an activity from the CarbonX user portal and it will appear here.'}</div>`}
+function tablePage(kind){const rows=kind==='verified'?state.verified:state.rejected;return `<div class="app">${sidebar(kind)}<main class="main">${topBar(kind==='verified'?'Verified Activities':'Rejected Activities',kind==='verified'?'Blockchain-confirmed credit issuance records.':'Activities rejected during verification; no credits were issued.')}<div class="content"><div class="panel"><div class="toolbar" style="padding:0;border:0"><input id="tableSearch" placeholder="🔍 Search..." oninput="renderTable('${kind}')"><button class="secondary" onclick="loadAll()">↻ Refresh</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Activity</th><th>User</th><th>Date</th><th>CO₂</th><th>Credits</th><th>Status</th><th>Blockchain</th></tr></thead><tbody id="tableBody"></tbody></table></div></div></div></main></div>`}
+function renderTable(kind){const q=($('tableSearch')?.value||'').toLowerCase();const rows=(kind==='verified'?state.verified:state.rejected).filter(x=>`${x.title} ${x.userName} ${x.activityId} ${x.txHash}`.toLowerCase().includes(q));$('tableBody').innerHTML=rows.length?rows.map(x=>`<tr><td><b>${esc(x.title)}</b><br><small>${esc(x.activityId)}</small></td><td>${esc(x.userName)}</td><td>${date(x.dateOfActivity||x.createdAt)}</td><td>${money(x.co2)} t</td><td>${money(kind==='verified'?x.issuedCredits:x.proposedCredits)} CXC</td><td><span class="pill ${kind}">${kind.toUpperCase()}</span></td><td>${kind==='verified'&&x.txHash?`<a class="tx" target="_blank" href="https://sepolia.etherscan.io/tx/${encodeURIComponent(x.txHash)}">${short(x.txHash)}</a>`:'No issuance'}</td></tr>`).join(''):`<tr><td colspan="7" style="text-align:center;padding:30px;color:#68766d">No records found.</td></tr>`}
+function reviewPage(x){return `<div class="app">${sidebar('pending')}<main class="main">${topBar('Review Activity','Inspect evidence and decide whether the submitted activity qualifies for CXC.') }<div class="content"><button class="secondary back" onclick="go('dashboard')">← Back to Pending Reviews</button><div class="review"><section class="panel"><h2>${esc(x.title)}</h2><p class="meta">${esc(x.activityId)} · Submitted by ${esc(x.userName)}</p><div class="impact"><div>Carbon Impact<b>${money(x.co2)} <small>tCO₂e</small></b></div><div>Proposed Credits<b>${money(x.proposedCredits)} <small>CXC</small></b></div></div><h3>Submission Details</h3><div class="kv"><span>Activity Date</span><b>${date(x.dateOfActivity)}</b></div><div class="kv"><span>Location</span><b>${esc(x.locationText)}</b></div><div class="kv"><span>Activity Type</span><b>${esc(x.activityType)}</b></div><div class="kv"><span>Beneficiary Wallet</span><b class="meta">${esc(x.walletAddress||'Not provided')}</b></div><h3>Description</h3><div class="empty" style="text-align:left;padding:14px">${esc(x.description||'No description provided.')}</div></section><section><div class="panel"><h3 style="margin-top:0">Credit Assessment</h3><div class="field"><label>Approved CXC amount</label><input id="creditAmount" type="number" min="0.1" step="0.01" value="${money(x.proposedCredits)}"></div><h3>Verification Checklist</h3><div id="checks">${CHECKS.map((c,i)=>`<label class="check"><input type="checkbox" onchange="updateChecks()" data-check="${i}"> ${esc(c)}</label>`).join('')}</div><div class="field"><label>Verification notes</label><textarea id="notes" placeholder="Explain your decision..."></textarea></div><div class="actions"><button id="rejectButton" class="danger" onclick="rejectCurrent()">✕ Reject</button><button id="acceptButton" class="primary" disabled onclick="acceptCurrent()">✓ Accept & Mint CXC</button></div><p id="checkHint" class="meta" style="text-align:center">Complete all 6 checklist items to enable acceptance.</p></div></section></div></div></main></div>`}
+function updateChecks(){const n=document.querySelectorAll('#checks input:checked').length;$('acceptButton').disabled=n!==CHECKS.length;$('checkHint').textContent=n===CHECKS.length?'All checks complete. Ready for blockchain minting.':`Complete all 6 checklist items (${n}/6).`}
+
+async function loadAll(){
+  try{
+    const [stats,p,v,r]=await Promise.all([
+      api('/verifier/stats'),
+      api('/verifier/activities?status=pending'),
+      api('/verifier/activities?status=verified'),
+      api('/verifier/activities?status=rejected')
+    ]);
+    state.stats=stats.stats||{pending:0,verified:0,rejected:0,creditsVerified:0};
+    state.pending=listOf(p).map(normalize);state.verified=listOf(v).map(normalize);state.rejected=listOf(r).map(normalize);
+    if(location.hash==='#/dashboard'||location.hash===''||!location.hash){renderDashboard()}else if(location.hash==='#/verified'){renderVerified()}else if(location.hash==='#/rejected'){renderRejected()}
+  }catch(e){
+    console.error(e);
+    const message=getErrorMessage(e);
+    renderError(message);
+  }
+}
+function renderDashboard(){if(!verifier){renderLanding();return}$('root').innerHTML=dashboard();renderPending()}
+function renderVerified(){if(!verifier){renderLanding();return}$('root').innerHTML=tablePage('verified');renderTable('verified')}
+function renderRejected(){if(!verifier){renderLanding();return}$('root').innerHTML=tablePage('rejected');renderTable('rejected')}
+function renderError(message){if(!verifier){renderLanding();return}$('root').innerHTML=`<div class="app">${sidebar('pending')}<main class="main">${topBar('Verifier Dashboard','The verifier interface is loaded, but the backend API could not be reached.') }<div class="content"><div class="error"><b>Could not load verifier data.</b><div>${esc(message)}</div><code>Expected API: ${esc(CONFIG.API_BASE)}/verifier/activities</code><br><button class="secondary" onclick="loadAll()">Retry</button></div></div></main></div>`}
+
+async function review(id){try{const data=await api('/verifier/activities/'+encodeURIComponent(id));state.current=normalize(data.activity||data.data||data);$('root').innerHTML=reviewPage(state.current);updateChecks();}catch(e){toast(getErrorMessage(e))}}
+async function rejectCurrent(){const x=state.current;if(!x)return;const notes=$('notes').value.trim();if(!notes)return toast('Verification notes are required for rejection.');$('rejectButton').disabled=true;try{await api('/verifier/activities/'+encodeURIComponent(x.id)+'/reject',{method:'POST',body:JSON.stringify({reason:notes,notes,verifierWallet:verifier.wallet||''})});toast('Activity rejected. No credits were issued.');await loadAll();go('rejected')}catch(e){toast(getErrorMessage(e));$('rejectButton').disabled=false}}
+async function acceptCurrent(){const x=state.current;if(!x)return;const amount=Number($('creditAmount').value);if(!Number.isFinite(amount)||amount<=0)return toast('Enter a valid CXC amount.');if(!x.walletAddress)return toast('This activity has no beneficiary wallet address.');if(!CONFIG.CONTRACT_ADDRESS)return toast('Set the deployed CarbonXCredits contract address first.');if(!window.ethereum)return toast('MetaMask is required for blockchain minting.');const btn=$('acceptButton');btn.disabled=true;btn.textContent='Connecting wallet…';try{const chain=await ethereum.request({method:'eth_chainId'});if(chain!==CONFIG.SEPOLIA){await ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:CONFIG.SEPOLIA}]})}const accounts=await ethereum.request({method:'eth_requestAccounts'});const wallet=accounts[0];verifier.wallet=wallet;sessionStorage.setItem('carbonxVerifier',JSON.stringify(verifier));const provider=new ethers.BrowserProvider(ethereum);const signer=await provider.getSigner();const abi=['function mintCredits(address recipient,uint256 amount,string calldata activityId) external'];const contract=new ethers.Contract(CONFIG.CONTRACT_ADDRESS,abi,signer);btn.textContent='Confirm transaction in MetaMask…';const tokenAmount=ethers.parseUnits(amount.toFixed(6),CONFIG.TOKEN_DECIMALS);const tx=await contract.mintCredits(x.walletAddress,tokenAmount,String(x.activityId));btn.textContent='Waiting for confirmation…';const receipt=await tx.wait();btn.textContent='Saving verification…';await api('/verifier/activities/'+encodeURIComponent(x.id)+'/approve',{method:'POST',body:JSON.stringify({credits:amount,txHash:receipt.hash,blockNumber:receipt.blockNumber,verifierWallet:wallet,contractAddress:CONFIG.CONTRACT_ADDRESS,notes:$('notes').value.trim(),checklist:CHECKS})});toast('Verified and CXC minted successfully.');await loadAll();go('verified')}catch(e){console.error(e);toast(e.code===4001?'MetaMask transaction was rejected.':getErrorMessage(e));btn.disabled=false;btn.textContent='✓ Accept & Mint CXC'}}
+
+function openLogin(){$('loginOverlay').classList.add('open');$('verifierId').focus()}
+function closeLogin(){$('loginOverlay').classList.remove('open');$('loginError').classList.add('hidden')}
+function login(){const id=$('verifierId').value.trim().toUpperCase(),pw=$('verifierPassword').value;if(id==='VX-0042'&&pw==='Verifier@2026'){verifier={id,name:'Rahul Sharma',wallet:null};sessionStorage.setItem('carbonxVerifier',JSON.stringify(verifier));closeLogin();location.hash='#/dashboard';loadAll()}else{$('loginError').textContent='Invalid verifier ID or password.';$('loginError').classList.remove('hidden')}}
+function logout(){verifier=null;sessionStorage.removeItem('carbonxVerifier');location.hash='#/';renderLanding()}
+function renderLanding(){$('root').innerHTML=landing()}
+function go(page){location.hash='#/'+page}
+function route(){const h=location.hash||'#/';if(!verifier){renderLanding();return}if(h==='#/verified'){loadAll().then(()=>renderVerified())}else if(h==='#/rejected'){loadAll().then(()=>renderRejected())}else{loadAll()}}
+window.addEventListener('hashchange',route);
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeLogin()});
+renderLanding();if(verifier)route();
+</script>
+</body>
+</html>

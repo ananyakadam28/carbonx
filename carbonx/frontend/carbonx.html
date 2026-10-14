@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CarbonX — Turn Your Green Actions Into Carbon Credits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --green-900:#0E2318;
+  --green-800:#13301F;
+  --green-700:#1B3A2A;
+  --green-600:#24503A;
+  --green-500:#3C6B4F;
+  --green-400:#5C8A6C;
+  --amber:#F7DFA8;
+  --amber-strong:#E2A93B;
+  --amber-soft:#FBEBC8;
+  --ink:#16231C;
+  --ink-2:#4A5A50;
+  --ink-3:#6F7F74;
+  --bg:#F1F8EF;
+  --bg-2:#EAF4E7;
+  --card:#FFFFFF;
+  --line:#E2EDDF;
+  --line-dark:rgba(255,255,255,.10);
+  --radius-sm:10px;
+  --radius:14px;
+  --radius-lg:20px;
+  --radius-xl:28px;
+  --shadow-sm:0 1px 2px rgba(20,45,30,.05), 0 6px 18px rgba(20,45,30,.05);
+  --shadow-md:0 10px 30px rgba(20,45,30,.10);
+  --shadow-lg:0 24px 60px rgba(20,45,30,.14);
+  --maxw:1240px;
+  --sans:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(96px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--green-600);outline-offset:3px;border-radius:6px}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:15px;font-weight:600;letter-spacing:-.01em;
+  padding:14px 22px;border-radius:var(--radius);
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  white-space:nowrap;
+}
+.btn svg{flex:none}
+.btn-dark{background:var(--green-800);color:#fff;box-shadow:0 6px 16px rgba(19,48,31,.22)}
+.btn-dark:hover{background:var(--green-700);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line);box-shadow:var(--shadow-sm)}
+.btn-ghost:hover{border-color:#cfe0ca;transform:translateY(-1px)}
+.btn-amber{background:var(--amber);color:var(--green-900);box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.btn-amber:hover{background:#ffe9bb;transform:translateY(-1px)}
+.btn-outline-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
+.btn-outline-light:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.05);transform:translateY(-1px)}
+.btn-sm{padding:11px 18px;font-size:14.5px}
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
+  background:rgba(255,255,255,.88);
+  -webkit-backdrop-filter:saturate(170%) blur(14px);
+  backdrop-filter:saturate(170%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;gap:18px;height:84px}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.brand-mark{
+  width:34px;height:34px;border-radius:10px;flex:none;
+  background:linear-gradient(145deg,var(--green-700),var(--green-500));
+  display:grid;place-items:center;color:var(--amber);
+  box-shadow:0 4px 10px rgba(19,48,31,.25);
+}
+.brand-name{font-size:23px;font-weight:800;letter-spacing:-.035em}
+.nav-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--bg-2);border:1px solid var(--line);
+  color:var(--green-600);font-size:13.5px;font-weight:600;
+  padding:8px 16px;border-radius:999px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green-500);flex:none}
+.dot-live{background:#4FA96B;box-shadow:0 0 0 0 rgba(79,169,107,.55);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(79,169,107,0)}100%{box-shadow:0 0 0 0 rgba(79,169,107,0)}}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.nav-link{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--ink);padding:10px 6px;transition:color .18s}
+.nav-link:hover{color:var(--green-600)}
+.nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:42px;height:42px;place-items:center;cursor:pointer;color:var(--ink)}
+.mobile-menu{display:none;border-top:1px solid var(--line);background:#fff;padding:18px 0 24px}
+.mobile-menu.open{display:block}
+.mobile-menu .wrap{display:flex;flex-direction:column;gap:12px}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(760px 420px at 6% 6%, #E6F2E1 0%, rgba(230,242,225,0) 62%),
+    radial-gradient(820px 520px at 96% 78%, #FBF2DC 0%, rgba(251,242,220,0) 60%),
+    linear-gradient(180deg,#F4FAF2 0%, #F1F8EF 100%);
+}
+.hero-inner{
+  display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center;
+  padding:96px 0 110px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);
+  padding:9px 17px;border-radius:999px;
+  font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-600);
+}
+h1{
+  margin:26px 0 0;
+  font-size:clamp(40px,5.2vw,66px);
+  line-height:1.06;font-weight:800;letter-spacing:-.045em;
+}
+h1 .accent{color:var(--green-500)}
+h1 .mark{
+  position:relative;display:inline-block;z-index:0;
+}
+h1 .mark::after{
+  content:"";position:absolute;left:-2px;right:-2px;bottom:.08em;height:.30em;
+  background:var(--amber);border-radius:3px;z-index:-1;opacity:.95;
+}
+.hero-sub{
+  margin:24px 0 0;max-width:520px;
+  font-size:17.5px;line-height:1.62;color:var(--ink-2);
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.hero-rule{height:1px;background:var(--line);margin:40px 0 22px;max-width:690px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:12px 30px}
+.fact{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;font-weight:500;color:var(--ink-2)}
+.fact svg{color:var(--green-500)}
+
+/* ---- hero visual ---- */
+.visual{position:relative;min-height:540px;display:grid;place-items:center}
+.rings{position:relative;width:min(430px,100%);aspect-ratio:1;display:grid;place-items:center}
+.ring{position:absolute;border-radius:50%;inset:0}
+.ring-1{border:1px solid rgba(60,107,79,.16)}
+.ring-2{inset:11%;border:1px dashed rgba(60,107,79,.24)}
+.ring-3{
+  inset:22%;
+  background:radial-gradient(circle at 50% 42%, #EAF4E4 0%, #E3EFDD 60%, #DEECD7 100%);
+  border:1px solid rgba(60,107,79,.12);
+  box-shadow:inset 0 2px 18px rgba(255,255,255,.9);
+}
+.orbit{position:absolute;inset:0;animation:spin 46s linear infinite}
+.orbit i{
+  position:absolute;top:calc(50% - 4px);left:-4px;width:8px;height:8px;border-radius:50%;
+  background:var(--green-500);opacity:.55;
+}
+.orbit.b{inset:11%;animation-duration:32s;animation-direction:reverse}
+.orbit.b i{background:var(--amber-strong);opacity:.75}
+@keyframes spin{to{transform:rotate(360deg)}}
+.core{position:relative;text-align:center;z-index:2}
+.core-icon{
+  width:62px;height:62px;border-radius:50%;margin:0 auto 16px;
+  background:var(--green-800);display:grid;place-items:center;color:#DCEFD6;
+  box-shadow:0 12px 26px rgba(19,48,31,.28);
+}
+.core-title{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.core-sub{font-size:13.5px;color:var(--ink-3);margin-top:2px}
+
+.float{
+  position:absolute;background:#fff;border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow-md);
+  padding:14px 16px;z-index:3;
+}
+.f-validator{
+  top:9%;left:-2%;display:inline-flex;align-items:center;gap:8px;
+  padding:9px 15px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink-2);
+  animation:bob 7s ease-in-out infinite;
+}
+.f-activity{top:-4%;right:-6%;width:200px;animation:bob 8s ease-in-out infinite .4s}
+.f-activity .row{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink-3)}
+.f-activity .row svg{color:#3E8F5C}
+.f-activity .name{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;letter-spacing:-.02em;margin-top:8px}
+.tag-amber{
+  display:inline-block;margin-top:10px;background:var(--amber);color:#6A4D12;
+  font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:7px;
+}
+.f-impact{bottom:8%;left:-8%;width:176px;animation:bob 9s ease-in-out infinite .8s}
+.tag-green{
+  display:inline-block;background:#DEF0DA;color:var(--green-600);
+  font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:7px;
+}
+.f-impact .big{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-top:12px}
+.f-impact .big span{font-size:14px;font-weight:600;color:var(--ink-2)}
+.f-impact .cap{font-size:12.5px;color:var(--ink-2);margin-top:1px}
+.f-ledger{bottom:2%;right:-8%;width:190px;animation:bob 7.5s ease-in-out infinite .2s}
+.f-ledger .hd{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700}
+.f-ledger .hash{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin-top:7px}
+.f-ledger .ago{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-3);margin-top:7px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* ============ SECTION HEADER ============ */
+.section{padding:104px 0}
+.sec-head{text-align:center;max-width:760px;margin:0 auto 54px}
+.sec-tag{
+  display:inline-block;background:#E4EFE0;border:1px solid var(--line);
+  color:var(--green-600);font-size:12px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 16px;border-radius:999px;
+}
+.sec-head h2{
+  margin:22px 0 0;font-size:clamp(30px,3.8vw,44px);
+  font-weight:800;letter-spacing:-.04em;line-height:1.14;
+}
+.sec-head p{margin:14px auto 0;max-width:640px;font-size:16.5px;color:var(--ink-2)}
+
+/* ============ STEPS ============ */
+.steps-wrap{position:relative}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.step{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:26px 24px 30px;box-shadow:var(--shadow-sm);
+}
+.step::after{
+  content:"";position:absolute;top:52px;right:-26px;width:26px;
+  border-top:1.5px dashed #C8DAC3;
+}
+.step:last-child::after{display:none}
+.step-icon{
+  width:52px;height:52px;border-radius:var(--radius);display:grid;place-items:center;
+  background:#EFF3EE;color:var(--green-700);
+}
+.step:nth-child(1) .step-icon{background:var(--green-800);color:var(--amber-soft)}
+.step:nth-child(4) .step-icon{background:var(--amber);color:#7A5A15}
+.step-no{margin-top:26px;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--ink-3)}
+.step:nth-child(4) .step-no{color:var(--amber-strong)}
+.step h3{margin:7px 0 0;font-size:19px;font-weight:700;letter-spacing:-.025em}
+.step p{margin:14px 0 0;font-size:14.5px;line-height:1.62;color:var(--ink-2)}
+
+/* ============ LEDGER (dark) ============ */
+.ledger{
+  background:
+    radial-gradient(900px 520px at 18% 0%, #21432F 0%, rgba(33,67,47,0) 58%),
+    radial-gradient(760px 480px at 92% 96%, #1E4130 0%, rgba(30,65,48,0) 60%),
+    var(--green-800);
+  color:#fff;position:relative;
+}
+.ledger .sec-tag{background:rgba(255,255,255,.07);border-color:var(--line-dark);color:#CFE3C6}
+.ledger .sec-head h2{color:#fff}
+.ledger .sec-head p{color:rgba(226,240,222,.62)}
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.block{
+  background:rgba(255,255,255,.035);border:1px solid var(--line-dark);
+  border-radius:var(--radius-lg);padding:24px 24px 22px;
+  transition:border-color .2s ease, background .2s ease;
+}
+.block:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.055)}
+.block-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line-dark)}
+.block-id{font-size:12.5px;font-weight:700;letter-spacing:.11em;color:#D7E8D0}
+.final{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:rgba(226,240,222,.68)}
+.block h3{margin:18px 0 16px;font-size:16.5px;font-weight:700;letter-spacing:-.015em;color:#fff}
+.kv{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:10px;font-size:15px}
+.kv .k{color:rgba(226,240,222,.55)}
+.kv .v-amber{font-family:var(--mono);font-size:14.5px;font-weight:500;color:var(--amber-strong)}
+.kv .v-white{font-weight:700;color:#fff}
+.hashbox{
+  margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(0,0,0,.22);border:1px solid var(--line-dark);
+  border-radius:var(--radius-sm);padding:11px 13px;
+}
+.hashbox code{font-family:var(--mono);font-size:13px;color:rgba(226,240,222,.72)}
+.copy{
+  background:none;border:none;cursor:pointer;color:rgba(226,240,222,.5);
+  display:grid;place-items:center;padding:3px;border-radius:6px;transition:color .18s;
+}
+.copy:hover{color:#fff}
+.copy.done{color:#8FD6A2}
+
+/* ============ CTA ============ */
+.cta-sec{padding:72px 0;background:var(--bg)}
+.cta{
+  background:
+    radial-gradient(700px 360px at 50% -20%, #27503A 0%, rgba(39,80,58,0) 65%),
+    var(--green-800);
+  border-radius:var(--radius-xl);
+  padding:90px 40px;text-align:center;color:#fff;
+  box-shadow:var(--shadow-lg);
+}
+.cta h2{margin:0;font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.cta p{margin:22px auto 0;max-width:600px;font-size:17px;color:rgba(226,240,222,.6)}
+.cta-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--green-900);color:#fff;padding:74px 0 0}
+.f-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+.f-brand .brand-name{font-size:30px;color:#fff}
+.f-brand p{margin:20px 0 0;max-width:330px;font-size:14.5px;line-height:1.65;color:rgba(226,240,222,.55)}
+.status{
+  display:inline-flex;align-items:center;gap:9px;margin-top:22px;
+  background:rgba(255,255,255,.07);border:1px solid var(--line-dark);
+  padding:9px 17px;border-radius:999px;font-size:14px;font-weight:600;color:#D7E8D0;
+}
+.f-col h4{margin:6px 0 20px;font-size:13.5px;font-weight:700;letter-spacing:.06em;color:#fff}
+.f-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
+.f-col a{font-size:14.5px;color:rgba(226,240,222,.6);transition:color .18s}
+.f-col a:hover{color:#fff}
+.f-bottom{
+  margin-top:58px;border-top:1px solid var(--line-dark);
+  padding:26px 0 34px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+}
+.f-bottom p{margin:0;font-size:14px;color:rgba(226,240,222,.5)}
+.f-legal{display:flex;gap:30px}
+.f-legal a{font-size:14px;color:rgba(226,240,222,.62)}
+.f-legal a:hover{color:#fff}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1080px){
+  .hero-inner{grid-template-columns:1fr;gap:70px;padding:72px 0 90px}
+  .visual{min-height:460px}
+  .float{position:absolute}
+  .f-activity{right:0}
+  .f-impact{left:0}
+  .f-ledger{right:0}
+  .f-validator{left:2%}
+  .steps{grid-template-columns:repeat(2,1fr);gap:22px}
+  .step:nth-child(2)::after{display:none}
+  .blocks{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+  .f-grid{grid-template-columns:1fr 1fr;gap:38px}
+  .f-brand{grid-column:1 / -1}
+}
+@media (max-width:860px){
+  .nav-pill,.nav-right .nav-link,.nav-right .btn{display:none}
+  .nav-toggle{display:grid}
+  .nav-inner{height:72px}
+  .section{padding:78px 0}
+  .cta{padding:64px 26px;border-radius:22px}
+  .wrap{padding:0 20px}
+}
+@media (max-width:620px){
+  .steps{grid-template-columns:1fr;max-width:460px;margin:0 auto}
+  .step::after{display:none}
+  .f-grid{grid-template-columns:1fr}
+  .visual{min-height:520px}
+  .rings{width:270px}
+  .float{padding:12px 13px}
+  .f-activity{width:172px;right:-4px;top:0}
+  .f-impact{width:158px;left:-4px}
+  .f-ledger{width:172px;right:-4px}
+  .hero-cta .btn{flex:1 1 100%;justify-content:center}
+  .f-bottom{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============ AUTH MODAL ============ */
+.auth-overlay{
+  position:fixed;inset:0;z-index:200;display:none;
+  align-items:center;justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top,0px)) 18px calc(24px + env(safe-area-inset-bottom,0px));
+  background:rgba(12,30,20,.55);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  overflow-y:auto;
+}
+.auth-overlay.open{display:flex}
+.auth-card{
+  position:relative;width:100%;max-width:468px;margin:auto;
+  background:#fff;border:1px solid var(--line);border-radius:22px;
+  box-shadow:0 30px 80px rgba(8,26,16,.35);
+  padding:30px 30px 26px;
+  animation:authIn .28s cubic-bezier(.2,.8,.3,1);
+}
+.auth-card.wide{max-width:560px}
+@keyframes authIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.auth-close{
+  position:absolute;top:16px;right:16px;width:34px;height:34px;
+  display:grid;place-items:center;border-radius:10px;
+  background:#F3F8F1;border:1px solid var(--line);color:var(--ink-2);cursor:pointer;
+  transition:background .18s,color .18s;
+}
+.auth-close:hover{background:#E9F2E6;color:var(--ink)}
+.auth-head{margin-bottom:22px;padding-right:40px}
+.auth-head .brand{margin-bottom:16px}
+.auth-head h3{margin:0;font-size:24px;font-weight:800;letter-spacing:-.035em}
+.auth-head p{margin:8px 0 0;font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+
+.net-strip{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:#F2F8F0;border:1px solid var(--line);border-radius:12px;
+  padding:10px 13px;margin-bottom:20px;font-size:13px;color:var(--ink-2);
+}
+.net-strip strong{color:var(--green-600);font-weight:700}
+.net-strip .l{display:inline-flex;align-items:center;gap:8px}
+
+.field{margin-bottom:16px}
+.field > label{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:13px;font-weight:700;color:var(--ink);margin-bottom:7px;letter-spacing:-.005em;
+}
+.field .hint{font-size:12px;font-weight:500;color:var(--ink-3)}
+.field .hint a{color:var(--green-600);font-weight:600}
+.field .hint a:hover{text-decoration:underline}
+.control{position:relative;display:flex;align-items:center}
+.control > svg.lead{position:absolute;left:13px;color:var(--ink-3);pointer-events:none}
+.input,.select{
+  width:100%;font-family:var(--sans);font-size:15px;color:var(--ink);
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:13px 14px 13px 40px;transition:border-color .18s,box-shadow .18s;
+  -webkit-appearance:none;appearance:none;
+}
+.input::placeholder{color:#A7B6AC}
+.input:focus,.select:focus{
+  outline:none;border-color:var(--green-500);
+  box-shadow:0 0 0 3px rgba(60,107,79,.13);
+}
+.input.mono{font-family:var(--mono);font-size:13.5px;letter-spacing:.01em}
+.select{cursor:pointer;background-image:none}
+.control .chev{position:absolute;right:14px;color:var(--ink-3);pointer-events:none}
+.in-btn{
+  position:absolute;right:7px;display:inline-flex;align-items:center;gap:6px;
+  background:#EEF5EC;border:1px solid var(--line);color:var(--green-600);
+  font-size:12.5px;font-weight:700;padding:7px 11px;border-radius:9px;cursor:pointer;
+  transition:background .18s,color .18s;
+}
+.in-btn:hover{background:#E2EFDE}
+.in-btn.linked{background:#DEF0DA;color:var(--green-600);border-color:#C9E4C2}
+.icon-btn{
+  position:absolute;right:10px;background:none;border:none;cursor:pointer;
+  color:var(--ink-3);display:grid;place-items:center;padding:4px;border-radius:7px;
+}
+.icon-btn:hover{color:var(--ink)}
+.has-inbtn .input{padding-right:112px}
+.has-iconbtn .input{padding-right:42px}
+.err{display:none;font-size:12.5px;font-weight:600;color:#C0392B;margin-top:6px}
+.field.invalid .input,.field.invalid .select{border-color:#E0A79F;box-shadow:0 0 0 3px rgba(192,57,43,.09)}
+.field.invalid .err{display:block}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.idcard{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--green-800);color:#fff;border-radius:12px;padding:13px 15px;margin-bottom:16px;
+}
+.idcard .lab{font-size:11.5px;font-weight:700;letter-spacing:.11em;color:rgba(226,240,222,.55)}
+.idcard .val{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--amber);margin-top:3px}
+.idcard .re{
+  background:rgba(255,255,255,.08);border:1px solid var(--line-dark);color:#DCEFD6;
+  font-size:12px;font-weight:700;padding:7px 11px;border-radius:9px;cursor:pointer;
+}
+.idcard .re:hover{background:rgba(255,255,255,.16)}
+
+.check{display:flex;align-items:flex-start;gap:10px;margin:4px 0 18px;font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.check input{
+  width:17px;height:17px;margin:2px 0 0;accent-color:var(--green-600);flex:none;cursor:pointer;
+}
+.check a{color:var(--green-600);font-weight:600}
+.check a:hover{text-decoration:underline}
+.check.invalid{color:#C0392B}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 20px}
+.btn-block{width:100%;justify-content:center;padding:15px 22px;font-size:15.5px}
+.btn.loading{pointer-events:none;opacity:.75}
+.spinner{
+  width:16px;height:16px;border-radius:50%;flex:none;
+  border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  animation:spin .7s linear infinite;
+}
+.sign-note{
+  display:flex;gap:9px;align-items:flex-start;margin-top:14px;
+  font-size:12.5px;line-height:1.5;color:var(--ink-3);
+}
+.sign-note svg{flex:none;margin-top:1px;color:var(--green-500)}
+.auth-foot{
+  margin-top:22px;padding-top:20px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+  font-size:14.5px;color:var(--ink-2);
+}
+.link-btn{
+  background:none;border:none;cursor:pointer;padding:4px 2px;
+  font-family:var(--sans);font-size:14.5px;font-weight:700;color:var(--green-600);
+}
+.link-btn:hover{text-decoration:underline}
+.auth-scroll{max-height:none}
+.auth-success{text-align:center;padding:8px 0 4px}
+.auth-success .tick{
+  width:62px;height:62px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
+  background:#DEF0DA;color:var(--green-600);
+}
+.auth-success h3{margin:0;font-size:23px;font-weight:800;letter-spacing:-.03em}
+.auth-success p{margin:10px auto 0;max-width:330px;font-size:14.5px;color:var(--ink-2)}
+.auth-success .idcard{margin-top:22px;text-align:left}
+body.locked{overflow:hidden}
+@media (max-width:520px){
+  .auth-card{padding:26px 20px 22px;border-radius:18px}
+  .grid-2{grid-template-columns:1fr}
+  .auth-head h3{font-size:21px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      </span>
+      <span class="brand-name">CarbonX</span>
+    </a>
+
+
+    <nav class="nav-right">
+      <a class="nav-link" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 12h2"/></svg>
+        Connect Wallet
+      </a>
+      <a class="btn btn-dark btn-sm" href="#">Start Earning
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="wrap">
+      <a class="btn btn-ghost" href="#how">How it works</a>
+      <a class="btn btn-ghost" href="#ledger">Attestation record</a>
+      <a class="btn btn-ghost" href="#">Connect Wallet</a>
+      <a class="btn btn-dark" href="#">Start Earning
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span> Blockchain × Climate Impact</span>
+
+      <h1>Turn Your <span class="accent">Green Actions</span><br>Into <span class="mark">Carbon Credits</span></h1>
+
+      <p class="hero-sub">Make an environmental impact. Get verified. Earn carbon credits. Trade or redeem them on an institutional-grade decentralized climate registry.</p>
+
+      <div class="hero-cta">
+        <a class="btn btn-dark" href="#">Start Earning
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#">Explore Marketplace
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-1.5-4.5A1.5 1.5 0 0 0 18 3.5H6a1.5 1.5 0 0 0-1.5 1L3 9Z"/><path d="M4.5 9v10.5h15V9"/><path d="M9 9v3a3 3 0 0 0 6 0V9"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-rule"></div>
+
+      <div class="hero-facts">
+        <span class="fact">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.2 2.4 2.4 4.6-4.9"/></svg>
+          Transparent verification
+        </span>
+        <span class="fact">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.6l2.5-2.5a5 5 0 0 0-7-7L11.5 5.6"/><path d="M14 11a5 5 0 0 0-7.5-.6L4 12.9a5 5 0 0 0 7 7L12.5 18.4"/></svg>
+          Blockchain-backed records
+        </span>
+        <span class="fact">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 12 8 8"/></svg>
+          Measurable impact
+        </span>
+      </div>
+    </div>
+
+    <!-- hero visual -->
+    <div class="visual" aria-hidden="true">
+      <div class="rings">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+        <div class="orbit"><i></i></div>
+        <div class="orbit b"><i></i></div>
+
+        <div class="core">
+          <div class="core-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M6 20v-6l6-4.5 6 4.5v6"/><path d="M12 13.5V20"/><circle cx="12" cy="5" r="2"/></svg>
+          </div>
+          <div class="core-title">Impact Core</div>
+          <div class="core-sub">CO<sub>2</sub> Attestation Node</div>
+        </div>
+
+        <div class="float f-validator"><span class="dot dot-live"></span> Live Validator</div>
+
+        <div class="float f-activity">
+          <div class="row">Activity Verified
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 14.4-4-4L8.4 11l2.6 2.6L16 8.6l1.4 1.4-6.4 6.4Z"/></svg>
+          </div>
+          <div class="name">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C9922B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M4 20V9l5 3V9l5 3V9l5 3v8"/></svg>
+            Solar Energy
+          </div>
+          <span class="tag-amber">+2.4 CC Earned</span>
+        </div>
+
+        <div class="float f-impact">
+          <span class="tag-green">Impact Certified</span>
+          <div class="big">2.4 <span>t</span></div>
+          <div class="cap">CO<sub>2</sub> Avoided Today</div>
+        </div>
+
+        <div class="float f-ledger">
+          <div class="hd"><span class="dot dot-live"></span> Ledger Block #1027</div>
+          <div class="hash">0x82F...91A</div>
+          <div class="ago">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            2s ago
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEPS ============ -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">End-to-end Methodology</span>
+      <h2>From Green Action to Verified Impact</h2>
+      <p>Every environmental contribution follows a transparent, cryptographically assured journey.</p>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="steps">
+        <article class="step reveal">
+          <div class="step-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+          </div>
+          <div class="step-no">STEP 01</div>
+          <h3>Act</h3>
+          <p>Perform an environmentally beneficial activity such as solar generation, afforestation, or organic waste recycling.</p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V9"/><path d="m8.5 12.5 3.5-3.5 3.5 3.5"/><path d="M6.5 18.5a4.5 4.5 0 0 1 .4-9A6 6 0 0 1 18 10.6a3.9 3.9 0 0 1-.4 7.9"/></svg>
+          </div>
+          <div class="step-no">STEP 02</div>
+          <h3>Submit</h3>
+          <p>Upload verifiable telemetry evidence, sensor payloads, and cryptographic metadata of your environmental activity.</p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.2 8-9V5.6l-8-3-8 3V13c0 5.8 8 9 8 9Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <div class="step-no">STEP 03</div>
+          <h3>Verify</h3>
+          <p>Decentralized MRV verifiers and satellite telemetry engines review data and compute certified CO<sub>2</sub> equivalence.</p>
+        </article>
+
+        <article class="step reveal">
+          <div class="step-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5v7l-9 4.5-9-4.5v-7L12 4l9 4.5Z"/><path d="m3 8.5 9 4.5 9-4.5"/><path d="M12 13v7"/></svg>
+          </div>
+          <div class="step-no">STEP 04</div>
+          <h3>Earn</h3>
+          <p>Receive minted on-chain Carbon Credits (CC) directly in your vault to hold, trade, or redeem for real benefits.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEDGER ============ -->
+<section class="section ledger" id="ledger">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">Cryptographic Attestation Record</span>
+      <h2>Every Verified Impact Leaves a Trace</h2>
+      <p>Blockchain creates a transparent, tamper-evident record of verified environmental activities and emission offsets.</p>
+    </div>
+
+    <div class="blocks">
+      <article class="block reveal">
+        <div class="block-top">
+          <span class="block-id">BLOCK #1024</span>
+          <span class="final"><span class="dot dot-live"></span> Finalized</span>
+        </div>
+        <h3>Solar Array kWh Feed</h3>
+        <div class="kv"><span class="k">Attestation:</span><span class="v-amber">Verra VM0007</span></div>
+        <div class="kv"><span class="k">Value Minted:</span><span class="v-white">+2.4 CC</span></div>
+        <div class="hashbox">
+          <code>0x7F8A...92D</code>
+          <button class="copy" data-hash="0x7F8A4C21B9E6D0731A5C88FE2D4B7A9C0E6F392D" aria-label="Copy hash">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="block reveal">
+        <div class="block-top">
+          <span class="block-id">BLOCK #1025</span>
+          <span class="final"><span class="dot dot-live"></span> Finalized</span>
+        </div>
+        <h3>Urban Mangrove Canopy</h3>
+        <div class="kv"><span class="k">Attestation:</span><span class="v-amber">Gold Standard</span></div>
+        <div class="kv"><span class="k">Value Minted:</span><span class="v-white">+1.8 CC</span></div>
+        <div class="hashbox">
+          <code>0x92D1...81A</code>
+          <button class="copy" data-hash="0x92D1F70C4B8A2E5391D6C0FA7B34E9285C1D681A" aria-label="Copy hash">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <article class="block reveal">
+        <div class="block-top">
+          <span class="block-id">BLOCK #1026</span>
+          <span class="final"><span class="dot dot-live"></span> Finalized</span>
+        </div>
+        <h3>Biogas Digester Inflow</h3>
+        <div class="kv"><span class="k">Attestation:</span><span class="v-amber">CDM–III Tech</span></div>
+        <div class="kv"><span class="k">Value Minted:</span><span class="v-white">+3.1 CC</span></div>
+        <div class="hashbox">
+          <code>0x3C4F...E02</code>
+          <button class="copy" data-hash="0x3C4F98A0D2B76E153C8FA4917BD650E23A1C7E02" aria-label="Copy hash">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2>Your Everyday Actions Can<br>Create Measurable Impact.</h2>
+      <p>Start contributing, get verified, and turn environmental action into transparent digital impact.</p>
+      <div class="cta-btns">
+        <a class="btn btn-amber" href="#">Start Earning
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-outline-light" href="#">Explore Marketplace
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-1.5-4.5A1.5 1.5 0 0 0 18 3.5H6a1.5 1.5 0 0 0-1.5 1L3 9Z"/><path d="M4.5 9v10.5h15V9"/><path d="M9 9v3a3 3 0 0 0 6 0V9"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          </span>
+          <span class="brand-name">CarbonX</span>
+        </div>
+        <p>Cryptographic attestation and institutional MRV clearinghouse protocol. Bridging physical sustainability initiatives with decentralized ledger validation.</p>
+        <span class="status"><span class="dot dot-live"></span> Climate Ledger Mainnet v2.4 Active</span>
+      </div>
+
+      <div class="f-col">
+        <h4>PLATFORM</h4>
+        <ul>
+          <li><a href="#">Marketplace Registry</a></li>
+          <li><a href="#">Satellite MRV Standards</a></li>
+          <li><a href="#">Methodology VM0007</a></li>
+          <li><a href="#">Smart Contract Audits</a></li>
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h4>COMPANY</h4>
+        <ul>
+          <li><a href="#">Institutional Disclosures</a></li>
+          <li><a href="#">Verifiers Network</a></li>
+          <li><a href="#">Governance DAO</a></li>
+          <li><a href="#">Careers &amp; Science</a></li>
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h4>RESOURCES</h4>
+        <ul>
+          <li><a href="#">Privacy Protocol</a></li>
+          <li><a href="#">Terms of Settlement</a></li>
+          <li><a href="#">Developer API / SDK</a></li>
+          <li><a href="#">Registry Explorer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="f-bottom">
+      <p>© 2025 CarbonX Clearinghouse Protocol Inc. Cryptographic attestation engine verified. All rights reserved.</p>
+      <div class="f-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ AUTH MODAL ============ -->
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+
+  <!-- ---------- SIGN IN ---------- -->
+  <div class="auth-card" id="viewLogin">
+    <button class="auth-close" data-auth-close aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="auth-head">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </span>
+        <span class="brand-name">CarbonX</span>
+      </div>
+      <h3 id="authTitle">Sign in to your impact vault</h3>
+      <p>Authenticate with your CarbonX ID and sign a message from your linked wallet.</p>
+    </div>
+
+    <div class="net-strip">
+      <span class="l"><span class="dot dot-live"></span> Climate Ledger Mainnet <strong>v2.4</strong></span>
+      <span>Chain ID 8453</span>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" data-field>
+        <label for="li-id">CarbonX User ID <span class="hint">Format CX-0000-0000</span></label>
+        <div class="control">
+          <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="12" r="2.2"/><path d="M14.5 10.5h4M14.5 14h3"/></svg>
+          <input class="input mono" id="li-id" name="userId" type="text" placeholder="CX-4821-9037" autocomplete="username" spellcheck="false">
+        </div>
+        <span class="err" data-err>Enter a valid ID in the format CX-0000-0000.</span>
+      </div>
+
+      <div class="field has-inbtn" data-field>
+        <label for="li-wallet">Wallet address</label>
+        <div class="control">
+          <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 12h2"/></svg>
+          <input class="input mono" id="li-wallet" name="wallet" type="text" placeholder="0x…" spellcheck="false">
+          <button class="in-btn" type="button" data-connect="li-wallet">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.6l2.5-2.5a5 5 0 0 0-7-7L11.5 5.6"/><path d="M14 11a5 5 0 0 0-7.5-.6L4 12.9a5 5 0 0 0 7 7L12.5 18.4"/></svg>
+            Connect
+          </button>
+        </div>
+        <span class="err" data-err>Connect a wallet or paste a valid 0x address (42 characters).</span>
+      </div>
+
+      <div class="field has-iconbtn" data-field>
+        <label for="li-pass">Vault passphrase <span class="hint"><a href="#" data-noop>Forgot passphrase?</a></span></label>
+        <div class="control">
+          <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+          <input class="input" id="li-pass" name="passphrase" type="password" placeholder="Enter your vault passphrase" autocomplete="current-password">
+          <button class="icon-btn" type="button" data-toggle-pass="li-pass" aria-label="Show passphrase">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+          </button>
+        </div>
+        <span class="err" data-err>Your passphrase must be at least 8 characters.</span>
+      </div>
+
+      <div class="field" data-field>
+        <label for="li-net">Network</label>
+        <div class="control">
+          <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+          <select class="select" id="li-net" name="network">
+            <option>Climate Ledger Mainnet v2.4</option>
+            <option>Verra Attestation Sidechain</option>
+            <option>Testnet — Sandbox MRV</option>
+          </select>
+          <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <label class="check"><input type="checkbox" name="remember" checked> Keep this device linked to my vault for 30 days</label>
+
+      <button class="btn btn-dark btn-block" type="submit" id="loginSubmit">
+        <span class="label">Sign in &amp; authorize</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <p class="sign-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.2 8-9V5.6l-8-3-8 3V13c0 5.8 8 9 8 9Z"/><path d="m9 12 2 2 4-4"/></svg>
+        You'll be asked to sign a gas-free message. CarbonX never holds your private keys or custody of your credits.
+      </p>
+    </form>
+
+    <div class="auth-foot">
+      New to CarbonX?
+      <button class="link-btn" type="button" data-auth-view="register">Create Account</button>
+    </div>
+  </div>
+
+  <!-- ---------- REGISTER ---------- -->
+  <div class="auth-card wide" id="viewRegister" hidden>
+    <button class="auth-close" data-auth-close aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="auth-head">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </span>
+        <span class="brand-name">CarbonX</span>
+      </div>
+      <h3>Create your impact vault</h3>
+      <p>Register once to submit activity evidence, receive minted credits, and trade on the registry.</p>
+    </div>
+
+    <div class="idcard">
+      <div>
+        <div class="lab">YOUR CARBONX USER ID</div>
+        <div class="val" id="newUserId">CX-0000-0000</div>
+      </div>
+      <button class="re" type="button" id="regenId">Regenerate</button>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <div class="grid-2">
+        <div class="field" data-field>
+          <label for="rg-name">Full name</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+            <input class="input" id="rg-name" name="name" type="text" placeholder="Ananya Sharma" autocomplete="name">
+          </div>
+          <span class="err" data-err>Please enter your name.</span>
+        </div>
+
+        <div class="field" data-field>
+          <label for="rg-email">Email</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>
+            <input class="input" id="rg-email" name="email" type="email" placeholder="you@domain.com" autocomplete="email">
+          </div>
+          <span class="err" data-err>Enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="field has-inbtn" data-field>
+        <label for="rg-wallet">Wallet address <span class="hint">Credits are minted here</span></label>
+        <div class="control">
+          <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 12h2"/></svg>
+          <input class="input mono" id="rg-wallet" name="wallet" type="text" placeholder="0x…" spellcheck="false">
+          <button class="in-btn" type="button" data-connect="rg-wallet">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.6l2.5-2.5a5 5 0 0 0-7-7L11.5 5.6"/><path d="M14 11a5 5 0 0 0-7.5-.6L4 12.9a5 5 0 0 0 7 7L12.5 18.4"/></svg>
+            Connect
+          </button>
+        </div>
+        <span class="err" data-err>Connect a wallet or paste a valid 0x address (42 characters).</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="field" data-field>
+          <label for="rg-type">Participant type</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M6 20V9l6-4 6 4v11"/><path d="M10 20v-5h4v5"/></svg>
+            <select class="select" id="rg-type" name="participant">
+              <option>Individual contributor</option>
+              <option>Institution / Corporate</option>
+              <option>MRV verifier node</option>
+              <option>Project developer</option>
+            </select>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="field" data-field>
+          <label for="rg-activity">Primary activity</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+            <select class="select" id="rg-activity" name="activity">
+              <option>Solar generation</option>
+              <option>Afforestation / mangrove</option>
+              <option>Organic waste recycling</option>
+              <option>Biogas digestion</option>
+              <option>Other verified activity</option>
+            </select>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field has-iconbtn" data-field>
+          <label for="rg-pass">Vault passphrase</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+            <input class="input" id="rg-pass" name="passphrase" type="password" placeholder="Min. 8 characters" autocomplete="new-password">
+            <button class="icon-btn" type="button" data-toggle-pass="rg-pass" aria-label="Show passphrase">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+            </button>
+          </div>
+          <span class="err" data-err>Use at least 8 characters.</span>
+        </div>
+
+        <div class="field" data-field>
+          <label for="rg-pass2">Confirm passphrase</label>
+          <div class="control">
+            <svg class="lead" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2.5"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></svg>
+            <input class="input" id="rg-pass2" name="confirm" type="password" placeholder="Re-enter passphrase" autocomplete="new-password">
+          </div>
+          <span class="err" data-err>Passphrases don't match.</span>
+        </div>
+      </div>
+
+      <label class="check" data-field><input type="checkbox" id="rg-terms"> I agree to the Terms of Settlement and Privacy Protocol, and confirm that submitted activity evidence will be accurate and verifiable.</label>
+
+      <button class="btn btn-dark btn-block" type="submit" id="registerSubmit">
+        <span class="label">Create Account</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <p class="sign-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.2 8-9V5.6l-8-3-8 3V13c0 5.8 8 9 8 9Z"/><path d="m9 12 2 2 4-4"/></svg>
+        Your vault is non-custodial. Save your User ID and passphrase — they can't be recovered from our servers.
+      </p>
+    </form>
+
+    <div class="auth-foot">
+      Already have a vault?
+      <button class="link-btn" type="button" data-auth-view="login">Sign in</button>
+    </div>
+  </div>
+
+  <!-- ---------- SUCCESS ---------- -->
+  <div class="auth-card" id="viewSuccess" hidden>
+    <button class="auth-close" data-auth-close aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="auth-success">
+      <div class="tick">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+      </div>
+      <h3 id="successTitle">Vault created</h3>
+      <p id="successCopy">Your CarbonX ID is registered on the climate ledger. Keep it somewhere safe.</p>
+      <div class="idcard">
+        <div>
+          <div class="lab">CARBONX USER ID</div>
+          <div class="val" id="successId">CX-0000-0000</div>
+        </div>
+        <button class="re" type="button" id="copyId">Copy</button>
+      </div>
+      <button class="btn btn-dark btn-block" type="button" style="margin-top:20px" id="goToVault">Go to my vault</button>
+    </div>
+  </div>
+</div>
+
+<script src="./js/api.js"></script>
+<script>
+/* ---- mobile menu ---- */
+(function(){
+  var t = document.getElementById('navToggle');
+  var m = document.getElementById('mobileMenu');
+  if(!t || !m) return;
+  t.addEventListener('click', function(){
+    var open = m.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  m.addEventListener('click', function(e){
+    if(e.target.closest('a')){ m.classList.remove('open'); t.setAttribute('aria-expanded','false'); }
+  });
+})();
+
+/* ---- copy transaction hash ---- */
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var hash = btn.getAttribute('data-hash') || '';
+    var done = function(){
+      btn.classList.add('done');
+      setTimeout(function(){ btn.classList.remove('done'); }, 1400);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(hash).then(done).catch(done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = hash; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta); done();
+    }
+  });
+});
+
+/* ---- scroll reveal ---- */
+(function(){
+  var items = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry, i){
+      if(entry.isIntersecting){
+        var el = entry.target;
+        var group = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
+        setTimeout(function(){ el.classList.add('in'); }, Math.min(group, 4) * 90);
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* ================= AUTH MODAL ================= */
+(function(){
+  var overlay  = document.getElementById('authOverlay');
+  var views    = {
+    login:    document.getElementById('viewLogin'),
+    register: document.getElementById('viewRegister'),
+    success:  document.getElementById('viewSuccess')
+  };
+  var lastFocused = null;
+
+  /* ----- helpers ----- */
+  function randomHex(len){
+    var chars = '0123456789abcdef', out = '';
+    for(var i=0;i<len;i++) out += chars[Math.floor(Math.random()*16)];
+    return out;
+  }
+  function makeUserId(){
+    var a = String(Math.floor(1000 + Math.random()*9000));
+    var b = String(Math.floor(1000 + Math.random()*9000));
+    return 'CX-' + a + '-' + b;
+  }
+  function setView(name){
+    Object.keys(views).forEach(function(k){ views[k].hidden = (k !== name); });
+    if(name === 'register' && document.getElementById('newUserId').textContent === 'CX-0000-0000'){
+      document.getElementById('newUserId').textContent = makeUserId();
+    }
+    var first = views[name].querySelector('input:not([type=checkbox]), button');
+    if(first) setTimeout(function(){ first.focus(); }, 60);
+  }
+  function openModal(view){
+    lastFocused = document.activeElement;
+    setView(view || 'login');
+    overlay.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.classList.remove('locked');
+    if(lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  /* ----- triggers: every Start Earning / Connect Wallet button ----- */
+  document.querySelectorAll('a.btn, a.nav-link').forEach(function(el){
+    var txt = (el.textContent || '').trim().toLowerCase();
+    if(txt.indexOf('start earning') === 0 || txt.indexOf('connect wallet') === 0){
+      el.addEventListener('click', function(e){
+        e.preventDefault();
+        var mm = document.getElementById('mobileMenu');
+        if(mm) mm.classList.remove('open');
+        openModal('login');
+      });
+    }
+  });
+
+  /* ----- close interactions ----- */
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeModal();
+    if(e.target.closest('[data-auth-close]')) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    if(e.key === 'Tab' && overlay.classList.contains('open')){
+      var card = overlay.querySelector('.auth-card:not([hidden])');
+      var f = card.querySelectorAll('a[href], button, input, select, textarea');
+      f = Array.prototype.filter.call(f, function(n){ return !n.disabled && n.offsetParent !== null; });
+      if(!f.length) return;
+      var first = f[0], last = f[f.length-1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ----- switch views ----- */
+  overlay.addEventListener('click', function(e){
+    var sw = e.target.closest('[data-auth-view]');
+    if(sw) setView(sw.getAttribute('data-auth-view'));
+    if(e.target.closest('[data-noop]')) e.preventDefault();
+  });
+
+  /* ----- mock wallet connect ----- */
+  overlay.addEventListener('click', function(e){
+    var c = e.target.closest('[data-connect]');
+    if(!c) return;
+    var input = document.getElementById(c.getAttribute('data-connect'));
+    c.disabled = true;
+    c.innerHTML = 'Connecting…';
+    setTimeout(function(){
+      input.value = '0x' + randomHex(40);
+      input.closest('[data-field]').classList.remove('invalid');
+      c.disabled = false;
+      c.classList.add('linked');
+      c.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg> Linked';
+    }, 700);
+  });
+
+  /* ----- show / hide passphrase ----- */
+  overlay.addEventListener('click', function(e){
+    var t = e.target.closest('[data-toggle-pass]');
+    if(!t) return;
+    var inp = document.getElementById(t.getAttribute('data-toggle-pass'));
+    var show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    t.setAttribute('aria-label', show ? 'Hide passphrase' : 'Show passphrase');
+    t.innerHTML = show
+      ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 6.7A8.6 8.6 0 0 1 12 5.5c6.2 0 10 6.5 10 6.5a17 17 0 0 1-3.3 4"/><path d="M6.4 8.3A16.6 16.6 0 0 0 2 12s3.8 6.5 10 6.5a9.6 9.6 0 0 0 4-.85"/><path d="M9.6 9.8a2.6 2.6 0 0 0 3.5 3.7"/></svg>'
+      : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>';
+  });
+
+  /* ----- regenerate user id ----- */
+  document.getElementById('regenId').addEventListener('click', function(){
+    document.getElementById('newUserId').textContent = makeUserId();
+  });
+
+  /* ----- validation ----- */
+  function mark(el, ok){
+    var f = el.closest('[data-field]');
+    if(f) f.classList.toggle('invalid', !ok);
+    return ok;
+  }
+  function clearOnInput(form){
+    form.querySelectorAll('input,select').forEach(function(el){
+      el.addEventListener('input', function(){ mark(el, true); });
+      el.addEventListener('change', function(){ mark(el, true); });
+    });
+  }
+  var isWallet = function(v){ return /^0x[a-fA-F0-9]{40}$/.test(v.trim()); };
+  var isId     = function(v){ return /^CX-\d{4}-\d{4}$/i.test(v.trim()); };
+  var isEmail  = function(v){ return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.trim()); };
+
+  function submitting(btn, text){
+    btn.classList.add('loading');
+    btn.querySelector('.label').textContent = text;
+    var arrow = btn.querySelector('svg');
+    if(arrow){ arrow.outerHTML = '<span class="spinner"></span>'; }
+  }
+
+  /* ----- live API authentication ----- */
+  var loginForm = document.getElementById('loginForm');
+  clearOnInput(loginForm);
+  loginForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var id = document.getElementById('li-id'),
+        w  = document.getElementById('li-wallet'),
+        p  = document.getElementById('li-pass');
+    var ok = true;
+    ok = mark(id, isId(id.value)) && ok;
+    ok = mark(w, isWallet(w.value)) && ok;
+    ok = mark(p, p.value.length >= 8) && ok;
+    if(!ok) return;
+
+    var btn = document.getElementById('loginSubmit');
+    submitting(btn, 'Signing in…');
+    try {
+      const result = await apiRequest('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: id.value.trim().toUpperCase(),
+          walletAddress: w.value.trim(),
+          wallet: w.value.trim(),
+          password: p.value,
+          passphrase: p.value,
+          network: document.getElementById('li-net').value
+        })
+      });
+
+      const token = authTokenFrom(result);
+      if(!token) throw new Error('Login succeeded but the server did not return an authentication token.');
+      setAuth(token, authUserFrom(result));
+
+      document.getElementById('successTitle').textContent = 'Signature verified';
+      document.getElementById('successCopy').textContent = 'You are signed in. Your CarbonX account is now connected to the dashboard.';
+      document.getElementById('successId').textContent = authUserFrom(result)?.userId || id.value.toUpperCase();
+      setView('success');
+      setTimeout(function(){ window.location.href = 'carbonx-dashboard.html'; }, 700);
+    } catch(error){
+      console.error(error);
+      btn.classList.remove('loading');
+      btn.querySelector('.label').textContent = 'Sign in & authorize';
+      showAuthError(error.message || 'Login failed.');
+    }
+  });
+
+  var regForm = document.getElementById('registerForm');
+  clearOnInput(regForm);
+  regForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var n  = document.getElementById('rg-name'),
+        em = document.getElementById('rg-email'),
+        w  = document.getElementById('rg-wallet'),
+        p  = document.getElementById('rg-pass'),
+        p2 = document.getElementById('rg-pass2'),
+        tc = document.getElementById('rg-terms');
+    var ok = true;
+    ok = mark(n, n.value.trim().length >= 2) && ok;
+    ok = mark(em, isEmail(em.value)) && ok;
+    ok = mark(w, isWallet(w.value)) && ok;
+    ok = mark(p, p.value.length >= 8) && ok;
+    ok = mark(p2, p2.value === p.value && p2.value.length >= 8) && ok;
+    tc.closest('.check').classList.toggle('invalid', !tc.checked);
+    if(!tc.checked) ok = false;
+    if(!ok) return;
+
+    var btn = document.getElementById('registerSubmit');
+    submitting(btn, 'Creating account…');
+    try {
+      const result = await apiRequest('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: document.getElementById('newUserId').textContent,
+          name: n.value.trim(),
+          fullName: n.value.trim(),
+          email: em.value.trim().toLowerCase(),
+          walletAddress: w.value.trim(),
+          wallet: w.value.trim(),
+          password: p.value,
+          passphrase: p.value,
+          participantType: document.getElementById('rg-type').value,
+          activityFocus: document.getElementById('rg-activity').value,
+          primaryActivity: document.getElementById('rg-activity').value
+        })
+      });
+
+      const token = authTokenFrom(result);
+      const user = authUserFrom(result);
+      if(token) setAuth(token, user);
+      const createdUserId = user?.carbonxId || user?.userId || user?.id || result?.userId || result?.data?.userId || document.getElementById('newUserId').textContent;
+      document.getElementById('successTitle').textContent = 'Vault created';
+      document.getElementById('successCopy').textContent = token
+        ? 'Your account has been created and you are now signed in.'
+        : 'Your account has been created. Sign in with your CarbonX User ID and wallet to continue.';
+      document.getElementById('successId').textContent = createdUserId;
+      setView('success');
+      if(token) setTimeout(function(){ window.location.href = 'carbonx-dashboard.html'; }, 700);
+    } catch(error){
+      console.error(error);
+      btn.classList.remove('loading');
+      btn.querySelector('.label').textContent = 'Create Account';
+      showAuthError(error.message || 'Registration failed.');
+    }
+  });
+
+  function showAuthError(message){
+    var copy = document.getElementById('successCopy');
+    if(copy) copy.textContent = message;
+    var title = document.getElementById('successTitle');
+    if(title) title.textContent = 'Authentication failed';
+    setView('success');
+  }
+
+  document.getElementById('goToVault').addEventListener('click', function(){ window.location.href = './carbonx-dashboard.html'; });
+
+  /* ----- copy user id ----- */
+  document.getElementById('copyId').addEventListener('click', function(){
+    var btn = this, val = document.getElementById('successId').textContent;
+    var done = function(){ btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1400); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(val).then(done).catch(done);
+    } else { done(); }
+  });
+})();
+</script>
+</body>
+</html>

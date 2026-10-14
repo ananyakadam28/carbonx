@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CarbonX — Dashboard</title>
+<style>
+  :root{
+    --green-950:#0f2417;
+    --green-900:#13301f;
+    --green-800:#163825;
+    --green-700:#1c4530;
+    --green-600:#25603f;
+    --green-100:#e3efe6;
+    --green-50:#f2f7f3;
+    --gold:#e8b94d;
+    --gold-dark:#c99a2f;
+    --ink:#16211a;
+    --ink-soft:#5b6a60;
+    --ink-faint:#8b968f;
+    --border:#e6e9e6;
+    --bg:#f7f8f6;
+    --white:#ffffff;
+    --radius-lg:18px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --shadow:0 1px 2px rgba(20,30,24,0.04), 0 8px 24px -12px rgba(20,30,24,0.08);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .app{
+    display:flex;
+    min-height:100vh;
+    max-width:1440px;
+    margin:0 auto;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    background:var(--bg);
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:236px;
+    flex-shrink:0;
+    background:var(--white);
+    border-right:1px solid var(--border);
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:4px 8px 22px 8px;
+  }
+  .brand-mark{
+    width:34px;height:34px;
+    border-radius:9px;
+    background:linear-gradient(160deg,var(--green-700),var(--green-950));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    font-size:16px;
+    flex-shrink:0;
+  }
+  .brand-text h1{
+    font-size:15.5px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .brand-text p{
+    margin:1px 0 0 0;
+    font-size:9px;
+    letter-spacing:0.06em;
+    color:var(--ink-faint);
+    font-weight:600;
+  }
+
+  .nav{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    margin-top:6px;
+  }
+  .nav-item{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:9px 12px;
+    border-radius:10px;
+    font-size:13.5px;
+    font-weight:500;
+    color:#4a5750;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav-item svg{flex-shrink:0;opacity:0.8;}
+  .nav-item:hover{background:#f2f5f2;}
+  .nav-item.active{
+    background:var(--green-100);
+    color:var(--green-900);
+    font-weight:600;
+  }
+  .nav-item.active svg{opacity:1;color:var(--green-800);}
+
+  .nav-divider{
+    height:1px;
+    background:var(--border);
+    margin:14px 4px;
+  }
+
+  .sidebar-spacer{flex:1;}
+
+  .engine-card{
+    background:var(--green-50);
+    border:1px solid #dfe9e1;
+    border-radius:12px;
+    padding:12px 13px;
+    margin-top:14px;
+  }
+  .engine-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--green-900);
+    margin-bottom:4px;
+  }
+  .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#3fae5f;
+    box-shadow:0 0 0 3px rgba(63,174,95,0.18);
+    flex-shrink:0;
+  }
+  .engine-sub{
+    font-size:10.5px;
+    color:var(--ink-faint);
+    line-height:1.4;
+  }
+
+  /* ---------- Main ---------- */
+  .main{
+    flex:1;
+    min-width:0;
+    padding:26px 34px 40px 34px;
+  }
+
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:22px;
+  }
+  .topbar h2{
+    font-size:23px;
+    margin:0 0 4px 0;
+    font-weight:700;
+    letter-spacing:-0.015em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .topbar p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+
+  .topbar-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .icon-btn{
+    width:38px;height:38px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    color:#5b6a60;
+  }
+  .icon-btn .ping{
+    position:absolute;top:8px;right:9px;
+    width:6px;height:6px;border-radius:50%;
+    background:#e2544a;
+  }
+  .profile-chip{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:5px 12px 5px 6px;
+  }
+  .avatar{
+    width:30px;height:30px;border-radius:50%;
+    background:linear-gradient(160deg,var(--green-700),var(--green-950));
+    color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;
+  }
+  .profile-chip .name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .profile-chip .role{font-size:10.5px;color:var(--ink-faint);line-height:1.25;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:radial-gradient(circle at 88% 30%, rgba(255,255,255,0.05), transparent 45%), linear-gradient(155deg,var(--green-900) 0%, var(--green-950) 65%);
+    border-radius:var(--radius-lg);
+    padding:26px 30px;
+    color:#eef4ef;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:20px;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-60px;top:-90px;
+    width:320px;height:320px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    right:-10px;top:-40px;
+    width:220px;height:220px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+  .hero-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .hero-label{
+    display:flex;align-items:center;gap:7px;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    font-weight:700;
+    color:#cfe3d6;
+  }
+  .badge-pill{
+    background:rgba(94,196,133,0.16);
+    color:#7ee0a0;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .hero-body{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:20px;
+  }
+  .hero-figure{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .hero-cc{
+    font-size:46px;
+    font-weight:700;
+    line-height:1;
+    letter-spacing:-0.02em;
+  }
+  .hero-cc span{
+    font-size:19px;
+    color:var(--gold);
+    font-weight:700;
+    margin-left:6px;
+  }
+  .hero-value{
+    font-size:13.5px;
+    color:#cfe3d6;
+    line-height:1.4;
+  }
+  .hero-value b{color:#eef4ef;font-weight:700;font-size:14px;}
+  .hero-note{
+    font-size:11.5px;
+    color:#93a99b;
+    margin-top:12px;
+    max-width:420px;
+    line-height:1.5;
+  }
+  .hero-actions{
+    display:flex;
+    gap:10px;
+    flex-shrink:0;
+  }
+  .btn{
+    border:none;
+    border-radius:10px;
+    padding:10px 16px;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    white-space:nowrap;
+  }
+  .btn-gold{
+    background:var(--gold);
+    color:#3a2c05;
+  }
+  .btn-gold:hover{background:var(--gold-dark);}
+  .btn-ghost{
+    background:rgba(255,255,255,0.08);
+    color:#eef4ef;
+    border:1px solid rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,0.14);}
+
+  /* ---------- Stat row ---------- */
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .stat-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:16px 18px;
+  }
+  .stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .stat-top span{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  .stat-icon{
+    width:32px;height:32px;
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .stat-icon.green{background:#e5f2e9;color:#3f8a5c;}
+  .stat-icon.gold{background:#fbf0d9;color:#c99a2f;}
+  .stat-value{
+    font-size:23px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin-bottom:3px;
+  }
+  .stat-sub{
+    font-size:11.5px;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- Content grid ---------- */
+  .content-grid{
+    display:grid;
+    grid-template-columns:1.68fr 1fr;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .panel{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:20px 22px;
+  }
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:18px;
+  }
+  .panel-head h3{
+    font-size:15.5px;
+    margin:0 0 3px 0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .panel-head p{
+    margin:0;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .top-pill{
+    background:#fbf0d9;
+    color:#a97e1f;
+    font-size:11px;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+
+  /* Impact score ring + list */
+  .impact-body{
+    display:flex;
+    align-items:center;
+    gap:26px;
+  }
+  .ring-wrap{
+    position:relative;
+    width:150px;height:150px;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ring-wrap svg{transform:rotate(-90deg);}
+  .ring-center{
+    position:absolute;
+    text-align:center;
+  }
+  .ring-center .num{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1;
+    color:var(--ink);
+  }
+  .ring-center .lbl{
+    font-size:9.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--ink-faint);
+    margin-top:5px;
+  }
+  .ring-center .lbl2{
+    font-size:9.5px;
+    color:var(--ink-faint);
+  }
+
+  .impact-list{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .impact-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--green-50);
+    border-radius:12px;
+    padding:11px 14px;
+  }
+  .impact-row .ico{
+    width:30px;height:30px;
+    border-radius:8px;
+    background:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;
+    flex-shrink:0;
+  }
+  .impact-row .txt{
+    flex:1;
+    font-size:12.5px;
+    color:#4a5750;
+    font-weight:500;
+  }
+  .impact-row .val{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  /* Quick actions */
+  .qa-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 14px;
+    border-radius:12px;
+    margin-bottom:9px;
+  }
+  .qa-item:last-child{margin-bottom:0;}
+  .qa-item.dark{
+    background:linear-gradient(155deg,var(--green-900),var(--green-950));
+    color:#eef4ef;
+  }
+  .qa-item.light{
+    background:var(--green-50);
+    border:1px solid #e6efe8;
+    color:var(--ink);
+  }
+  .qa-icon{
+    width:34px;height:34px;
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    font-size:15px;
+  }
+  .qa-item.dark .qa-icon{background:rgba(255,255,255,0.12);color:var(--gold);}
+  .qa-item.light .qa-icon{background:var(--white);color:#3f8a5c;}
+  .qa-text{flex:1;}
+  .qa-text .t1{font-size:13px;font-weight:700;margin-bottom:1px;}
+  .qa-text .t2{font-size:11px;opacity:0.75;}
+  .qa-item.light .t2{color:var(--ink-faint);opacity:1;}
+  .qa-chev{opacity:0.6;flex-shrink:0;}
+
+  /* Bottom grid */
+  .bottom-grid{
+    display:grid;
+    grid-template-columns:1.68fr 1fr;
+    gap:16px;
+  }
+  .bottom-right{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .link-all{
+    font-size:12px;
+    font-weight:600;
+    color:var(--green-800);
+    display:flex;align-items:center;gap:3px;
+  }
+  .head-actions{display:flex;align-items:center;gap:10px;}
+  .mini-pill{
+    background:var(--green-50);
+    color:var(--green-800);
+    font-size:11px;
+    font-weight:700;
+    padding:5px 10px;
+    border-radius:20px;
+    border:1px solid #dfe9e1;
+    display:flex;align-items:center;gap:5px;
+  }
+
+  .activity-row{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:12px 4px;
+    border-bottom:1px solid #f0f1ef;
+  }
+  .activity-row:last-child{border-bottom:none;padding-bottom:2px;}
+  .act-icon{
+    width:38px;height:38px;
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .act-icon.solar{background:#fdf0da;}
+  .act-icon.tree{background:#fdf0da;}
+  .act-icon.plastic{background:#e5f2e9;}
+  .act-text{flex:1;}
+  .act-text .t1{font-size:13.5px;font-weight:600;margin-bottom:1px;}
+  .act-text .t2{font-size:11.5px;color:var(--ink-faint);}
+  .act-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .act-cc{font-size:13.5px;font-weight:700;color:var(--ink);}
+  .status-pill{
+    font-size:10.5px;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+    display:flex;align-items:center;gap:4px;
+    white-space:nowrap;
+  }
+  .status-pill.verified{background:#e5f2e9;color:#3f8a5c;}
+  .status-pill.pending{background:#fdf0da;color:#b8862b;}
+
+  /* Tree plantation panel */
+  .status-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:4px;
+  }
+  .status-tag{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    color:#b8862b;
+    background:#fdf0da;
+    padding:3px 8px;
+    border-radius:6px;
+  }
+  .est-tag{
+    font-size:10.5px;
+    font-weight:700;
+    color:#b8862b;
+    background:#fdf0da;
+    padding:4px 9px;
+    border-radius:20px;
+  }
+  .status-title{
+    font-size:16px;
+    font-weight:700;
+    margin:6px 0 20px 0;
+  }
+  .stepper{
+    display:flex;
+    align-items:flex-start;
+    margin-bottom:16px;
+    position:relative;
+  }
+  .step{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    text-align:center;
+  }
+  .step-node{
+    width:26px;height:26px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    z-index:2;
+    margin-bottom:6px;
+  }
+  .step.done .step-node{background:var(--green-900);color:var(--gold);}
+  .step.active .step-node{background:var(--gold);color:#3a2c05;}
+  .step.todo .step-node{background:var(--white);border:2px solid #e2e5e1;color:var(--ink-faint);}
+  .step-line{
+    position:absolute;
+    top:13px;left:-50%;
+    width:100%;
+    height:2px;
+    background:#e2e5e1;
+    z-index:1;
+  }
+  .step-line.filled{background:var(--green-800);}
+  .step:first-child .step-line{display:none;}
+  .step-label{font-size:10.5px;color:var(--ink-faint);font-weight:600;}
+  .step.active .step-label{color:var(--ink);}
+
+  .status-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:14px;
+    border-top:1px solid #f0f1ef;
+  }
+  .status-footer .eta{font-size:11.5px;color:var(--ink-faint);}
+  .view-btn{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:8px 14px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .ledger-head{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:10px;
+  }
+  .ledger-head h3{font-size:14.5px;margin:0;font-weight:700;flex:1;}
+  .conn-pill{
+    font-size:10.5px;
+    font-weight:700;
+    color:#3f8a5c;
+    display:flex;align-items:center;gap:5px;
+  }
+  .ledger-body p{
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    margin:0 0 14px 0;
+  }
+  .ledger-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:12px;
+    border-top:1px solid #f0f1ef;
+    font-size:11px;
+    color:var(--ink-faint);
+  }
+  .ledger-footer a{font-weight:700;color:var(--green-800);}
+
+  /* CTA banner */
+  .cta-banner{
+    margin-top:16px;
+    background:var(--green-50);
+    border:1px solid #dfe9e1;
+    border-radius:var(--radius-lg);
+    padding:22px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .cta-left{display:flex;align-items:center;gap:16px;}
+  .cta-icon{
+    width:44px;height:44px;
+    border-radius:12px;
+    background:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+  }
+  .cta-left h4{margin:0 0 3px 0;font-size:15.5px;font-weight:700;}
+  .cta-left p{margin:0;font-size:12.5px;color:var(--ink-soft);max-width:460px;}
+  .btn-dark{
+    background:var(--green-950);
+    color:#eef4ef;
+  }
+  .btn-dark:hover{background:#0a1a10;}
+
+  @media (max-width:1100px){
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .content-grid,.bottom-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:720px){
+    .app{flex-direction:column;}
+    .sidebar{width:100%;flex-direction:row;overflow-x:auto;}
+    .nav{flex-direction:row;}
+    .nav-divider,.sidebar-spacer,.engine-card{display:none;}
+    .stat-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🌱</div>
+      <div class="brand-text">
+        <h1>CarbonX</h1>
+        <p>MAKE IMPACT. GET REWARDED.</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item active" href="carbonx-dashboard.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav-item" href="carbonx-submit-activity.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Submit Activity</a>
+      <a class="nav-item" href="carbonx-wallet.html"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>Wallet</a>
+
+      <div class="nav-divider"></div>
+
+      <a class="nav-item" href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 8.96 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15z"/></svg>Settings</a>
+      <a class="nav-item" href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>Profile</a>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="engine-card">
+      <div class="engine-status"><span class="dot"></span>VM0007 Engine Active</div>
+      <div class="engine-sub">Autonomous MRV sync node<br>0x8F9b...3E2d verified.</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <h2 id="greeting">Good morning, Ananya <span>👋</span></h2>
+        <p>Here's your environmental impact at a glance.</p>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn"><span class="ping"></span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        </button>
+        <div class="profile-chip">
+          <div class="avatar" id="dashAvatar">A</div>
+          <div>
+            <div class="name" id="dashName">Ananya S.</div>
+            <div class="role" id="dashRole">Verified Citizen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-label">⚙️ YOUR CARBON CREDITS</div>
+        <span class="badge-pill">↗ 12.4% this month</span>
+      </div>
+      <div class="hero-body">
+        <div>
+          <div class="hero-figure">
+            <div class="hero-cc" id="dashCredits">24.8<span>CC</span></div>
+            <div class="hero-value">≈ <b id="dashValue">₹4,960</b> estimated value</div>
+          </div>
+          <div class="hero-note">Backed by verified decentralized MRV telemetry on the CarbonX Clearinghouse Protocol.</div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-gold" id="goSubmit">＋ Submit Activity</button>
+          <button class="btn btn-ghost" id="goMarket">🧾 Sell Credits</button>
+          <button class="btn btn-ghost" id="goRedeem">🎁 Redeem</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAT ROW -->
+    <section class="stat-row">
+      <div class="stat-card">
+        <div class="stat-top"><span>CO₂ Impact</span><div class="stat-icon green">🌍</div></div>
+        <div class="stat-value" id="dashCo2">18.6 tons</div>
+        <div class="stat-sub">Total estimated impact</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><span>Activities</span><div class="stat-icon green">🍃</div></div>
+        <div class="stat-value" id="dashActivities">7</div>
+        <div class="stat-sub" id="dashActivitiesSub">5 verified</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><span>Clean Energy</span><div class="stat-icon gold">⚡</div></div>
+        <div class="stat-value" id="dashEnergy">1,240 kWh</div>
+        <div class="stat-sub">Generated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><span>Waste Recycled</span><div class="stat-icon green">♻️</div></div>
+        <div class="stat-value" id="dashWaste">86 kg</div>
+        <div class="stat-sub">Diverted from waste</div>
+      </div>
+    </section>
+
+    <!-- CONTENT GRID -->
+    <section class="content-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Your Environmental Impact</h3>
+            <p>You're making a measurable difference.</p>
+          </div>
+          <span class="top-pill">Top 8% Citizen</span>
+        </div>
+        <div class="impact-body">
+          <div class="ring-wrap">
+            <svg width="150" height="150" viewBox="0 0 150 150">
+              <circle cx="75" cy="75" r="64" fill="none" stroke="#eef1ee" stroke-width="12"/>
+              <circle cx="75" cy="75" r="64" fill="none" stroke="#123420" stroke-width="12"
+                stroke-linecap="round"
+                stroke-dasharray="402.1"
+                stroke-dashoffset="72.4"/>
+            </svg>
+            <div class="ring-center">
+              <div class="num">82</div>
+              <div class="lbl">IMPACT SCORE</div>
+              <div class="lbl2">of 100</div>
+            </div>
+          </div>
+          <div class="impact-list">
+            <div class="impact-row">
+              <div class="ico">🌳</div>
+              <div class="txt">Trees Equivalent</div>
+              <div class="val" id="dashTrees">42 Trees</div>
+            </div>
+            <div class="impact-row">
+              <div class="ico">⚡</div>
+              <div class="txt">Clean Energy</div>
+              <div class="val" id="dashEnergyImpact">1,240 kWh</div>
+            </div>
+            <div class="impact-row">
+              <div class="ico">♻️</div>
+              <div class="txt">Waste Recycled</div>
+              <div class="val" id="dashWasteImpact">86 kg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div><h3>Quick Actions</h3></div>
+        </div>
+        <div class="qa-item dark" id="qaSubmit">
+          <div class="qa-icon">＋</div>
+          <div class="qa-text">
+            <div class="t1">Submit Activity</div>
+            <div class="t2">Add a new environmental activity</div>
+          </div>
+          <span class="qa-chev">›</span>
+        </div>
+        <div class="qa-item light" id="qaMarket">
+          <div class="qa-icon">🛒</div>
+          <div class="qa-text">
+            <div class="t1">Explore Marketplace</div>
+            <div class="t2">Buy or sell carbon credits</div>
+          </div>
+          <span class="qa-chev">›</span>
+        </div>
+        <div class="qa-item light" id="qaRedeem">
+          <div class="qa-icon">🎁</div>
+          <div class="qa-text">
+            <div class="t1">Redeem Credits</div>
+            <div class="t2">Use your credits for benefits</div>
+          </div>
+          <span class="qa-chev">›</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM GRID -->
+    <section class="bottom-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div><h3>Recent Activities</h3></div>
+          <div class="head-actions">
+            <span class="mini-pill">＋ Submit New Activity</span>
+            <a class="link-all" href="#">View All →</a>
+          </div>
+        </div>
+
+        <div id="recentActivities"></div>
+      </div>
+
+      <div class="bottom-right">
+        <div class="panel">
+          <div class="status-top">
+            <span class="status-tag">UNDER REVIEW</span>
+            <span class="est-tag">Est. 1.8 CC</span>
+          </div>
+          <div class="status-title">Tree Plantation</div>
+
+          <div class="stepper">
+            <div class="step done">
+              <div class="step-node">✓</div>
+              <div class="step-label">Submitted</div>
+            </div>
+            <div class="step active">
+              <div class="step-line filled"></div>
+              <div class="step-node">⏳</div>
+              <div class="step-label">Review</div>
+            </div>
+            <div class="step todo">
+              <div class="step-line"></div>
+              <div class="step-node">○</div>
+              <div class="step-label">Verified</div>
+            </div>
+            <div class="step todo">
+              <div class="step-line"></div>
+              <div class="step-node">○</div>
+              <div class="step-label">Issued</div>
+            </div>
+          </div>
+
+          <div class="status-footer">
+            <span class="eta">Estimated completion: 24–48 hrs</span>
+            <button class="view-btn">View Activity</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="ledger-head">
+            <span style="font-size:15px;">🔗</span>
+            <h3>Impact Ledger</h3>
+            <span class="conn-pill"><span class="dot"></span>Connected</span>
+          </div>
+          <div class="ledger-body">
+            <p>Your verified activities are cryptographically recorded on the immutable public CarbonX registry.</p>
+          </div>
+          <div class="ledger-footer">
+            <span>Last record: 2 minutes ago</span>
+            <a href="#">View Records →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner">
+      <div class="cta-left">
+        <div class="cta-icon">🌱</div>
+        <div>
+          <h4>Ready to create more impact?</h4>
+          <p>Submit another environmental activity and turn your everyday sustainable action into measurable, verifiable carbon credits.</p>
+        </div>
+      </div>
+      <button class="btn btn-dark" id="ctaSubmit">＋ Submit Activity</button>
+    </section>
+
+  </main>
+</div>
+<script src="./js/api.js"></script>
+<script>
+(async function(){
+  if(!requireAuth()) return;
+
+  const fmt = (n, digits=1) => Number(n || 0).toLocaleString('en-IN',{minimumFractionDigits:digits,maximumFractionDigits:digits});
+  const first = (obj, paths, fallback='') => {
+    for(const path of paths){
+      let v=obj;
+      for(const key of path.split('.')) v=v?.[key];
+      if(v !== undefined && v !== null) return v;
+    }
+    return fallback;
+  };
+
+  function go(id, url){ const el=document.getElementById(id); if(el) el.addEventListener('click',()=>location.href=url); }
+  go('goSubmit','carbonx-submit-activity.html');
+  go('qaSubmit','carbonx-submit-activity.html');
+  go('ctaSubmit','carbonx-submit-activity.html');
+  go('goMarket','carbonx-list-credits.html');
+  go('qaMarket','carbonx-wallet.html');
+  go('goRedeem','carbonx-wallet.html');
+  go('qaRedeem','carbonx-wallet.html');
+
+  try {
+    // Dashboard metrics come from /dashboard, but the spendable CXC balance
+    // must use the same /wallet source of truth as the Wallet/Redemption page.
+    const [raw, walletRaw] = await Promise.all([
+      apiRequest('/dashboard'),
+      apiRequest('/wallet')
+    ]);
+    const d = unwrap(raw);
+    const wallet = unwrap(walletRaw);
+    const user = first(d,['user'],wallet.user||getStoredUser()||{});
+
+    // IMPORTANT: do not calculate available credits from dashboard activity
+    // totals or subtract redeemed credits again. /wallet already returns the
+    // current available balance after redemptions/listings are accounted for.
+    const credits = Number(
+      wallet.balance ??
+      wallet.credits?.available ??
+      wallet.credits?.total ??
+      wallet.totalCredits ??
+      0
+    );
+    const value = Number(
+      wallet.estimatedValue?.amount ??
+      wallet.estimatedValue ??
+      wallet.credits?.estimatedValue ??
+      credits * 200
+    );
+    const co2 = first(d,['impact.co2Tons','impact.co2eTons','co2Tons'],0);
+    const acts = first(d,['activities.total','activityStats.total'],0);
+    const verified = first(d,['activities.verified','activityStats.verified'],0);
+    const energy = first(d,['impact.cleanEnergyKwh','cleanEnergyKwh'],0);
+    const waste = first(d,['impact.wasteKg','wasteKg'],0);
+    const trees = first(d,['impact.treesEquivalent','treesEquivalent'],0);
+
+    const name = user.name || user.fullName || 'CarbonX User';
+    const role = user.role || user.participantType || 'Verified Citizen';
+    document.getElementById('greeting').innerHTML = `Good morning, ${name.split(' ')[0]} <span>👋</span>`;
+    document.getElementById('dashName').textContent = name;
+    document.getElementById('dashRole').textContent = role;
+    document.getElementById('dashAvatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('dashCredits').innerHTML = `${fmt(credits)}<span>CC</span>`;
+    document.getElementById('dashValue').textContent = `₹${Math.round(value).toLocaleString('en-IN')}`;
+    document.getElementById('dashCo2').textContent = `${fmt(co2)} tons`;
+    document.getElementById('dashActivities').textContent = acts;
+    document.getElementById('dashActivitiesSub').textContent = `${verified} verified`;
+    document.getElementById('dashEnergy').textContent = `${Number(energy||0).toLocaleString('en-IN')} kWh`;
+    document.getElementById('dashEnergyImpact').textContent = `${Number(energy||0).toLocaleString('en-IN')} kWh`;
+    document.getElementById('dashWaste').textContent = `${Number(waste||0).toLocaleString('en-IN')} kg`;
+    document.getElementById('dashWasteImpact').textContent = `${Number(waste||0).toLocaleString('en-IN')} kg`;
+    document.getElementById('dashTrees').textContent = `${Number(trees||0).toLocaleString('en-IN')} Trees`;
+
+    const list = first(d,['recentActivities','activities.recent'],[]);
+    const container=document.getElementById('recentActivities');
+    if(!list.length){ container.innerHTML='<div style="padding:20px;color:#7a857d;font-size:13px">No activities submitted yet.</div>'; }
+    else {
+      container.innerHTML=list.slice(0,5).map(a=>{
+        const status=String(a.status||a.verificationStatus||'pending').toLowerCase();
+        const verified=status.includes('verified') || status.includes('approved');
+        const icon = a.activityType==='trees'?'🌱':a.activityType==='waste'?'♻️':a.activityType==='solar'?'☀️':'🍃';
+        const cc=first(a,['credits.issued','credits.estimated','creditAmount'],0);
+        const date=new Date(a.dateOfActivity||a.createdAt||a.date||Date.now());
+        const dateText=isNaN(date.getTime())?String(a.date||''):date.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+        return `<div class="activity-row"><div class="act-icon solar">${icon}</div><div class="act-text"><div class="t1">${escapeHtml(a.activityName||a.name||a.title||'Environmental Activity')}</div><div class="t2">${escapeHtml(dateText)}</div></div><div class="act-right"><span class="act-cc">+${fmt(cc)} CC</span><span class="status-pill ${verified?'verified':'pending'}">${verified?'✓ Verified':'⏳ Pending'}</span></div></div>`;
+      }).join('');
+    }
+  } catch(err){
+    console.error(err);
+    const c=document.getElementById('recentActivities');
+    if(c) c.innerHTML=`<div style="padding:20px;color:#a14a44;font-size:13px">${escapeHtml(err.message)}</div>`;
+  }
+
+  function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>List Your Carbon Credits – CarbonX</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#16302a; --darker:#0c2119; --text:#1a2b26; --muted:#4d5f58;
+  --border:#dfe6e2; --bg:#f2fbf5; --green:#4a6b5b; --red:#c8453b;
+  --font:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --head:'Inter Tight','Inter',-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--text);background:linear-gradient(180deg,#eefaf2 0%,#f5fcf7 100%);min-height:100vh;display:flex;flex-direction:column;font-size:15px}
+button{font-family:inherit;cursor:pointer}
+svg{display:block}
+.wrap{width:100%;max-width:1340px;margin:0 auto;padding:0 43px}
+
+/* header */
+header{background:rgba(240,250,244,.9);border-bottom:1px solid #e3ebe6;height:86px}
+header .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--head);font-weight:600;font-size:22px;letter-spacing:-.02em}
+.logo i{width:38px;height:38px;background:var(--dark);border-radius:10px;display:grid;place-items:center}
+.user{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:30px;padding:10px 18px 10px 12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.avatar{width:30px;height:30px;border-radius:50%;background:#c7e8d0;color:#2a5a3f;display:grid;place-items:center;font-weight:600;font-size:14px}
+.user b{display:block;font-weight:500;font-size:14px;line-height:1.15}
+.user small{display:flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.user small:before{content:"";width:6px;height:6px;border-radius:50%;background:#3d5a4b}
+.user svg{margin-left:8px}
+
+/* title */
+main{flex:1;padding-bottom:67px}
+.crumbs{margin-top:36px;font-size:14.5px;color:var(--muted)}
+.crumbs span{margin:0 6px}.crumbs b{font-weight:500;color:var(--text)}
+h1{font-family:var(--head);font-weight:500;font-size:34px;letter-spacing:-.03em;margin-top:14px;line-height:1.15}
+.sub{margin-top:10px;color:var(--muted);font-size:16px}
+
+.grid{display:grid;grid-template-columns:824px 1fr;gap:35px;margin-top:34px;align-items:start}
+
+/* card */
+.card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:34px 34px 34px}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:23px;border-bottom:1px solid #eef2ef}
+.card-head h2{font-family:var(--head);font-weight:500;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px}
+.card-head h2:before{content:"";width:9px;height:9px;border-radius:50%;background:#3d5a4b}
+.pill{background:#e9f1ec;border:1px solid #dbe6df;border-radius:20px;padding:7px 14px;font-size:14.5px;color:var(--muted)}
+.pill b{color:var(--text);font-weight:600;margin-left:3px}
+
+label.l{display:block;font-weight:500;font-size:15px;margin-bottom:12px}
+.field{margin-top:26px}
+.field:first-of-type{margin-top:26px}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.type{height:44px;border:1px solid var(--border);background:#fff;border-radius:11px;padding:0 15px;display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--text);transition:.15s}
+.type:hover{border-color:#b9c9c0}
+.type.on{background:var(--dark);border-color:var(--dark);color:#fff}
+.type svg{stroke:currentColor}
+.type.on svg{stroke:#e8d87a}
+
+.row{display:flex;justify-content:space-between;align-items:center}
+.row .l{margin-bottom:0}
+.max{background:#e7f3ea;border:1px solid #d5e7da;color:#3a5c48;font-size:12.5px;font-weight:500;border-radius:5px;padding:3px 8px;letter-spacing:.01em}
+.input{position:relative;margin-top:8px}
+.input input{width:100%;height:46px;border:1px solid var(--border);border-radius:11px;padding:0 16px;font:inherit;font-size:16px;color:var(--text);background:#fff;outline:none;transition:.15s}
+.input input:focus{border-color:var(--dark);box-shadow:0 0 0 3px rgba(22,48,42,.1)}
+.input .unit{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13.5px;color:var(--muted);letter-spacing:.03em}
+.input.rs input{padding-left:50px}
+.input.rs .sym{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted)}
+.input input::-webkit-outer-spin-button,.input input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.input input[type=number]{-moz-appearance:textfield}
+.input select:focus{border-color:var(--dark);box-shadow:0 0 0 3px rgba(22,48,42,.1)}
+.hint{margin-top:9px;font-size:13.5px;color:var(--muted);letter-spacing:.01em}
+.hint.warn{color:var(--red)}
+
+.days{display:flex;gap:12px}
+.day{height:40px;padding:0 21px;border:1px solid var(--border);background:#fff;border-radius:11px;font-size:15px;color:var(--text);transition:.15s}
+.day:hover{border-color:#b9c9c0}
+.day.on{background:var(--dark);border-color:var(--dark);color:#fff;font-weight:500}
+
+.actions{display:flex;justify-content:flex-end;gap:13px;margin-top:26px;padding-top:26px;border-top:1px solid #eef2ef}
+.btn{height:43px;border-radius:10px;padding:0 21px;font-size:15px;display:flex;align-items:center;gap:9px;border:1px solid var(--border);background:#fff;color:var(--text);transition:.15s}
+.btn:hover{background:#f6f9f7}
+.btn.primary{background:var(--dark);border-color:var(--dark);color:#fff;font-weight:500;padding:0 25px}
+.btn.primary:hover{background:#0f231e}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* summary */
+.summary{background:linear-gradient(180deg,#f5faf7,#f0f7f2);border:1px solid #d9e4dd;border-radius:24px;padding:32px 25px 24px;box-shadow:0 2px 6px rgba(20,50,40,.05)}
+.summary .top{display:flex;justify-content:space-between;align-items:center;padding-bottom:22px;border-bottom:1px solid #e3ebe6}
+.summary h3{font-family:var(--head);font-weight:500;font-size:22px;letter-spacing:-.02em}
+.line{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted)}
+.line b{color:var(--text);font-weight:600;font-size:15px}
+.grp{padding:18px 0;border-bottom:1px solid #e3ebe6;display:flex;flex-direction:column;gap:16px}
+.grp:first-of-type{padding-top:22px}
+.line .fee{display:inline-flex;align-items:center;gap:5px}
+.line b.neg{color:var(--red)}
+.recv{display:flex;justify-content:space-between;align-items:center;padding:22px 0 24px}
+.recv span{font-weight:600;font-size:15.5px;color:var(--text)}
+.recv b{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.note{background:#fff;border:1px solid #ecf1ee;border-radius:12px;padding:17px 17px;display:flex;gap:13px;font-size:13.5px;line-height:1.55;color:var(--muted);letter-spacing:.015em}
+.note svg{flex:none;margin-top:1px}
+.foot{display:flex;justify-content:space-between;margin-top:26px;padding-top:20px;border-top:1px solid #e3ebe6;font-size:12.5px;color:var(--muted);letter-spacing:.03em}
+.foot span:first-child{display:flex;align-items:center;gap:8px}
+.foot span:first-child:before{content:"";width:7px;height:7px;border-radius:50%;background:#a7d8b6}
+.foot span:last-child{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#7d8d86}
+
+/* footer */
+footer{background:var(--darker);color:#dfe8e3;padding:44px 0 37px}
+footer .wrap{display:flex;justify-content:space-between;gap:30px;align-items:center}
+.copy{display:flex;align-items:center;gap:15px;max-width:640px;font-size:14.5px;line-height:1.5;color:#dfe8e3}
+.copy i{flex:none;width:28px;height:28px;background:#1d3a30;border-radius:8px;display:grid;place-items:center}
+.links{display:flex;flex-wrap:wrap;gap:20px 17px;max-width:480px;font-size:14.5px}
+.links a{color:#dfe8e3;text-decoration:none;white-space:nowrap}
+.links a:hover{text-decoration:underline}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:var(--dark);color:#fff;padding:13px 22px;border-radius:12px;font-size:14.5px;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:10}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+@media(max-width:720px){
+  .wrap{padding:0 18px}.types{grid-template-columns:1fr 1fr}.card{padding:22px 18px}
+  h1{font-size:28px}footer .wrap{flex-direction:column;align-items:flex-start}
+  .user b{font-size:13px}.days{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">
+      <i><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 19c0-8 5-14 15-14 0 9-5 15-13 15-1 0-2-.4-2-1z" fill="#fff"/><path d="M5 19c3-4 6-7 9-9" stroke="#16302a" stroke-width="1.6" stroke-linecap="round"/></svg></i>
+      CarbonX
+    </div>
+    <div class="user">
+      <div class="avatar" id="userAvatar">A</div>
+      <div><b id="userName">Ananya S.</b><small id="userRole">Verified Citizen</small></div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4d5f58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="crumbs">Marketplace <span>/</span> <b>List Your Credits</b></div>
+    <h1>List Your Carbon Credits</h1>
+    <p class="sub">Make your verified carbon credits available to buyers in the CarbonX marketplace.</p>
+
+    <div class="grid">
+      <section class="card">
+        <div class="card-head">
+          <h2>Credit Details</h2>
+          <div class="pill">Credits available: <b id="avail">0</b> CC</div>
+        </div>
+
+        <div class="field">
+          <label class="l">Credit Type</label>
+          <div class="types" id="types">
+            <button class="type on" data-v="Renewable Energy">Renewable Energy
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></button>
+            <button class="type" data-v="Reforestation">Reforestation
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l-5 7h3l-4 6h12l-4-6h3z"/><path d="M12 16v5"/></svg></button>
+            <button class="type" data-v="Waste Mgmt">Waste Mgmt
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 7h10l-1 13H5z"/><path d="M3 7h12M8 4h3"/><path d="M17 8h4M17 12h4M17 16h3"/></svg></button>
+            <button class="type" data-v="Energy Efficiency">Energy Efficiency
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="#fff"/><circle cx="15" cy="12" r="2" fill="#fff"/><circle cx="8" cy="17" r="2" fill="#fff"/></svg></button>
+            <button class="type" data-v="Other">Other
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></button>
+          </div>
+        </div>
+
+        <div class="field" id="creditSourceField">
+          <label class="l">Credit Source</label>
+          <div class="input">
+            <select id="creditSource" style="width:100%;height:46px;border:1px solid var(--border);border-radius:11px;padding:0 16px;font:inherit;font-size:15px;color:var(--text);background:#fff;outline:none;">
+              <option value="">Loading your available credits...</option>
+            </select>
+          </div>
+          <div class="hint" id="sourceHint">Only verified carbon credits that are currently available can be listed.</div>
+        </div>
+
+        <div class="field">
+          <div class="row"><label class="l">Credits to List</label><button class="max" id="maxBtn" type="button">Max (0)</button></div>
+          <div class="input"><input type="number" id="credits" value="0" min="1" max="0"><span class="unit">CC</span></div>
+          <div class="hint warn" id="credErr" hidden></div>
+        </div>
+
+        <div class="field">
+          <label class="l" style="margin-bottom:0">Price per Credit (INR)</label>
+          <div class="input rs"><span class="sym">₹</span><input type="number" id="price" value="120" min="1" step="1"></div>
+          <div class="hint">Recommended market band: ₹110 – ₹135 per CC for verified methodology.</div>
+        </div>
+
+        <div class="field">
+          <label class="l">Listing Duration</label>
+          <div class="days" id="days">
+            <button class="day" data-v="7">7 Days</button>
+            <button class="day on" data-v="30">30 Days</button>
+            <button class="day" data-v="90">90 Days</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="cancel" type="button">Cancel</button>
+          <button class="btn primary" id="list" type="button">List Credits
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </section>
+
+      <aside class="summary">
+        <div class="top">
+          <h3>Listing Summary</h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d5f58" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+        </div>
+        <div class="grp">
+          <div class="line"><span>Credits Listed:</span><b id="sCredits">0 CC</b></div>
+          <div class="line"><span>Price per Credit:</span><b id="sPrice">₹120</b></div>
+        </div>
+        <div class="grp">
+          <div class="line"><span>Total Listing Value:</span><b id="sTotal">₹0</b></div>
+          <div class="line"><span class="fee">Platform Fee (1%)
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7d8d86" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.5-2.5 2-2.5 3.5M12 17v.01"/></svg></span>
+            <b class="neg" id="sFee">-₹0</b></div>
+        </div>
+        <div class="recv"><span>You'll Receive:</span><b id="sNet">₹0</b></div>
+        <div class="note">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d5f58" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+          <span>Your credits will be listed in the CarbonX marketplace after the listing is created successfully.</span>
+        </div>
+        <div class="foot"><span>Sepolia Settlement Live</span><span>VM0007-v2</span></div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="copy">
+      <i><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dfe8e3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 15-14 0 9-5 15-13 15-1 0-2-.4-2-1z"/><path d="M5 19c3-4 6-7 9-9"/></svg></i>
+      <span>© 2025 CarbonX Clearinghouse Protocol Inc. Cryptographic attestation engine verified. All rights reserved.</span>
+    </div>
+    <nav class="links">
+      <a href="#">Marketplace Registry</a><a href="#">Satellite MRV Standards</a><a href="#">Methodology VM0007</a>
+      <a href="#">Smart Contract Audits</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="./js/api.js"></script>
+<script>
+(function(){
+  if (!requireAuth()) return;
+
+  const $ = id => document.getElementById(id);
+  const creditsInput = $('credits');
+  const priceInput = $('price');
+  const err = $('credErr');
+  const source = $('creditSource');
+  const listBtn = $('list');
+  const toast = $('toast');
+  const FEE = 0.01;
+  let availableCredits = [];
+  let selectedCredit = null;
+  let defaultState = { type: null, days: '30', credits: 0, price: 120 };
+
+  const fmt = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+  const pretty = value => String(value || 'Carbon Credit')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+
+  function show(msg, error=false){
+    toast.textContent = msg;
+    toast.style.background = error ? '#8d3029' : 'var(--dark)';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function setUser(user){
+    const name = user?.name || user?.fullName || 'CarbonX User';
+    const nameEl = $('userName');
+    const avatarEl = $('userAvatar');
+    const roleEl = $('userRole');
+    if (nameEl) nameEl.textContent = name;
+    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase();
+    if (roleEl) roleEl.textContent = user?.role === 'verifier' ? 'Verifier' : 'Verified Citizen';
+  }
+
+  function creditType(credit){
+    return pretty(credit?.activity?.type || credit?.methodology || 'Carbon Credit');
+  }
+
+  function renderTypes(){
+    const types = [...new Set(availableCredits.map(creditType))];
+    const container = $('types');
+    if (!types.length) {
+      container.innerHTML = '<div style="grid-column:1/-1;padding:12px 0;color:var(--muted);font-size:14px">No available carbon-credit types found.</div>';
+      return;
+    }
+    container.innerHTML = types.map((type, index) => `
+      <button class="type ${index === 0 ? 'on' : ''}" data-v="${type.replace(/"/g,'&quot;')}">
+        ${type}
+        <span style="font-size:12px">${availableCredits.filter(c => creditType(c) === type).reduce((s,c)=>s+Number(c.remainingAmount||0),0)} CC</span>
+      </button>`).join('');
+    selectType(types[0]);
+  }
+
+  function selectType(type){
+    document.querySelectorAll('#types button').forEach(b => b.classList.toggle('on', b.dataset.v === type));
+    const matches = availableCredits.filter(c => creditType(c) === type);
+    source.innerHTML = matches.length
+      ? matches.map(c => {
+          const label = `${c.activity?.name || 'Verified Carbon Credit'} — ${Number(c.remainingAmount || 0)} CC available`;
+          return `<option value="${c.id}">${label.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</option>`;
+        }).join('')
+      : '<option value="">No credits available for this type</option>';
+    selectedCredit = matches[0] || null;
+    if (selectedCredit) {
+      source.value = selectedCredit.id;
+      creditsInput.max = Number(selectedCredit.remainingAmount || 0);
+      creditsInput.value = Math.min(Number(creditsInput.value) || 1, Number(selectedCredit.remainingAmount || 0));
+      if (!creditsInput.value || Number(creditsInput.value) < 1) creditsInput.value = Math.min(1, Number(selectedCredit.remainingAmount || 0));
+      $('avail').textContent = Number(selectedCredit.remainingAmount || 0).toLocaleString('en-IN');
+      $('maxBtn').textContent = `Max (${Number(selectedCredit.remainingAmount || 0)})`;
+    } else {
+      selectedCredit = null;
+      creditsInput.max = 0;
+      creditsInput.value = 0;
+      $('avail').textContent = '0';
+      $('maxBtn').textContent = 'Max (0)';
+    }
+    update();
+  }
+
+  function update(){
+    const max = Number(selectedCredit?.remainingAmount || 0);
+    let c = Number(creditsInput.value || 0);
+    const p = Number(priceInput.value || 0);
+    if (c > max) {
+      err.hidden = false;
+      err.textContent = `You can list up to ${max} credits from this credit source.`;
+      c = max;
+    } else if (c <= 0) {
+      err.hidden = false;
+      err.textContent = max ? 'Enter at least 1 credit.' : 'No credits are available to list.';
+    } else {
+      err.hidden = true;
+    }
+    const total = c * p;
+    const fee = total * FEE;
+    $('sCredits').textContent = `${c} CC`;
+    $('sPrice').textContent = fmt(p);
+    $('sTotal').textContent = fmt(total);
+    $('sFee').textContent = '-' + fmt(fee);
+    $('sNet').textContent = fmt(total - fee);
+    listBtn.disabled = !(selectedCredit && c > 0 && c <= max && p > 0);
+  }
+
+  async function loadCredits(){
+    try {
+      const [walletResponse, creditsResponse] = await Promise.all([
+        apiRequest('/wallet'),
+        apiRequest('/wallet/credits')
+      ]);
+      const wallet = unwrap(walletResponse) || {};
+      const creditData = unwrap(creditsResponse) || {};
+      const user = wallet.user || getStoredUser() || {};
+      setUser(user);
+      availableCredits = Array.isArray(creditData.credits) ? creditData.credits : [];
+      renderTypes();
+      if (!availableCredits.length) {
+        source.innerHTML = '<option value="">No available carbon credits</option>';
+        $('sourceHint').textContent = 'You need verified, available carbon credits before you can create a marketplace listing.';
+        listBtn.disabled = true;
+      }
+    } catch (error) {
+      source.innerHTML = '<option value="">Unable to load credits</option>';
+      $('sourceHint').textContent = error.message || 'Could not load your available credits.';
+      listBtn.disabled = true;
+      show(error.message || 'Failed to load your credits.', true);
+    }
+  }
+
+  $('types').addEventListener('click', e => {
+    const button = e.target.closest('button');
+    if (!button) return;
+    selectType(button.dataset.v);
+  });
+
+  source.addEventListener('change', () => {
+    selectedCredit = availableCredits.find(c => String(c.id) === String(source.value)) || null;
+    if (selectedCredit) {
+      creditsInput.max = Number(selectedCredit.remainingAmount || 0);
+      creditsInput.value = Math.min(Number(creditsInput.value) || 1, Number(selectedCredit.remainingAmount || 0));
+      $('avail').textContent = Number(selectedCredit.remainingAmount || 0).toLocaleString('en-IN');
+      $('maxBtn').textContent = `Max (${Number(selectedCredit.remainingAmount || 0)})`;
+    }
+    update();
+  });
+
+  creditsInput.addEventListener('input', update);
+  priceInput.addEventListener('input', update);
+
+  $('maxBtn').addEventListener('click', () => {
+    if (!selectedCredit) return;
+    creditsInput.value = Number(selectedCredit.remainingAmount || 0);
+    update();
+  });
+
+  $('list').addEventListener('click', async () => {
+    if (!selectedCredit) return;
+    const quantity = Number(creditsInput.value || 0);
+    const price = Number(priceInput.value || 0);
+    const durationDays = Number(document.querySelector('#days .on')?.dataset.v || 30);
+    const category = creditType(selectedCredit);
+    const title = selectedCredit.activity?.name || 'Verified Carbon Credit';
+    const description = selectedCredit.activity?.description || `Verified ${category} carbon-credit listing on the CarbonX marketplace.`;
+
+    listBtn.disabled = true;
+    listBtn.innerHTML = 'Listing…';
+    try {
+      await apiRequest('/marketplace/list', {
+        method: 'POST',
+        body: JSON.stringify({
+          creditId: selectedCredit.id,
+          title,
+          description,
+          category,
+          quantity,
+          pricePerCredit: price,
+          durationDays
+        })
+      });
+      show(`${quantity} CC listed successfully.`);
+      await loadCredits();
+      creditsInput.value = selectedCredit ? Math.min(1, Number(selectedCredit.remainingAmount || 0)) : 0;
+      update();
+    } catch (error) {
+      show(error.message || 'Failed to list credits.', true);
+      listBtn.disabled = false;
+    } finally {
+      listBtn.innerHTML = `List Credits <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+      update();
+    }
+  });
+
+  $('cancel').addEventListener('click', () => {
+    if (availableCredits.length) {
+      renderTypes();
+      priceInput.value = defaultState.price;
+      const defaultDay = document.querySelector('#days button[data-v="30"]');
+      document.querySelectorAll('#days button').forEach(b => b.classList.remove('on'));
+      defaultDay?.classList.add('on');
+      if (selectedCredit) creditsInput.value = Math.min(1, Number(selectedCredit.remainingAmount || 0));
+    }
+    update();
+    show('Changes discarded.');
+  });
+
+  document.querySelectorAll('#days button').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('#days button').forEach(b => b.classList.remove('on'));
+      button.classList.add('on');
+    });
+  });
+
+  loadCredits();
+})();
+</script>
+</body>
+</html>

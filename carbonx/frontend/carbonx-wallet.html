@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarbonX — Wallet</title>
+<style>
+  :root{
+    --green-950:#0f2419;
+    --green-900:#12301f;
+    --green-800:#163b26;
+    --green-700:#1c4a30;
+    --gold:#e8b64a;
+    --gold-dark:#d6a234;
+    --ink:#16241c;
+    --muted:#6b7a70;
+    --muted-2:#8b9a90;
+    --bg:#f4f3ee;
+    --card:#ffffff;
+    --border:#e7e5dd;
+    --border-soft:#edece5;
+    --radius-lg:18px;
+    --radius-md:14px;
+    --radius-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    font-family:"Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .layout{
+    display:flex;
+    min-height:100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:230px;
+    flex-shrink:0;
+    background:#faf9f5;
+    border-right:1px solid var(--border);
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:2px 6px 22px 6px;
+  }
+  .brand-icon{
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--green-900);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    flex-shrink:0;
+  }
+  .brand-icon svg{width:18px;height:18px;}
+  .brand-name{font-size:15.5px;font-weight:700;letter-spacing:-0.2px;color:var(--ink);}
+  .brand-tag{font-size:11px;color:var(--muted-2);margin-top:1px;}
+
+  .menu-label{
+    font-size:10.5px;
+    color:var(--muted-2);
+    font-weight:600;
+    letter-spacing:0.5px;
+    margin:14px 10px 8px;
+  }
+  .nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;}
+  .nav li{}
+  .nav-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 10px;
+    border-radius:9px;
+    font-size:13.6px;
+    color:#374238;
+    font-weight:500;
+    position:relative;
+  }
+  .nav-link svg{width:17px;height:17px;flex-shrink:0;opacity:0.75;}
+  .nav-link:hover{background:#f0efe8;}
+  .nav-link.active{
+    background:#e8f0e4;
+    color:var(--green-900);
+    font-weight:600;
+  }
+  .nav-link.active svg{opacity:1;color:var(--green-900);}
+  .badge-active{
+    margin-left:auto;
+    background:var(--gold);
+    color:#5a3f0a;
+    font-size:10px;
+    font-weight:700;
+    padding:2px 7px;
+    border-radius:20px;
+  }
+
+  .sidebar-spacer{flex:1;}
+
+  .sidebar-bottom{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    padding-top:10px;
+    border-top:1px solid var(--border-soft);
+    margin-top:10px;
+  }
+  .node-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:11.5px;
+    color:var(--muted);
+    padding:10px 10px 2px;
+  }
+  .node-dot{width:7px;height:7px;border-radius:50%;background:#4caf6b;flex-shrink:0;}
+
+
+  .wallet-panel{display:none;opacity:0;transform:translateY(5px);}
+  .wallet-panel.active{display:block;animation:walletPanelIn .22s ease forwards;}
+  @keyframes walletPanelIn{to{opacity:1;transform:translateY(0);}}
+  .wallet-panel .marketplace-header{margin-top:30px;}
+  .wallet-panel .search-row{margin-top:18px;}
+  .wallet-panel .credit-grid{margin-top:22px;}
+  .wallet-panel .marketplace-header .btn-list{white-space:nowrap;}
+
+  /* ---------- Main ---------- */
+  .main{
+    flex:1;
+    min-width:0;
+    padding:22px 32px 40px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+  }
+  .page-title{font-size:23px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;}
+  .page-sub{font-size:13px;color:var(--muted);margin-top:3px;}
+
+  .top-right{display:flex;align-items:center;gap:14px;}
+  .icon-btn{
+    width:36px;height:36px;
+    border-radius:50%;
+    background:var(--card);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:#4b564f;
+  }
+  .icon-btn svg{width:17px;height:17px;}
+  .user-chip{
+    display:flex;align-items:center;gap:9px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:5px 12px 5px 5px;
+  }
+  .avatar{
+    width:27px;height:27px;border-radius:50%;
+    background:var(--green-900);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;
+  }
+  .user-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.2;}
+  .user-verified{font-size:10.5px;color:#4caf6b;font-weight:600;}
+  .chevron{width:9px;height:9px;opacity:0.5;margin-left:2px;}
+
+  /* ---------- Hero wallet card ---------- */
+  .wallet-card{
+    background:radial-gradient(ellipse at top right, #1d4a2e 0%, var(--green-950) 55%);
+    border-radius:var(--radius-lg);
+    padding:32px 34px;
+    position:relative;
+    overflow:hidden;
+    color:#fff;
+    margin-bottom:20px;
+    min-height:210px;
+  }
+  .wallet-eyebrow{
+    display:flex;align-items:center;gap:7px;
+    font-size:11.5px;
+    color:#bcd6c2;
+    font-weight:600;
+    letter-spacing:0.4px;
+    margin-bottom:16px;
+  }
+  .wallet-eyebrow svg{width:14px;height:14px;color:var(--gold);}
+  .wallet-amount{
+    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .wallet-amount .num{font-size:44px;font-weight:700;letter-spacing:-1px;}
+  .wallet-amount .num .unit{color:var(--gold);font-size:30px;font-weight:700;margin-left:2px;}
+  .wallet-pill{
+    background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:12.5px;
+    color:#e7ece8;
+  }
+  .wallet-meta{
+    font-size:12.5px;
+    color:#a9c2ae;
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:26px;
+  }
+  .wallet-meta svg{width:13px;height:13px;flex-shrink:0;}
+
+  .wallet-actions{display:flex;align-items:center;gap:10px;}
+  .btn{
+    display:flex;align-items:center;gap:7px;
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:13.5px;
+    font-weight:600;
+    border:none;
+    transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.06);}
+  .btn svg{width:15px;height:15px;}
+  .btn-gold{background:var(--gold);color:#3d2b06;}
+  .btn-ghost{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.16);}
+
+  .wallet-id{
+    position:absolute;
+    right:34px;
+    bottom:28px;
+    font-size:12px;
+    color:#9db5a3;
+    display:flex;align-items:center;gap:6px;
+  }
+  .wallet-id svg{width:13px;height:13px;}
+
+  .orbit{
+    position:absolute;
+    right:-10px;
+    top:-10px;
+    width:230px;
+    height:230px;
+    opacity:0.9;
+  }
+
+  /* ---------- Tabs bar ---------- */
+  .tabs-bar{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:6px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-bottom:24px;
+  }
+  .tab{
+    display:flex;align-items:center;gap:8px;
+    padding:9px 16px;
+    border-radius:10px;
+    font-size:13.5px;
+    font-weight:600;
+    color:#5c6a5f;
+    border:none;
+    background:transparent;
+  }
+  .tab svg{width:15px;height:15px;opacity:0.7;}
+  .tab .count{
+    font-size:11px;
+    font-weight:600;
+    color:var(--muted-2);
+  }
+  .tab.active{
+    background:#eef3ea;
+    color:var(--green-900);
+  }
+  .tab.active svg{opacity:1;}
+  .tab.active .count{color:var(--green-900);opacity:0.7;}
+
+  /* ---------- Marketplace header ---------- */
+  .marketplace-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin-bottom:20px;
+  }
+  .marketplace-title{font-size:21px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;}
+  .marketplace-sub{font-size:13px;color:var(--muted);margin-top:4px;}
+  .btn-list{
+    background:var(--gold);
+    color:#3d2b06;
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:13.5px;
+    font-weight:600;
+    border:none;
+    display:flex;align-items:center;gap:7px;
+    white-space:nowrap;
+  }
+  .btn-list svg{width:15px;height:15px;}
+
+  /* ---------- Search / filter row ---------- */
+  .search-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:24px;
+  }
+  .search-box{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 16px;
+  }
+  .search-box svg{width:16px;height:16px;color:var(--muted-2);flex-shrink:0;}
+  .search-box input{
+    border:none;outline:none;background:transparent;
+    font-size:13.5px;width:100%;color:var(--ink);
+    font-family:inherit;
+  }
+  .search-box input::placeholder{color:var(--muted-2);}
+  .filter-select{
+    display:flex;align-items:center;gap:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 16px;
+    font-size:13.5px;
+    color:#3f4a42;
+    font-weight:500;
+    white-space:nowrap;
+  }
+  .filter-select svg{width:13px;height:13px;color:var(--muted-2);}
+
+  /* ---------- Credit cards ---------- */
+  .credit-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+  .credit-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+  }
+  .credit-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .credit-icon{
+    width:44px;height:44px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .credit-icon svg{width:21px;height:21px;}
+  .icon-solar{background:#fdf3dc;color:#d9a017;}
+  .icon-recycle{background:#e3f0fb;color:#2f8fd0;}
+  .icon-tree{background:#e4f3e6;color:#3f9a52;}
+
+  .credit-category{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.4px;
+    color:var(--muted-2);
+    background:#f2f1ea;
+    padding:4px 10px;
+    border-radius:20px;
+    text-transform:uppercase;
+  }
+
+  .credit-title{
+    font-size:16.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:8px;
+    letter-spacing:-0.2px;
+  }
+  .credit-seller{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .credit-seller svg{width:13px;height:13px;color:var(--muted-2);}
+  .credit-seller b{color:#3d4740;font-weight:600;}
+  .verified-tag{
+    display:flex;align-items:center;gap:3px;
+    background:#e6f4e9;
+    color:#2f9147;
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:2px;
+  }
+  .verified-tag svg{width:10px;height:10px;}
+
+  .credit-desc{
+    font-size:12.8px;
+    color:var(--muted);
+    line-height:1.5;
+    margin-bottom:18px;
+    flex:1;
+  }
+
+  .credit-price{
+    background:#f7f6f1;
+    border-radius:12px;
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .price-label{font-size:10.5px;font-weight:700;letter-spacing:0.4px;color:var(--muted-2);margin-bottom:4px;}
+  .price-value{font-size:17px;font-weight:700;color:var(--ink);}
+  .price-unit{font-size:11.5px;color:var(--muted-2);text-align:right;}
+  .price-right{font-size:17px;font-weight:700;color:var(--ink);}
+
+  .buy-btn{
+    width:100%;
+    background:var(--green-950);
+    color:#fff;
+    border:none;
+    border-radius:11px;
+    padding:13px;
+    font-size:13.5px;
+    font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .buy-btn svg{width:15px;height:15px;}
+  .buy-btn:hover{background:#1c3d28;}
+
+  @media (max-width: 1100px){
+    .credit-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width: 900px){
+    .sidebar{display:none;}
+    .credit-grid{grid-template-columns:1fr;}
+    .main{padding:18px;}
+  }
+
+  /* ---------- Redemption success modal ---------- */
+  .success-modal{position:fixed;inset:0;background:rgba(9,24,17,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;}
+  .success-modal.show{display:flex;}
+  .success-card{width:min(460px,100%);background:#fff;border:1px solid var(--border);border-radius:22px;padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.22);text-align:center;animation:modalIn .22s ease;}
+  @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  .success-icon{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:#e8f5eb;color:#1f7a3b;display:grid;place-items:center;font-size:30px;font-weight:800;}
+  .success-card h3{margin:0;color:var(--ink);font-size:24px;}
+  .success-card p{margin:9px 0 20px;color:var(--muted);font-size:13.5px;line-height:1.55;}
+  .success-details{background:#f6faf7;border:1px solid #e0ebe3;border-radius:14px;padding:14px;text-align:left;margin-bottom:18px;}
+  .success-row{display:flex;justify-content:space-between;gap:16px;padding:7px 0;font-size:13px;}
+  .success-row span{color:var(--muted);}
+  .success-row b{color:var(--ink);text-align:right;}
+  .tx-link{word-break:break-all;font-size:11.5px;}
+  .modal-close{width:100%;border:0;border-radius:11px;padding:12px 16px;background:var(--green-900);color:#fff;font-weight:700;font-size:14px;cursor:pointer;}
+
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 3 6 9a6 6 0 0 1-12 0c0-6 6-9 6-9Z"/><path d="M12 22v-9"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">CarbonX</div>
+        <div class="brand-tag">Make Impact. Get Verified.</div>
+      </div>
+    </div>
+
+    <div class="menu-label">MAIN MENU</div>
+    <ul class="nav">
+      <li><a class="nav-link" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Dashboard
+      </a></li>
+      
+      <li><a class="nav-link" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Submit Activity
+      </a></li>
+      <li><a class="nav-link active" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+        Wallet
+        <span class="badge-active">Active</span>
+      </a></li>
+      
+    </ul>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-bottom">
+      <a class="nav-link" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
+        Settings
+      </a>
+      <a class="nav-link" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+        Profile
+      </a>
+      <div class="node-status">
+        <span class="node-dot"></span>
+        Node #1024 • Verified Sync
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="page-title">Carbon Credit Wallet</div>
+        <div class="page-sub">Manage, trade, and redeem your environmental impact.</div>
+      </div>
+      <div class="top-right">
+        <button class="icon-btn" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        </button>
+        <div class="user-chip">
+          <div class="avatar" id="marketAvatar">A</div>
+          <div>
+            <div class="user-name" id="marketUserName">Ananya S.</div>
+            <div class="user-verified">✓ Verified Citizen</div>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wallet hero -->
+    <section class="wallet-card">
+      <svg class="orbit" viewBox="0 0 230 230" fill="none">
+        <circle cx="150" cy="80" r="90" stroke="#3a6b48" stroke-width="1" stroke-dasharray="2 6" opacity="0.6"/>
+        <circle cx="150" cy="80" r="60" stroke="#3a6b48" stroke-width="1" stroke-dasharray="2 6" opacity="0.6"/>
+        <circle cx="150" cy="80" r="32" fill="#173a26" stroke="#e8b64a" stroke-width="1.5"/>
+        <path d="M150 68s5 3 5 8a5 5 0 0 1-10 0c0-5 5-8 5-8Z" fill="#e8b64a"/>
+        <path d="M150 76v6" stroke="#e8b64a" stroke-width="1.5"/>
+        <circle cx="150" cy="20" r="2.5" fill="#e8b64a"/>
+        <circle cx="210" cy="80" r="2.5" fill="#7fae8c"/>
+        <circle cx="122" cy="132" r="2.5" fill="#7fae8c"/>
+      </svg>
+
+      <div class="wallet-eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+        AVAILABLE CARBON CREDITS
+      </div>
+
+      <div class="wallet-amount">
+        <div class="num" id="marketCredits">0.0<span class="unit">CC</span></div>
+        <div class="wallet-pill" id="marketValue">≈ ₹0 estimated value</div>
+      </div>
+
+      <div class="wallet-meta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3Z"/></svg>
+        Credits available for trading or redemption&nbsp;&nbsp;•&nbsp;&nbsp;Backed by MRV satellite telemetry
+      </div>
+
+      <div class="wallet-actions">
+        <button class="btn btn-gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+          <a href="carbonx-submit-activity.html">Earn Credits</a>
+        </button>
+        <button class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          <a href="carbonx-list-credits.html">Sell Credits</a>
+        </button>
+        <button class="btn btn-ghost" type="button" onclick="showWalletPanel('redeem')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9.5 2 7 2 4 4 4 5.5 5.5 7 7 7h5Z"/><path d="M12 7s2.5-5 5-5 3 2 3 3.5S18.5 7 17 7h-5Z"/></svg>
+          <span>Redeem</span>
+        </button>
+      </div>
+
+      <div class="wallet-id">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+        Impact Ledger ID: <span id="marketLedgerId">Not connected</span>
+      </div>
+    </section>
+
+    <!-- Marketplace / Redeem tabs -->
+    <div class="tabs-bar">
+      <button class="tab" data-tab="marketplace" id="marketTabBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        Marketplace <span class="count" id="marketListingCount">0 Listings</span>
+      </button>
+      <button class="tab" data-tab="redeem" id="redeemTabBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 8h18M12 8v13M12 8c-1.5-3-6-4-6-1s3 1 6 1zM12 8c1.5-3-6 4-6 1z"/></svg>
+        Redeem <span class="count" id="redeemOfferCount">0 Offers</span>
+      </button>
+    </div>
+
+
+    <section class="wallet-panel active" id="marketplacePanel" data-panel="marketplace">
+    <!-- Marketplace header -->
+    <div class="marketplace-header">
+      <div>
+        <div class="marketplace-title">Carbon Credit Marketplace</div>
+        <div class="marketplace-sub">Buy verified carbon-credit units from other users and certified stewards.</div>
+      </div>
+      <button class="btn-list" onclick="location.href='carbonx-list-credits.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+        List Your Credits
+      </button>
+    </div>
+
+    <!-- Search row -->
+    <div class="search-row">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search credits, sellers, or categories...">
+      </div>
+      <div class="filter-select">
+        All Activities
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="filter-select">
+        Any Price
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+
+    <!-- Credit cards grid -->
+    <div class="credit-grid" id="creditGrid"></div>
+
+    </section>
+
+    <section class="wallet-panel" id="redeemPanel" data-panel="redeem">
+    <!-- SECTION HEAD -->
+    <div class="marketplace-header">
+      <div>
+        <div class="marketplace-title">Redeem Carbon Credits</div>
+        <div class="marketplace-sub">Exchange verified carbon credits for utility bill credits, ecosystem restoration, and sustainable mobility vouchers.</div>
+      </div>
+      <button class="btn-list">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+        View Redemption History
+      </button>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="search-row">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search vouchers, utility partners, or benefits...">
+      </div>
+      <div class="filter-select">
+        All Categories
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="filter-select">
+        Credit Cost
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="credit-grid" id="redeemGrid"></div>
+
+    </section>
+
+  </main>
+</div>
+
+
+<div class="success-modal" id="redemptionSuccessModal" aria-hidden="true">
+  <div class="success-card" role="dialog" aria-modal="true" aria-labelledby="redemptionSuccessTitle">
+    <div class="success-icon">✓</div>
+    <h3 id="redemptionSuccessTitle">Credits Redeemed!</h3>
+    <p id="redemptionSuccessMessage">Your carbon credits have been successfully redeemed.</p>
+    <div class="success-details">
+      <div class="success-row"><span>Credits redeemed</span><b id="successAmount">0.00 CC</b></div>
+      <div class="success-row"><span>Reward</span><b id="successReward">—</b></div>
+      <div class="success-row"><span>New balance</span><b id="successBalance">0.00 CC</b></div>
+      <div class="success-row"><span>Transaction</span><b class="tx-link" id="successTx">—</b></div>
+    </div>
+    <button class="modal-close" type="button" id="closeRedemptionModal">Done</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script src="./js/api.js"></script>
+<script>
+(function(){
+  if(!requireAuth()) return;
+
+  const marketGrid=document.getElementById('creditGrid');
+  const marketSearch=document.querySelector('#marketplacePanel .search-box input');
+  const redeemGrid=document.getElementById('redeemGrid');
+  const redeemSearch=document.querySelector('#redeemPanel .search-box input');
+  const CONTRACT_ADDRESS=localStorage.getItem('carbonxContractAddress') || '';
+  const SEPOLIA_CHAIN_ID='0xaa36a7';
+  const CXC_ABI=['function balanceOf(address owner) view returns (uint256)','function decimals() view returns (uint8)','function redeemCredits(uint256 amount,string redemptionId)'];
+  let listings=[];
+  let offers=[];
+  let backendBalance=0;
+  // Always use the wallet address returned by the authenticated CarbonX backend.
+  // getStoredUser() can be stale after a wallet/account switch.
+  let linkedWalletAddress='';
+
+  function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+  function iconFor(category){
+    const c=String(category||'').toLowerCase();
+    if(c.includes('tree')||c.includes('forest')) return '🌱';
+    if(c.includes('waste')||c.includes('recycl')) return '♻️';
+    if(c.includes('transport')||c.includes('mobility')) return '🚲';
+    return '☀️';
+  }
+
+  function setWalletDisplay(balance, value){
+    const creditsEl=document.getElementById('marketCredits');
+    if(creditsEl) creditsEl.innerHTML=`${Number(balance||0).toFixed(2)}<span class="unit">CC</span>`;
+    const valueEl=document.getElementById('marketValue');
+    if(valueEl) valueEl.textContent=`≈ ₹${Math.round(Number(value||0)).toLocaleString('en-IN')} estimated value`;
+  }
+
+  function shortAddress(address){
+    if(!address) return 'Not connected';
+    return `${address.slice(0,6)}...${address.slice(-4)}`;
+  }
+
+  async function getOnChainBalance(walletAddress){
+    if(!window.ethers || !CONTRACT_ADDRESS || !/^0x[a-fA-F0-9]{40}$/.test(CONTRACT_ADDRESS) || !walletAddress) return null;
+    try{
+      if(window.ethereum){
+        const provider=new ethers.BrowserProvider(window.ethereum);
+        const network=await provider.getNetwork();
+        if(`0x${Number(network.chainId).toString(16)}`.toLowerCase()!==SEPOLIA_CHAIN_ID) return null;
+        const contract=new ethers.Contract(CONTRACT_ADDRESS,CXC_ABI,provider);
+        const [raw,decimals]=await Promise.all([contract.balanceOf(walletAddress),contract.decimals().catch(()=>18)]);
+        return Number(ethers.formatUnits(raw,decimals));
+      }
+    }catch(err){
+      console.warn('On-chain CXC balance unavailable:',err.message);
+    }
+    return null;
+  }
+
+  function renderMarketplace(){
+    const q=(marketSearch?.value||'').toLowerCase().trim();
+    const rows=listings.filter(x=>`${x.activityType||''} ${x.category||''} ${x.title||x.name||''} ${x.seller?.name||x.sellerName||''}`.toLowerCase().includes(q));
+    if(!rows.length){marketGrid.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;color:#78847c">No marketplace listings found.</div>';return;}
+    marketGrid.innerHTML=rows.map(x=>{
+      const id=x._id||x.id||x.listingId;
+      const qty=Number(x.remainingQuantity??x.quantity??x.amount??x.volume??1);
+      const price=Number(x.pricePerCredit??x.price??x.rate??0);
+      const total=Number(x.totalPrice??price*qty);
+      const seller=x.seller?.name||x.sellerName||x.ownerName||'Verified seller';
+      const category=String(x.category||x.activityType||'Carbon Credit').replace(/_/g,' ').toUpperCase();
+      return `<div class="credit-card">
+        <div class="credit-top"><div class="credit-icon icon-solar">${iconFor(category)}</div><div class="credit-category">${escapeHtml(category)}</div></div>
+        <div class="credit-title">${escapeHtml(x.title||x.name||'Carbon Credit')}</div>
+        <div class="credit-seller"><span>Seller: <b>${escapeHtml(seller)}</b></span><span class="verified-tag">✓ Verified</span></div>
+        <div class="credit-desc">${escapeHtml(x.description||'Verified carbon-credit listing on the CarbonX marketplace.')}</div>
+        <div class="credit-price"><div><div class="price-label">VOLUME</div><div class="price-value">${qty.toFixed(2)} CC</div></div><div><div class="price-right">₹${Math.round(total).toLocaleString('en-IN')}</div><div class="price-unit">₹${Math.round(price)} / CC</div></div></div>
+        <button class="buy-btn" data-id="${escapeHtml(id)}">Buy Credit</button>
+      </div>`;
+    }).join('');
+  }
+
+  function renderRedeem(){
+    const q=(redeemSearch?.value||'').toLowerCase().trim();
+    const rows=offers.filter(x=>`${x.category||''} ${x.title||x.name||''} ${x.partner||x.partnerName||''}`.toLowerCase().includes(q));
+    if(!rows.length){redeemGrid.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;color:#78847c">No redemption offers found.</div>';return;}
+    redeemGrid.innerHTML=rows.map(x=>{
+      const id=x._id||x.id||x.offerId;
+      const cost=Number(x.creditCost??x.cost??x.credits??0);
+      const value=x.value??x.rewardValue??'';
+      const category=String(x.category||'Benefit').replace(/_/g,' ').toUpperCase();
+      const partner=x.partner||x.partnerName||'CarbonX Partner';
+      return `<div class="credit-card">
+        <div class="credit-top"><div class="credit-icon icon-solar">🎁</div><div class="credit-category">${escapeHtml(category)}</div></div>
+        <div class="credit-title">${escapeHtml(x.title||x.name||'CarbonX Benefit')}</div>
+        <div class="credit-seller"><span>Partner: <b>${escapeHtml(partner)}</b></span><span class="verified-tag">✓ Verified</span></div>
+        <div class="credit-desc">${escapeHtml(x.description||'Redeem verified carbon credits for this sustainable benefit.')}</div>
+        <div class="credit-price"><div><div class="price-label">VALUE</div><div class="price-value">${escapeHtml(value)}</div></div><div><div class="price-right">${cost.toFixed(2)} CC</div><div class="price-unit">Credit cost</div></div></div>
+        <button class="buy-btn redeem-action" data-id="${escapeHtml(id)}">Redeem ${cost.toFixed(2)} CC</button>
+      </div>`;
+    }).join('');
+  }
+
+  async function loadWallet(){
+    const w=await apiRequest('/wallet');
+    const wd=unwrap(w)||{};
+    const u=wd.user||getStoredUser()||{};
+    const address=u.walletAddress||'';
+    linkedWalletAddress=address;
+    backendBalance=Number(wd.balance??wd.credits?.available??wd.totalCredits??0);
+
+    const chainBalance=await getOnChainBalance(address);
+    // The blockchain is authoritative when available. The backend mirror is the fallback.
+    const bal=chainBalance===null ? backendBalance : chainBalance;
+    const val=bal*200;
+    setWalletDisplay(bal,val);
+
+    const tabCredits=document.getElementById('marketTabCredits');
+    if(tabCredits) tabCredits.textContent=`${bal.toFixed(2)} CC`;
+    const name=u.name||u.fullName||'CarbonX User';
+    const n=document.getElementById('marketUserName'); if(n)n.textContent=name;
+    const a=document.getElementById('marketAvatar'); if(a)a.textContent=name[0]?.toUpperCase()||'C';
+    const ledger=document.getElementById('marketLedgerId'); if(ledger) ledger.textContent=shortAddress(address);
+  }
+
+  async function loadMarketplace(){
+    const m=await apiRequest('/marketplace');
+    const md=unwrap(m)||{};
+    listings=Array.isArray(md)?md:(md.listings||md.items||[]);
+    const count=document.getElementById('marketListingCount');
+    if(count) count.textContent=`${listings.length} Listings`;
+    renderMarketplace();
+  }
+
+  async function loadRedeem(){
+    const o=await apiRequest('/redemptions/offers');
+    const od=unwrap(o)||{};
+    offers=Array.isArray(od)?od:(od.offers||od.items||[]);
+    const count=document.getElementById('redeemOfferCount');
+    if(count) count.textContent=`${offers.length} Offers`;
+    renderRedeem();
+  }
+
+  window.showWalletPanel=function(panel){
+    document.querySelectorAll('.wallet-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===panel));
+    document.querySelectorAll('.tabs-bar .tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===panel));
+    if(panel==='marketplace') loadMarketplace().catch(err=>console.warn(err));
+    if(panel==='redeem') loadRedeem().catch(err=>console.warn(err));
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  document.getElementById('marketTabBtn')?.addEventListener('click',()=>showWalletPanel('marketplace'));
+  document.getElementById('redeemTabBtn')?.addEventListener('click',()=>showWalletPanel('redeem'));
+  marketSearch?.addEventListener('input',renderMarketplace);
+  redeemSearch?.addEventListener('input',renderRedeem);
+
+  marketGrid.addEventListener('click',async e=>{
+    const btn=e.target.closest('.buy-btn');
+    if(!btn)return;
+    const id=btn.dataset.id;
+    btn.disabled=true; btn.textContent='Buying…';
+    try{
+      await apiRequest(`/marketplace/${encodeURIComponent(id)}/buy`,{method:'POST',body:JSON.stringify({quantity:1})});
+      btn.textContent='✓ Purchased';
+      await Promise.all([loadWallet(),loadMarketplace()]);
+    }catch(err){btn.disabled=false;btn.textContent='Buy Credit';alert(err.message||'Purchase failed.');}
+  });
+
+  function openRedemptionModal({amount,reward,balance,txHash}){
+    const modal=document.getElementById('redemptionSuccessModal');
+    document.getElementById('successAmount').textContent=`${Number(amount||0).toFixed(2)} CC`;
+    document.getElementById('successReward').textContent=reward||'CarbonX Reward';
+    document.getElementById('successBalance').textContent=`${Number(balance||0).toFixed(2)} CC`;
+    document.getElementById('successTx').textContent=txHash ? `${txHash.slice(0,12)}…${txHash.slice(-10)}` : 'Confirmed';
+    document.getElementById('redemptionSuccessMessage').textContent='Your credits were burned on Sepolia and the redemption has been recorded successfully.';
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+  }
+
+  function closeRedemptionModal(){
+    const modal=document.getElementById('redemptionSuccessModal');
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+  }
+
+  document.getElementById('closeRedemptionModal')?.addEventListener('click',closeRedemptionModal);
+  document.getElementById('redemptionSuccessModal')?.addEventListener('click',e=>{
+    if(e.target.id==='redemptionSuccessModal') closeRedemptionModal();
+  });
+
+  async function redeemOnChain(cost, redemptionId, expectedAddress){
+    if(!window.ethereum) throw new Error('MetaMask is required to redeem credits on Sepolia.');
+    if(!window.ethers) throw new Error('Blockchain library could not be loaded. Refresh the page and try again.');
+    if(!CONTRACT_ADDRESS || !/^0x[a-fA-F0-9]{40}$/.test(CONTRACT_ADDRESS)){
+      throw new Error('CarbonX smart-contract address is not configured.');
+    }
+
+    const provider=new ethers.BrowserProvider(window.ethereum);
+    const network=await provider.getNetwork();
+    if(Number(network.chainId)!==11155111){
+      throw new Error('Please switch MetaMask to the Sepolia network.');
+    }
+
+    const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
+    if(!accounts?.length) throw new Error('No MetaMask account is connected.');
+    const signer=await provider.getSigner();
+    const signerAddress=accounts[0];
+    if(expectedAddress && signerAddress.toLowerCase()!==expectedAddress.toLowerCase()){
+      throw new Error('MetaMask account does not match the CarbonX wallet linked to this account.');
+    }
+
+    const contract=new ethers.Contract(CONTRACT_ADDRESS,CXC_ABI,signer);
+    const decimals=await contract.decimals().catch(()=>18);
+    const rawAmount=ethers.parseUnits(String(cost),decimals);
+    const tx=await contract.redeemCredits(rawAmount,redemptionId);
+    const receipt=await tx.wait();
+
+    return {
+      txHash:receipt.hash || tx.hash,
+      blockNumber:Number(receipt.blockNumber||0),
+      walletAddress:signerAddress
+    };
+  }
+
+  redeemGrid.addEventListener('click',async e=>{
+    const btn=e.target.closest('.redeem-action');
+    if(!btn)return;
+    const id=btn.dataset.id;
+    const offer=offers.find(x=>String(x._id||x.id||x.offerId)===String(id));
+    if(!offer)return;
+
+    const cost=Number(offer.creditCost??offer.cost??offer.credits??0);
+    if(!Number.isFinite(cost) || cost<=0){
+      alert('This redemption offer has an invalid credit cost.');
+      return;
+    }
+    if(backendBalance + 1e-9 < cost){
+      alert(`You need ${cost.toFixed(2)} CC to redeem this reward. Your available balance is ${backendBalance.toFixed(2)} CC.`);
+      return;
+    }
+    // Use the address returned by /wallet, not a potentially stale localStorage copy.
+    // This fixes false account-mismatch errors after switching/reconnecting MetaMask.
+    let expectedAddress=linkedWalletAddress||'';
+    if(!expectedAddress){
+      try{
+        const walletResponse=await apiRequest('/wallet');
+        const walletData=unwrap(walletResponse)||{};
+        expectedAddress=walletData.user?.walletAddress||'';
+        linkedWalletAddress=expectedAddress;
+      }catch(_){}
+    }
+    const redemptionId=`CX-RED-${Date.now()}`;
+
+    btn.disabled=true;
+    btn.textContent='Confirm in MetaMask…';
+
+    let chain=null;
+    try{
+      chain=await redeemOnChain(cost,redemptionId,expectedAddress);
+      btn.textContent='Recording…';
+
+      const result=await apiRequest('/redemptions',{
+        method:'POST',
+        body:JSON.stringify({
+          offerId:id,
+          redemptionId,
+          txHash:chain.txHash,
+          blockNumber:chain.blockNumber,
+          walletAddress:chain.walletAddress,
+          contractAddress:CONTRACT_ADDRESS
+        })
+      });
+
+      const data=unwrap(result)||{};
+      await Promise.all([loadWallet(),loadRedeem()]);
+      const newBalance=Number(data.remainingBalance);
+      const displayedBalance=Number.isFinite(newBalance) ? newBalance : backendBalance;
+      btn.textContent='✓ Redeemed';
+      openRedemptionModal({
+        amount:cost,
+        reward:offer.title||offer.name||'CarbonX Reward',
+        balance:displayedBalance,
+        txHash:chain.txHash
+      });
+    }catch(err){
+      btn.disabled=false;
+      btn.textContent=`Redeem ${cost.toFixed(2)} CC`;
+      if(chain?.txHash){
+        alert(`The Sepolia burn was confirmed, but CarbonX could not finish recording the redemption. Do not redeem again. Transaction: ${chain.txHash}`);
+      }else{
+        alert(err.message||'Redemption failed.');
+      }
+    }
+  });
+
+  document.querySelectorAll('.nav-link').forEach(link=>link.addEventListener('click',e=>{
+    const label=link.textContent.trim().toLowerCase();
+    const urls={'dashboard':'carbonx-dashboard.html','submit activity':'carbonx-submit-activity.html','wallet':'carbonx-wallet.html'};
+    if(label==='wallet'){e.preventDefault();showWalletPanel('marketplace');return;}
+    const url=urls[label];
+    if(url){e.preventDefault();location.href=url;}
+  }));
+
+  Promise.all([loadWallet(),loadMarketplace()]).catch(err=>{
+    marketGrid.innerHTML=`<div style="grid-column:1/-1;padding:30px;color:#a14a44">${escapeHtml(err.message||'Unable to load wallet data.')}</div>`;
+  });
+})();
+</script>
+
+</body>
+</html>
