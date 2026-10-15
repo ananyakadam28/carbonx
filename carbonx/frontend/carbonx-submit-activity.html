@@ -1813,42 +1813,60 @@
   // ============================================================
   // SUPPORTING PROOF UPLOAD (MANDATORY)
   // ============================================================
-  function setupDropzone(){
-    const dropzone = $('dropzone');
-    const fileInput = $('fileInput');
+  
+function setupDropzone() {
+  const dropzone = $('dropzone');
+  const fileInput = $('fileInput');
 
-    fileInput.addEventListener('change', e => {
-      if(e.target.files && e.target.files.length > 0){
-        handleFilesSelected([...e.target.files]);
-        fileInput.value = "";
-      }
+  if (!dropzone || !fileInput) {
+    console.error('Evidence upload elements not found:', {
+      dropzone: !!dropzone,
+      fileInput: !!fileInput
     });
-
-    ['dragenter', 'dragover'].forEach(evt => {
-      dropzone.addEventListener(evt, e => {
-        e.preventDefault();
-        dropzone.classList.add('drag');
-      });
-    });
-
-    ['dragleave', 'drop'].forEach(evt => {
-      dropzone.addEventListener(evt, e => {
-        e.preventDefault();
-        dropzone.classList.remove('drag');
-      });
-    });
-
-    dropzone.addEventListener('drop', e => {
-      if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0){
-        handleFilesSelected([...e.dataTransfer.files]);
-      }
-    });
+    return;
   }
+
+  fileInput.addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files || []);
+    console.log('Evidence files selected:', files);
+
+    if (files.length > 0) {
+      await handleFilesSelected(files);
+    }
+
+    fileInput.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.add('drag');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.remove('drag');
+    });
+  });
+
+  dropzone.addEventListener('drop', e => {
+    const files = Array.from(e.dataTransfer?.files || []);
+    console.log('Evidence files dropped:', files);
+
+    if (files.length > 0) {
+      handleFilesSelected(files);
+    }
+  });
+}
 
   async function handleFilesSelected(files){
     // Validate file sizes and extensions
     const allowedRegex = /\.(pdf|jpg|jpeg|png|webp|csv|xlsx|xls)$/i;
     const validFiles = [];
+
+    console.log("1. File handler triggered:", files);
 
     for(const f of files){
       if(!allowedRegex.test(f.name)){
@@ -1871,67 +1889,111 @@
     showToast(`Uploading ${validFiles.length} proof document(s)…`);
 
     try {
-      const res = await apiRequest('/activities/upload-evidence', {
-        method: 'POST',
-        body: formData
-      });
+  console.log("2. Sending upload request now");
 
-      if(res.evidence && res.evidence.length > 0){
-        STATE.attachedEvidence.push(...res.evidence);
-        showToast(`${res.evidence.length} file(s) attached and tamper-checked.`);
-        renderAttachedFiles();
-      }
-    } catch(err){
-      console.error('File upload error:', err);
-      showToast(err.message || "Failed to upload proof documents.");
-    }
+  const res = await apiRequest('/activities/upload-evidence', {
+    method: 'POST',
+    body: formData
+  });
+
+  console.log("Upload response:", res);
+
+  if (res.success && Array.isArray(res.evidence) && res.evidence.length > 0) {
+    STATE.attachedEvidence.push(...res.evidence);
+
+    console.log("Attached evidence:", STATE.attachedEvidence);
+
+    console.log("Before render");
+    renderAttachedFiles();
+    console.log("After render");
+
+    showToast(`${res.evidence.length} file(s) uploaded successfully.`);
+  } else {
+    showToast(res.message || "Upload completed, but no evidence was returned.");
+  }
+} catch (err) {
+  console.error("File upload error:", err);
+  showToast(err.message || "Failed to upload proof documents.");
+}
   }
 
-  function renderAttachedFiles(){
-    const container = $('uploadedFilesList');
-    const statusText = $('proofStatusText');
-    const countText = $('proofCountText');
+  
 
-    container.innerHTML = "";
+  function renderAttachedFiles() {
+  const container = document.getElementById("uploadedFilesList");
+  const countText = document.getElementById("proofCountText");
+  const statusText = document.getElementById("proofStatusText");
 
-    STATE.attachedEvidence.forEach((item, idx) => {
-      const el = document.createElement('div');
-      el.className = 'file-item';
-      el.innerHTML = `
-        <div class="ficon">${fileIcon(item.fileName)}</div>
-        <div class="fmeta">
-          <div class="fname" title="${escapeHtml(item.fileName)}">
-            ${escapeHtml(item.fileName)}
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="currentColor" opacity=".18"/><path d="m8 12 3 3 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <div class="fsub">${formatBytes(item.fileSize)} · Uploaded &amp; Verified</div>
+  if (!container) {
+    console.error("uploadedFilesList container not found");
+    return;
+  }
+
+  const files = STATE.attachedEvidence || [];
+
+  container.innerHTML = files.map((file, index) => `
+    <div class="uploaded-file-item" style="
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px;
+      margin-top:10px;
+      border:1px solid #d1d5db;
+      border-radius:8px;
+    ">
+      <div style="min-width:0;">
+        <div style="font-weight:600;overflow-wrap:anywhere;">
+          ${escapeHtml(file.fileName || "Uploaded file")}
         </div>
-        <button class="del" type="button" onclick="removeAttachedFile(${idx})" title="Remove file">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-9 0 1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </button>
-      `;
-      container.appendChild(el);
-    });
+        <small>${formatFileSize(file.fileSize || 0)}</small>
+      </div>
 
-    const count = STATE.attachedEvidence.length;
-    countText.textContent = `${count} file${count === 1 ? '' : 's'} attached`;
+      <button
+        type="button"
+        data-remove-evidence="${index}"
+        style="flex-shrink:0;"
+      >
+        Remove
+      </button>
+    </div>
+  `).join("");
 
-    if(count > 0){
-      statusText.className = 'proof-badge-ready';
-      statusText.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#2d8a4e" opacity=".18"/><path d="m8 12 3 3 5-6" stroke="#2d8a4e" stroke-width="2" stroke-linecap="round"/></svg>
-        Supporting proof attached (${count})
-      `;
-    } else {
-      statusText.className = 'proof-badge-required';
-      statusText.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        Mandatory: At least one supporting proof document is required to submit.
-      `;
-      $('proofPeriodWarning').style.display = 'none';
-      STATE.periodChangedAfterProof = false;
-    }
+  if (countText) {
+    countText.textContent =
+      `${files.length} file${files.length === 1 ? "" : "s"} attached`;
   }
+
+  if (statusText && files.length > 0) {
+    statusText.textContent = "Supporting proof uploaded successfully.";
+  }
+
+  container.querySelectorAll("[data-remove-evidence]").forEach(button => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.removeEvidence);
+      STATE.attachedEvidence.splice(index, 1);
+      renderAttachedFiles();
+    });
+  });
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
 
   function removeAttachedFile(idx){
     STATE.attachedEvidence.splice(idx, 1);

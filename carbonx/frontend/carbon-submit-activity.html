@@ -896,6 +896,28 @@
     .header-actions-row{flex-direction:column;align-items:stretch;}
     .btn-installation-modal{justify-content:center;}
   }
+
+  #uploadedFilesList {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100%;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+#uploadedFilesList .file-item {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #64748b;
+  border-radius: 10px;
+}
 </style>
 </head>
 <body>
@@ -1871,16 +1893,44 @@
     showToast(`Uploading ${validFiles.length} proof document(s)…`);
 
     try {
-      const res = await apiRequest('/activities/upload-evidence', {
-        method: 'POST',
-        body: formData
-      });
+      
+  const res = await apiRequest('/activities/upload-evidence', {
+    method: 'POST',
+    body: formData
+  });
 
-      if(res.evidence && res.evidence.length > 0){
-        STATE.attachedEvidence.push(...res.evidence);
-        showToast(`${res.evidence.length} file(s) attached and tamper-checked.`);
-        renderAttachedFiles();
-      }
+
+  console.log('Evidence upload response:', res);
+
+  const data = CarbonXAPI.unwrap(res);
+  const uploadedFiles = data?.evidence;
+
+  if (Array.isArray(uploadedFiles) && uploadedFiles.length > 0) {
+    STATE.attachedEvidence.push(...uploadedFiles);
+    renderAttachedFiles();
+
+    showToast(`${uploadedFiles.length} file(s) attached successfully.`);
+  } else {
+    console.error('Unexpected upload response:', res);
+    showToast('Upload returned no evidence records. Check the server response.');
+  }
+
+
+  console.log(
+  "Current page:",
+  window.location.href
+);
+
+console.log(
+  "Uploaded files:",
+  STATE.attachedEvidence.map(file => file.fileName)
+);
+
+console.log(
+  "Rendered HTML:",
+  document.getElementById("uploadedFilesList")?.innerHTML
+);
+
     } catch(err){
       console.error('File upload error:', err);
       showToast(err.message || "Failed to upload proof documents.");
@@ -1888,9 +1938,12 @@
   }
 
   function renderAttachedFiles(){
-    const container = $('uploadedFilesList');
+        const container = $('uploadedFilesList');
     const statusText = $('proofStatusText');
     const countText = $('proofCountText');
+
+    console.log('[renderAttachedFiles] Evidence count:', STATE.attachedEvidence.length);
+    console.log('[renderAttachedFiles] Evidence:', STATE.attachedEvidence.map(item => item.fileName));
 
     container.innerHTML = "";
 
