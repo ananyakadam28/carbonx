@@ -323,6 +323,10 @@ exports.buyListing = async (req, res) => {
             toUserId: buyerId,
             creditId: buyerCredit._id,
             amount: quantity,
+            pricePerCredit: Number(listing.pricePerCredit),
+            totalAmount,
+            currency: listing.currency || "INR",
+            listingId: listing._id,
             status: "completed"
         });
 

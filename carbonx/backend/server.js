@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+const dns = require("node:dns");
+
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 const express = require("express");
 const cors = require("cors");
 

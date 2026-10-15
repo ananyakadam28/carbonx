@@ -34,138 +34,70 @@
   a{text-decoration:none;color:inherit;}
   button{font-family:inherit;cursor:pointer;}
 
-  .layout{
-    display:flex;
-    min-height:100vh;
-  }
+  .layout{display:flex;min-height:100vh;}
 
-  /* ---------- Sidebar ---------- */
+  /* ---- Sidebar ---- */
   .sidebar{
-    width:230px;
-    flex-shrink:0;
-    background:#faf9f5;
-    border-right:1px solid var(--border);
-    padding:22px 16px;
-    display:flex;
-    flex-direction:column;
+    width:230px;flex-shrink:0;
+    background:#faf9f5;border-right:1px solid var(--border);
+    padding:22px 16px;display:flex;flex-direction:column;
   }
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:2px 6px 22px 6px;
-  }
+  .brand{display:flex;align-items:center;gap:10px;padding:2px 6px 22px 6px;}
   .brand-icon{
-    width:34px;height:34px;
-    border-radius:50%;
-    background:var(--green-900);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--gold);
-    flex-shrink:0;
+    width:34px;height:34px;border-radius:50%;
+    background:var(--green-900);display:flex;align-items:center;justify-content:center;
+    color:var(--gold);flex-shrink:0;
   }
   .brand-icon svg{width:18px;height:18px;}
   .brand-name{font-size:15.5px;font-weight:700;letter-spacing:-0.2px;color:var(--ink);}
   .brand-tag{font-size:11px;color:var(--muted-2);margin-top:1px;}
-
-  .menu-label{
-    font-size:10.5px;
-    color:var(--muted-2);
-    font-weight:600;
-    letter-spacing:0.5px;
-    margin:14px 10px 8px;
-  }
+  .menu-label{font-size:10.5px;color:var(--muted-2);font-weight:600;letter-spacing:0.5px;margin:14px 10px 8px;}
   .nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;}
-  .nav li{}
   .nav-link{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:9px 10px;
-    border-radius:9px;
-    font-size:13.6px;
-    color:#374238;
-    font-weight:500;
-    position:relative;
+    display:flex;align-items:center;gap:10px;
+    padding:9px 10px;border-radius:9px;
+    font-size:13.6px;color:#374238;font-weight:500;position:relative;
   }
   .nav-link svg{width:17px;height:17px;flex-shrink:0;opacity:0.75;}
   .nav-link:hover{background:#f0efe8;}
-  .nav-link.active{
-    background:#e8f0e4;
-    color:var(--green-900);
-    font-weight:600;
-  }
+  .nav-link.active{background:#e8f0e4;color:var(--green-900);font-weight:600;}
   .nav-link.active svg{opacity:1;color:var(--green-900);}
   .badge-active{
-    margin-left:auto;
-    background:var(--gold);
-    color:#5a3f0a;
-    font-size:10px;
-    font-weight:700;
-    padding:2px 7px;
-    border-radius:20px;
+    margin-left:auto;background:var(--gold);color:#5a3f0a;
+    font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
   }
-
   .sidebar-spacer{flex:1;}
-
   .sidebar-bottom{
-    display:flex;
-    flex-direction:column;
-    gap:2px;
-    padding-top:10px;
-    border-top:1px solid var(--border-soft);
-    margin-top:10px;
+    display:flex;flex-direction:column;gap:2px;
+    padding-top:10px;border-top:1px solid var(--border-soft);margin-top:10px;
   }
   .node-status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:11.5px;
-    color:var(--muted);
-    padding:10px 10px 2px;
+    display:flex;align-items:center;gap:8px;
+    font-size:11.5px;color:var(--muted);padding:10px 10px 2px;
   }
   .node-dot{width:7px;height:7px;border-radius:50%;background:#4caf6b;flex-shrink:0;}
 
-
+  /* ---- Panel switching ---- */
   .wallet-panel{display:none;opacity:0;transform:translateY(5px);}
   .wallet-panel.active{display:block;animation:walletPanelIn .22s ease forwards;}
   @keyframes walletPanelIn{to{opacity:1;transform:translateY(0);}}
-  .wallet-panel .marketplace-header{margin-top:30px;}
-  .wallet-panel .search-row{margin-top:18px;}
-  .wallet-panel .credit-grid{margin-top:22px;}
-  .wallet-panel .marketplace-header .btn-list{white-space:nowrap;}
 
-  /* ---------- Main ---------- */
-  .main{
-    flex:1;
-    min-width:0;
-    padding:22px 32px 40px;
-  }
-
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:22px;
-  }
+  /* ---- Main ---- */
+  .main{flex:1;min-width:0;padding:22px 32px 40px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
   .page-title{font-size:23px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;}
   .page-sub{font-size:13px;color:var(--muted);margin-top:3px;}
-
   .top-right{display:flex;align-items:center;gap:14px;}
   .icon-btn{
-    width:36px;height:36px;
-    border-radius:50%;
-    background:var(--card);
-    border:1px solid var(--border);
-    display:flex;align-items:center;justify-content:center;
-    color:#4b564f;
+    width:36px;height:36px;border-radius:50%;
+    background:var(--card);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:#4b564f;
   }
   .icon-btn svg{width:17px;height:17px;}
   .user-chip{
     display:flex;align-items:center;gap:9px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:24px;
-    padding:5px 12px 5px 5px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:24px;padding:5px 12px 5px 5px;
   }
   .avatar{
     width:27px;height:27px;border-radius:50%;
@@ -177,312 +109,363 @@
   .user-verified{font-size:10.5px;color:#4caf6b;font-weight:600;}
   .chevron{width:9px;height:9px;opacity:0.5;margin-left:2px;}
 
-  /* ---------- Hero wallet card ---------- */
+  /* ---- Hero wallet card ---- */
   .wallet-card{
     background:radial-gradient(ellipse at top right, #1d4a2e 0%, var(--green-950) 55%);
-    border-radius:var(--radius-lg);
-    padding:32px 34px;
-    position:relative;
-    overflow:hidden;
-    color:#fff;
-    margin-bottom:20px;
-    min-height:210px;
+    border-radius:var(--radius-lg);padding:32px 34px;
+    position:relative;overflow:hidden;color:#fff;margin-bottom:20px;min-height:210px;
   }
   .wallet-eyebrow{
     display:flex;align-items:center;gap:7px;
-    font-size:11.5px;
-    color:#bcd6c2;
-    font-weight:600;
-    letter-spacing:0.4px;
-    margin-bottom:16px;
+    font-size:11.5px;color:#bcd6c2;font-weight:600;
+    letter-spacing:0.4px;margin-bottom:16px;
   }
   .wallet-eyebrow svg{width:14px;height:14px;color:var(--gold);}
-  .wallet-amount{
-    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
-    margin-bottom:14px;
-  }
+  .wallet-amount{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
   .wallet-amount .num{font-size:44px;font-weight:700;letter-spacing:-1px;}
   .wallet-amount .num .unit{color:var(--gold);font-size:30px;font-weight:700;margin-left:2px;}
   .wallet-pill{
-    background:rgba(255,255,255,0.1);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:20px;
-    padding:6px 14px;
-    font-size:12.5px;
-    color:#e7ece8;
+    background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.12);
+    border-radius:20px;padding:6px 14px;font-size:12.5px;color:#e7ece8;
   }
   .wallet-meta{
-    font-size:12.5px;
-    color:#a9c2ae;
-    display:flex;align-items:center;gap:6px;
-    margin-bottom:26px;
+    font-size:12.5px;color:#a9c2ae;
+    display:flex;align-items:center;gap:6px;margin-bottom:22px;
   }
   .wallet-meta svg{width:13px;height:13px;flex-shrink:0;}
-
-  .wallet-actions{display:flex;align-items:center;gap:10px;}
+  .wallet-actions{display:flex;align-items:center;gap:10px;margin-top:20px;}
   .btn{
     display:flex;align-items:center;gap:7px;
-    border-radius:10px;
-    padding:11px 18px;
-    font-size:13.5px;
-    font-weight:600;
-    border:none;
+    border-radius:10px;padding:11px 18px;
+    font-size:13.5px;font-weight:600;border:none;
     transition:filter .15s ease;
   }
   .btn:hover{filter:brightness(1.06);}
   .btn svg{width:15px;height:15px;}
   .btn-gold{background:var(--gold);color:#3d2b06;}
   .btn-ghost{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.16);}
-
   .wallet-id{
-    position:absolute;
-    right:34px;
-    bottom:28px;
-    font-size:12px;
-    color:#9db5a3;
-    display:flex;align-items:center;gap:6px;
+    position:absolute;right:34px;bottom:28px;
+    font-size:12px;color:#9db5a3;display:flex;align-items:center;gap:6px;
   }
   .wallet-id svg{width:13px;height:13px;}
+  .orbit{position:absolute;right:-10px;top:-10px;width:230px;height:230px;opacity:0.9;}
 
-  .orbit{
-    position:absolute;
-    right:-10px;
-    top:-10px;
-    width:230px;
-    height:230px;
-    opacity:0.9;
+  .balance-chips{display:flex;gap:10px;flex-wrap:wrap;}
+  .bal-chip{
+    background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);
+    border-radius:10px;padding:7px 12px;font-size:11.5px;color:#c8dccf;
   }
+  .bal-chip b{color:#fff;display:block;font-size:13px;margin-bottom:1px;}
 
-  /* ---------- Tabs bar ---------- */
+  /* ---- Tabs bar ---- */
   .tabs-bar{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:6px;
-    display:flex;
-    align-items:center;
-    gap:4px;
-    margin-bottom:24px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:6px;
+    display:flex;align-items:center;gap:4px;margin-bottom:24px;
   }
   .tab{
     display:flex;align-items:center;gap:8px;
-    padding:9px 16px;
-    border-radius:10px;
-    font-size:13.5px;
-    font-weight:600;
-    color:#5c6a5f;
-    border:none;
-    background:transparent;
+    padding:9px 16px;border-radius:10px;
+    font-size:13.5px;font-weight:600;color:#5c6a5f;
+    border:none;background:transparent;
   }
   .tab svg{width:15px;height:15px;opacity:0.7;}
-  .tab .count{
-    font-size:11px;
-    font-weight:600;
-    color:var(--muted-2);
-  }
-  .tab.active{
-    background:#eef3ea;
-    color:var(--green-900);
-  }
+  .tab .count{font-size:11px;font-weight:600;color:var(--muted-2);}
+  .tab.active{background:#eef3ea;color:var(--green-900);}
   .tab.active svg{opacity:1;}
   .tab.active .count{color:var(--green-900);opacity:0.7;}
 
-  /* ---------- Marketplace header ---------- */
+  /* ---- Section header ---- */
   .marketplace-header{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    margin-bottom:20px;
+    display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;
   }
   .marketplace-title{font-size:21px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;}
   .marketplace-sub{font-size:13px;color:var(--muted);margin-top:4px;}
   .btn-list{
-    background:var(--gold);
-    color:#3d2b06;
-    border-radius:10px;
-    padding:11px 18px;
-    font-size:13.5px;
-    font-weight:600;
-    border:none;
-    display:flex;align-items:center;gap:7px;
-    white-space:nowrap;
+    background:var(--gold);color:#3d2b06;
+    border-radius:10px;padding:11px 18px;
+    font-size:13.5px;font-weight:600;border:none;
+    display:flex;align-items:center;gap:7px;white-space:nowrap;
   }
   .btn-list svg{width:15px;height:15px;}
 
-  /* ---------- Search / filter row ---------- */
-  .search-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:24px;
-  }
+  /* ---- Search / filter row ---- */
+  .search-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
   .search-box{
-    flex:1;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:12px 16px;
+    flex:1;display:flex;align-items:center;gap:10px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:12px 16px;
   }
   .search-box svg{width:16px;height:16px;color:var(--muted-2);flex-shrink:0;}
   .search-box input{
     border:none;outline:none;background:transparent;
-    font-size:13.5px;width:100%;color:var(--ink);
-    font-family:inherit;
+    font-size:13.5px;width:100%;color:var(--ink);font-family:inherit;
   }
   .search-box input::placeholder{color:var(--muted-2);}
   .filter-select{
-    display:flex;align-items:center;gap:20px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:12px 16px;
-    font-size:13.5px;
-    color:#3f4a42;
-    font-weight:500;
-    white-space:nowrap;
+    display:flex;align-items:center;gap:8px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:11px 14px;
+    font-size:13.5px;color:#3f4a42;font-weight:500;white-space:nowrap;
+  }
+  .filter-select select{
+    border:none;outline:none;background:transparent;
+    font-size:13.5px;color:#3f4a42;font-weight:500;font-family:inherit;cursor:pointer;
   }
   .filter-select svg{width:13px;height:13px;color:var(--muted-2);}
 
-  /* ---------- Credit cards ---------- */
-  .credit-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:22px;
-  }
+  /* ---- Credit cards ---- */
+  .credit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .credit-card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:22px;
-    display:flex;
-    flex-direction:column;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:16px;padding:22px;display:flex;flex-direction:column;
   }
-  .credit-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    margin-bottom:16px;
-  }
-  .credit-icon{
-    width:44px;height:44px;
-    border-radius:12px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .credit-icon svg{width:21px;height:21px;}
+  .credit-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+  .credit-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;}
   .icon-solar{background:#fdf3dc;color:#d9a017;}
   .icon-recycle{background:#e3f0fb;color:#2f8fd0;}
   .icon-tree{background:#e4f3e6;color:#3f9a52;}
-
   .credit-category{
-    font-size:10.5px;
-    font-weight:700;
-    letter-spacing:0.4px;
-    color:var(--muted-2);
-    background:#f2f1ea;
-    padding:4px 10px;
-    border-radius:20px;
-    text-transform:uppercase;
+    font-size:10.5px;font-weight:700;letter-spacing:0.4px;
+    color:var(--muted-2);background:#f2f1ea;
+    padding:4px 10px;border-radius:20px;text-transform:uppercase;
   }
-
-  .credit-title{
-    font-size:16.5px;
-    font-weight:700;
-    color:var(--ink);
-    margin-bottom:8px;
-    letter-spacing:-0.2px;
-  }
-  .credit-seller{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:12.5px;
-    color:var(--muted);
-    margin-bottom:14px;
-  }
+  .credit-title{font-size:16.5px;font-weight:700;color:var(--ink);margin-bottom:8px;letter-spacing:-0.2px;}
+  .credit-seller{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap;}
   .credit-seller svg{width:13px;height:13px;color:var(--muted-2);}
   .credit-seller b{color:#3d4740;font-weight:600;}
   .verified-tag{
-    display:flex;align-items:center;gap:3px;
-    background:#e6f4e9;
-    color:#2f9147;
-    font-size:11px;
-    font-weight:700;
-    padding:2px 8px;
-    border-radius:20px;
-    margin-left:2px;
+    display:inline-flex;align-items:center;gap:3px;
+    background:#e6f4e9;color:#2f9147;
+    font-size:11px;font-weight:700;
+    padding:2px 8px;border-radius:20px;
   }
-  .verified-tag svg{width:10px;height:10px;}
-
-  .credit-desc{
-    font-size:12.8px;
-    color:var(--muted);
-    line-height:1.5;
-    margin-bottom:18px;
-    flex:1;
-  }
-
+  .credit-desc{font-size:12.8px;color:var(--muted);line-height:1.5;margin-bottom:18px;flex:1;}
   .credit-price{
-    background:#f7f6f1;
-    border-radius:12px;
-    padding:12px 14px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:14px;
+    background:#f7f6f1;border-radius:12px;padding:12px 14px;
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
   }
   .price-label{font-size:10.5px;font-weight:700;letter-spacing:0.4px;color:var(--muted-2);margin-bottom:4px;}
   .price-value{font-size:17px;font-weight:700;color:var(--ink);}
   .price-unit{font-size:11.5px;color:var(--muted-2);text-align:right;}
   .price-right{font-size:17px;font-weight:700;color:var(--ink);}
-
   .buy-btn{
-    width:100%;
-    background:var(--green-950);
-    color:#fff;
-    border:none;
-    border-radius:11px;
-    padding:13px;
-    font-size:13.5px;
-    font-weight:600;
+    width:100%;background:var(--green-950);color:#fff;
+    border:none;border-radius:11px;padding:13px;
+    font-size:13.5px;font-weight:600;
     display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .15s;
   }
-  .buy-btn svg{width:15px;height:15px;}
   .buy-btn:hover{background:#1c3d28;}
+  .buy-btn:disabled{background:#8ba892;cursor:not-allowed;}
 
-  @media (max-width: 1100px){
-    .credit-grid{grid-template-columns:repeat(2,1fr);}
+  /* ---- Status badges ---- */
+  .status-badge{
+    display:inline-flex;align-items:center;
+    padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;
   }
-  @media (max-width: 900px){
-    .sidebar{display:none;}
-    .credit-grid{grid-template-columns:1fr;}
-    .main{padding:18px;}
-  }
+  .status-pending{background:#fff8e1;color:#8c6d1f;}
+  .status-under_review{background:#e3f0fb;color:#1e6fa6;}
+  .status-verified{background:#e6f4e9;color:#1f7a3b;}
+  .status-issued{background:#e4f3e6;color:#1c6932;}
+  .status-rejected{background:#fdecea;color:#b92b27;}
+  .status-draft{background:#f2f1ea;color:#5c6a5f;}
+  .status-active{background:#e6f4e9;color:#1f7a3b;}
+  .status-sold{background:#fdf3dc;color:#8c5c0d;}
+  .status-cancelled{background:#f2f1ea;color:#5c6a5f;}
+  .status-available{background:#e4f3e6;color:#1c6932;}
+  .status-listed{background:#e3f0fb;color:#1e6fa6;}
+  .status-purchase{background:#e4f3e6;color:#1c6932;}
+  .status-sale{background:#fdf3dc;color:#8c5c0d;}
+  .status-issuance{background:#e6f4e9;color:#1f7a3b;}
+  .status-completed{background:#e6f4e9;color:#1f7a3b;}
+  .status-failed{background:#fdecea;color:#b92b27;}
 
-  /* ---------- Redemption success modal ---------- */
-  .success-modal{position:fixed;inset:0;background:rgba(9,24,17,.55);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;}
-  .success-modal.show{display:flex;}
-  .success-card{width:min(460px,100%);background:#fff;border:1px solid var(--border);border-radius:22px;padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.22);text-align:center;animation:modalIn .22s ease;}
+  /* ---- Activity table ---- */
+  .activity-table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--border);}
+  .activity-table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px;}
+  .activity-table th{
+    background:#f7f6f1;padding:10px 16px;text-align:left;
+    font-size:11px;font-weight:700;letter-spacing:0.4px;
+    color:var(--muted-2);text-transform:uppercase;
+    border-bottom:1px solid var(--border);
+  }
+  .activity-table td{padding:12px 16px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
+  .activity-table tr:last-child td{border-bottom:none;}
+  .activity-table tr:hover td{background:#fafaf7;}
+  .at-name{font-weight:600;color:var(--ink);font-size:13.5px;}
+  .at-sub{font-size:11.5px;color:var(--muted);margin-top:1px;}
+  .at-num{font-weight:700;font-size:14px;color:var(--ink);}
+
+  /* ---- Sell credits ---- */
+  .sell-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .sell-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;}
+  .sell-card-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:16px;}
+  .form-group{margin-bottom:16px;}
+  .form-label{
+    display:block;font-size:12px;font-weight:700;
+    color:var(--muted);letter-spacing:0.3px;margin-bottom:6px;text-transform:uppercase;
+  }
+  .form-select,.form-input{
+    width:100%;padding:11px 14px;
+    border:1px solid var(--border);border-radius:10px;
+    font-size:13.5px;color:var(--ink);
+    background:var(--card);font-family:inherit;outline:none;
+    transition:border-color .15s;
+  }
+  .form-select:focus,.form-input:focus{border-color:#4caf6b;}
+  .form-hint{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  .sell-summary{background:#f6faf7;border:1px solid #d8ebe0;border-radius:12px;padding:16px;margin-top:16px;}
+  .sell-summary-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid #e6ede9;}
+  .sell-summary-row:last-child{border-bottom:none;}
+  .sell-summary-row span{color:var(--muted);}
+  .sell-summary-row b{color:var(--ink);font-weight:700;}
+  .sell-submit-btn{
+    width:100%;margin-top:16px;
+    background:var(--green-900);color:#fff;
+    border:none;border-radius:11px;padding:13px;
+    font-size:13.5px;font-weight:700;transition:background .15s;
+  }
+  .sell-submit-btn:hover{background:var(--green-700);}
+  .sell-submit-btn:disabled{background:#8ba892;cursor:not-allowed;}
+
+  .listing-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;}
+  .listing-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .listing-card-title{font-size:14px;font-weight:700;color:var(--ink);}
+  .listing-card-sub{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .listing-stats{display:flex;gap:14px;margin:10px 0;flex-wrap:wrap;}
+  .lstat{font-size:12px;color:var(--muted);}
+  .lstat b{display:block;font-size:15px;font-weight:700;color:var(--ink);}
+  .cancel-btn{
+    margin-top:10px;width:100%;
+    background:#fdecea;color:#b92b27;
+    border:1px solid #f5c5c3;border-radius:9px;
+    padding:9px;font-size:13px;font-weight:600;transition:background .15s;
+  }
+  .cancel-btn:hover{background:#fbd5d3;}
+  .cancel-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+  /* ---- Transactions table ---- */
+  .tx-table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--border);}
+  .tx-table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px;}
+  .tx-table th{
+    background:#f7f6f1;padding:10px 16px;text-align:left;
+    font-size:11px;font-weight:700;letter-spacing:0.4px;
+    color:var(--muted-2);text-transform:uppercase;border-bottom:1px solid var(--border);
+  }
+  .tx-table td{padding:12px 16px;border-bottom:1px solid var(--border-soft);vertical-align:middle;}
+  .tx-table tr:last-child td{border-bottom:none;}
+  .tx-table tr:hover td{background:#fafaf7;}
+  .tx-id{font-family:monospace;font-size:11.5px;color:var(--muted);}
+  .tx-amount{font-weight:700;font-size:14px;color:var(--ink);}
+
+  /* ---- State boxes ---- */
+  .state-box{
+    grid-column:1/-1;padding:40px 20px;
+    text-align:center;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .state-box .state-icon{font-size:32px;}
+  .state-box p{margin:0;font-size:13.5px;}
+  .state-box.error p{color:#b92b27;}
+
+  /* ---- Toast ---- */
+  .toast-container{position:fixed;top:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+  .toast{
+    background:var(--green-900);color:#fff;
+    padding:12px 18px;border-radius:12px;
+    font-size:13.5px;font-weight:500;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+    animation:toastIn .22s ease;pointer-events:all;
+    display:flex;align-items:center;gap:10px;max-width:340px;
+  }
+  .toast.toast-error{background:#b92b27;}
+  @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+  @keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+
+  /* ---- Modals ---- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(9,24,17,.55);
+    backdrop-filter:blur(5px);display:none;
+    align-items:center;justify-content:center;
+    padding:20px;z-index:1000;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-card{
+    width:min(490px,100%);background:#fff;
+    border:1px solid var(--border);border-radius:22px;
+    padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.22);
+    animation:modalIn .22s ease;
+  }
   @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-  .success-icon{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:#e8f5eb;color:#1f7a3b;display:grid;place-items:center;font-size:30px;font-weight:800;}
+  .modal-title{font-size:20px;font-weight:700;color:var(--ink);margin:0 0 6px;}
+  .modal-sub{font-size:13px;color:var(--muted);margin:0 0 22px;}
+  .modal-details{background:#f6faf7;border:1px solid #d8ebe0;border-radius:14px;padding:14px;margin-bottom:20px;}
+  .modal-row{display:flex;justify-content:space-between;gap:16px;padding:7px 0;font-size:13px;border-bottom:1px solid #e6ede9;}
+  .modal-row:last-child{border-bottom:none;}
+  .modal-row span{color:var(--muted);}
+  .modal-row b{color:var(--ink);}
+  .modal-row.modal-total b{color:var(--green-900);font-size:15px;}
+  .modal-actions{display:flex;gap:10px;}
+  .modal-cancel{
+    flex:1;padding:12px;border-radius:11px;
+    background:#f2f1ea;color:var(--ink);
+    border:1px solid var(--border);font-size:13.5px;font-weight:600;
+  }
+  .modal-confirm{
+    flex:2;padding:12px;border-radius:11px;
+    background:var(--green-900);color:#fff;
+    border:none;font-size:13.5px;font-weight:700;transition:background .15s;
+  }
+  .modal-confirm:hover{background:var(--green-700);}
+  .modal-confirm:disabled{background:#8ba892;cursor:not-allowed;}
+  .modal-qty-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .modal-qty-row input{
+    flex:1;padding:11px 14px;border:1px solid var(--border);
+    border-radius:10px;font-size:15px;font-weight:700;
+    color:var(--ink);font-family:inherit;outline:none;transition:border-color .15s;
+  }
+  .modal-qty-row input:focus{border-color:#4caf6b;}
+  .modal-qty-label{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;}
+
+  /* ---- Success modal ---- */
+  .success-icon{
+    width:64px;height:64px;margin:0 auto 16px;border-radius:50%;
+    background:#e8f5eb;color:#1f7a3b;
+    display:grid;place-items:center;font-size:30px;font-weight:800;
+  }
+  .modal-card.success-card{text-align:center;}
   .success-card h3{margin:0;color:var(--ink);font-size:24px;}
   .success-card p{margin:9px 0 20px;color:var(--muted);font-size:13.5px;line-height:1.55;}
-  .success-details{background:#f6faf7;border:1px solid #e0ebe3;border-radius:14px;padding:14px;text-align:left;margin-bottom:18px;}
-  .success-row{display:flex;justify-content:space-between;gap:16px;padding:7px 0;font-size:13px;}
-  .success-row span{color:var(--muted);}
-  .success-row b{color:var(--ink);text-align:right;}
-  .tx-link{word-break:break-all;font-size:11.5px;}
-  .modal-close{width:100%;border:0;border-radius:11px;padding:12px 16px;background:var(--green-900);color:#fff;font-weight:700;font-size:14px;cursor:pointer;}
+  .modal-close{
+    width:100%;border:0;border-radius:11px;
+    padding:12px 16px;background:var(--green-900);
+    color:#fff;font-weight:700;font-size:14px;cursor:pointer;
+  }
 
+  .dev-notice{
+    background:#fff8e1;border:1px solid #f5d878;
+    border-radius:10px;padding:10px 14px;
+    font-size:12px;color:#7a5c00;margin-bottom:18px;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  @media (max-width:1100px){.credit-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:900px){
+    .sidebar{display:none;}
+    .credit-grid,.sell-layout{grid-template-columns:1fr;}
+    .main{padding:18px;}
+    .tabs-bar{overflow-x:auto;}
+    .tab{white-space:nowrap;}
+  }
 </style>
 </head>
 <body>
 
 <div class="layout">
 
-  <!-- ================= SIDEBAR ================= -->
+  <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-icon">
@@ -496,12 +479,11 @@
 
     <div class="menu-label">MAIN MENU</div>
     <ul class="nav">
-      <li><a class="nav-link" href="#">
+      <li><a class="nav-link" href="carbonx-dashboard.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
         Dashboard
       </a></li>
-      
-      <li><a class="nav-link" href="#">
+      <li><a class="nav-link" href="carbonx-submit-activity.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         Submit Activity
       </a></li>
@@ -510,51 +492,50 @@
         Wallet
         <span class="badge-active">Active</span>
       </a></li>
-      
     </ul>
 
     <div class="sidebar-spacer"></div>
 
     <div class="sidebar-bottom">
       <a class="nav-link" href="#">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
-        Settings
-      </a>
-      <a class="nav-link" href="#">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
         Profile
       </a>
+      <a class="nav-link" id="navLogout" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Log out
+      </a>
       <div class="node-status">
         <span class="node-dot"></span>
-        Node #1024 • Verified Sync
+        CarbonX Node &bull; Live
       </div>
     </div>
   </aside>
 
-  <!-- ================= MAIN ================= -->
+  <!-- ===== MAIN ===== -->
   <main class="main">
 
     <div class="topbar">
       <div>
         <div class="page-title">Carbon Credit Wallet</div>
-        <div class="page-sub">Manage, trade, and redeem your environmental impact.</div>
+        <div class="page-sub">Manage, trade, and track your environmental impact credits.</div>
       </div>
       <div class="top-right">
         <button class="icon-btn" aria-label="Notifications">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
         </button>
         <div class="user-chip">
-          <div class="avatar" id="marketAvatar">A</div>
+          <div class="avatar" id="walletAvatar">C</div>
           <div>
-            <div class="user-name" id="marketUserName">Ananya S.</div>
-            <div class="user-verified">✓ Verified Citizen</div>
+            <div class="user-name" id="walletUserName">Loading&hellip;</div>
+            <div class="user-verified">&#10003; Verified Citizen</div>
           </div>
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
     </div>
 
-    <!-- Wallet hero -->
+    <!-- Wallet hero card -->
     <section class="wallet-card">
       <svg class="orbit" viewBox="0 0 230 230" fill="none">
         <circle cx="150" cy="80" r="90" stroke="#3a6b48" stroke-width="1" stroke-dasharray="2 6" opacity="0.6"/>
@@ -573,440 +554,824 @@
       </div>
 
       <div class="wallet-amount">
-        <div class="num" id="marketCredits">0.0<span class="unit">CC</span></div>
-        <div class="wallet-pill" id="marketValue">≈ ₹0 estimated value</div>
+        <div class="num" id="heroCredits">0.00<span class="unit">CC</span></div>
+        <div class="wallet-pill" id="heroValue">&#8776; &#8377;0 estimated value</div>
       </div>
 
       <div class="wallet-meta">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3Z"/></svg>
-        Credits available for trading or redemption&nbsp;&nbsp;•&nbsp;&nbsp;Backed by MRV satellite telemetry
+        Credits available for trading &nbsp;&bull;&nbsp; Backed by MRV verification
+      </div>
+
+      <div class="balance-chips">
+        <div class="bal-chip"><b id="heroListed">0</b>Listed</div>
+        <div class="bal-chip"><b id="heroLocked">0</b>Pending</div>
+        <div class="bal-chip"><b id="heroRedeemed">0</b>Redeemed</div>
       </div>
 
       <div class="wallet-actions">
-        <button class="btn btn-gold">
+        <button class="btn btn-gold" onclick="location.href='carbonx-submit-activity.html'">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
-          <a href="carbonx-submit-activity.html">Earn Credits</a>
+          Earn Credits
         </button>
-        <button class="btn btn-ghost">
+        <button class="btn btn-ghost" id="heroSellBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
-          <a href="carbonx-list-credits.html">Sell Credits</a>
-        </button>
-        <button class="btn btn-ghost" type="button" onclick="showWalletPanel('redeem')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7S9.5 2 7 2 4 4 4 5.5 5.5 7 7 7h5Z"/><path d="M12 7s2.5-5 5-5 3 2 3 3.5S18.5 7 17 7h-5Z"/></svg>
-          <span>Redeem</span>
+          Sell Credits
         </button>
       </div>
 
       <div class="wallet-id">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
-        Impact Ledger ID: <span id="marketLedgerId">Not connected</span>
+        Wallet ID: <span id="heroLedgerId">&mdash;</span>
       </div>
     </section>
 
-    <!-- Marketplace / Redeem tabs -->
-    <div class="tabs-bar">
-      <button class="tab" data-tab="marketplace" id="marketTabBtn">
+    <!-- Tabs bar -->
+    <div class="tabs-bar" id="walletTabsBar">
+      <button class="tab active" data-tab="my-credits">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        Marketplace <span class="count" id="marketListingCount">0 Listings</span>
+        My Activity Credits
+        <span class="count" id="tabMyCreditsCount"></span>
       </button>
-      <button class="tab" data-tab="redeem" id="redeemTabBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 8h18M12 8v13M12 8c-1.5-3-6-4-6-1s3 1 6 1zM12 8c1.5-3-6 4-6 1z"/></svg>
-        Redeem <span class="count" id="redeemOfferCount">0 Offers</span>
+      <button class="tab" data-tab="buy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Buy Credits
+        <span class="count" id="tabBuyCount"></span>
       </button>
-    </div>
-
-
-    <section class="wallet-panel active" id="marketplacePanel" data-panel="marketplace">
-    <!-- Marketplace header -->
-    <div class="marketplace-header">
-      <div>
-        <div class="marketplace-title">Carbon Credit Marketplace</div>
-        <div class="marketplace-sub">Buy verified carbon-credit units from other users and certified stewards.</div>
-      </div>
-      <button class="btn-list" onclick="location.href='carbonx-list-credits.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
-        List Your Credits
+      <button class="tab" data-tab="sell">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        Sell Credits
+      </button>
+      <button class="tab" data-tab="transactions">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Transactions
+        <span class="count" id="tabTxCount"></span>
       </button>
     </div>
 
-    <!-- Search row -->
-    <div class="search-row">
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" placeholder="Search credits, sellers, or categories...">
+    <!-- ====== PANEL: MY ACTIVITY CREDITS ====== -->
+    <section class="wallet-panel active" id="panelMyCredits" data-panel="my-credits">
+      <div class="marketplace-header">
+        <div>
+          <div class="marketplace-title">My Activity Credits</div>
+          <div class="marketplace-sub">Carbon credits earned from your verified environmental activities.</div>
+        </div>
+        <button class="btn-list" onclick="location.href='carbonx-submit-activity.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+          Submit Activity
+        </button>
       </div>
-      <div class="filter-select">
-        All Activities
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      </div>
-      <div class="filter-select">
-        Any Price
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      </div>
-    </div>
 
-    <!-- Credit cards grid -->
-    <div class="credit-grid" id="creditGrid"></div>
+      <div class="search-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="myCreditsSearch" placeholder="Search activities&hellip;">
+        </div>
+        <div class="filter-select">
+          <select id="myCreditsStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="under_review">Under Review</option>
+            <option value="verified">Verified</option>
+            <option value="issued">Issued</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
 
+      <div class="activity-table-wrap">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Activity</th>
+              <th>Submitted</th>
+              <th>Status</th>
+              <th>Est. CC</th>
+              <th>Issued CC</th>
+              <th>Available / Listed / Sold</th>
+              <th>Issuance Date</th>
+            </tr>
+          </thead>
+          <tbody id="myCreditsBody">
+            <tr><td colspan="7"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading activities&hellip;</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
-    <section class="wallet-panel" id="redeemPanel" data-panel="redeem">
-    <!-- SECTION HEAD -->
-    <div class="marketplace-header">
-      <div>
-        <div class="marketplace-title">Redeem Carbon Credits</div>
-        <div class="marketplace-sub">Exchange verified carbon credits for utility bill credits, ecosystem restoration, and sustainable mobility vouchers.</div>
+    <!-- ====== PANEL: BUY CREDITS ====== -->
+    <section class="wallet-panel" id="panelBuy" data-panel="buy">
+      <div class="marketplace-header">
+        <div>
+          <div class="marketplace-title">Carbon Credit Marketplace</div>
+          <div class="marketplace-sub">Buy verified carbon-credit units from other users and certified stewards.</div>
+        </div>
       </div>
-      <button class="btn-list">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
-        View Redemption History
-      </button>
-    </div>
 
-    <!-- FILTER BAR -->
-    <div class="search-row">
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input type="text" placeholder="Search vouchers, utility partners, or benefits...">
+      <div class="dev-notice">
+        &#9888; <strong>Development mode:</strong> Purchases are recorded in the database but no real payment is processed.
       </div>
-      <div class="filter-select">
-        All Categories
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-      <div class="filter-select">
-        Credit Cost
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-    </div>
 
-    <!-- CARDS -->
-    <div class="credit-grid" id="redeemGrid"></div>
+      <div class="search-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="buySearch" placeholder="Search credits, sellers, or categories&hellip;">
+        </div>
+        <div class="filter-select">
+          <select id="buyTypeFilter">
+            <option value="">All Types</option>
+            <option value="solar">Solar</option>
+            <option value="tree">Trees / Forest</option>
+            <option value="waste">Waste / Recycling</option>
+            <option value="transport">Transport</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
 
+      <div class="credit-grid" id="buyGrid">
+        <div class="state-box"><span class="state-icon">&#9203;</span><p>Loading marketplace&hellip;</p></div>
+      </div>
+    </section>
+
+    <!-- ====== PANEL: SELL CREDITS ====== -->
+    <section class="wallet-panel" id="panelSell" data-panel="sell">
+      <div class="marketplace-header">
+        <div>
+          <div class="marketplace-title">Sell Credits</div>
+          <div class="marketplace-sub">List your verified carbon credits on the marketplace.</div>
+        </div>
+      </div>
+
+      <div class="sell-layout">
+        <!-- Left: create listing form -->
+        <div class="sell-card">
+          <div class="sell-card-title">Create a New Listing</div>
+          <div class="form-group">
+            <label class="form-label" for="sellCreditSelect">Select Credit Holding</label>
+            <select class="form-select" id="sellCreditSelect">
+              <option value="">Loading available credits&hellip;</option>
+            </select>
+            <div class="form-hint" id="sellCreditHint">Choose a credit holding to sell from.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sellTitle">Listing Title</label>
+            <input class="form-input" type="text" id="sellTitle" placeholder="e.g. Solar Energy Carbon Credit" maxlength="80">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sellQty">Quantity to List (CC)</label>
+            <input class="form-input" type="number" id="sellQty" min="1" step="1" placeholder="e.g. 10">
+            <div class="form-hint" id="sellQtyHint">Must not exceed your available unlisted balance.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sellPrice">Price per Credit (&#8377; INR)</label>
+            <input class="form-input" type="number" id="sellPrice" min="1" step="0.01" placeholder="e.g. 250">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sellDuration">Listing Duration</label>
+            <select class="form-select" id="sellDuration">
+              <option value="7">7 days</option>
+              <option value="30" selected>30 days</option>
+              <option value="90">90 days</option>
+            </select>
+          </div>
+
+          <div class="sell-summary" id="sellSummary" style="display:none;">
+            <div class="sell-summary-row"><span>Quantity</span><b id="sumQty">&mdash;</b></div>
+            <div class="sell-summary-row"><span>Price per CC</span><b id="sumPrice">&mdash;</b></div>
+            <div class="sell-summary-row"><span>Total potential value</span><b id="sumTotal">&mdash;</b></div>
+            <div class="sell-summary-row"><span>Duration</span><b id="sumDuration">&mdash;</b></div>
+          </div>
+
+          <button class="sell-submit-btn" id="sellSubmitBtn" disabled>List Credits for Sale</button>
+          <div id="sellError" style="margin-top:10px;font-size:13px;color:#b92b27;display:none;"></div>
+        </div>
+
+        <!-- Right: my active listings -->
+        <div class="sell-card">
+          <div class="sell-card-title">My Listings</div>
+          <div id="myListingsContainer">
+            <div class="state-box"><span class="state-icon">&#9203;</span><p>Loading your listings&hellip;</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PANEL: TRANSACTIONS ====== -->
+    <section class="wallet-panel" id="panelTransactions" data-panel="transactions">
+      <div class="marketplace-header">
+        <div>
+          <div class="marketplace-title">Transaction History</div>
+          <div class="marketplace-sub">All purchases and sales involving your account.</div>
+        </div>
+      </div>
+
+      <div class="search-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="txSearch" placeholder="Search by credit ID or counterparty&hellip;">
+        </div>
+        <div class="filter-select">
+          <select id="txTypeFilter">
+            <option value="">All Types</option>
+            <option value="purchase">Purchases</option>
+            <option value="sale">Sales</option>
+            <option value="issuance">Issuances</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <div class="tx-table-wrap">
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Credit</th>
+              <th>Counterparty</th>
+              <th>Qty (CC)</th>
+              <th>Price / CC</th>
+              <th>Total (&#8377;)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="txBody">
+            <tr><td colspan="8"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading transactions&hellip;</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </main>
 </div>
 
+<!-- ===== BUY CONFIRMATION MODAL ===== -->
+<div class="modal-overlay" id="buyModal" role="dialog" aria-modal="true" aria-labelledby="buyModalTitle">
+  <div class="modal-card">
+    <div class="modal-title" id="buyModalTitle">Confirm Purchase</div>
+    <div class="modal-sub">Review the details before confirming. This is a dev-mode purchase &mdash; no real payment is processed.</div>
 
-<div class="success-modal" id="redemptionSuccessModal" aria-hidden="true">
-  <div class="success-card" role="dialog" aria-modal="true" aria-labelledby="redemptionSuccessTitle">
-    <div class="success-icon">✓</div>
-    <h3 id="redemptionSuccessTitle">Credits Redeemed!</h3>
-    <p id="redemptionSuccessMessage">Your carbon credits have been successfully redeemed.</p>
-    <div class="success-details">
-      <div class="success-row"><span>Credits redeemed</span><b id="successAmount">0.00 CC</b></div>
-      <div class="success-row"><span>Reward</span><b id="successReward">—</b></div>
-      <div class="success-row"><span>New balance</span><b id="successBalance">0.00 CC</b></div>
-      <div class="success-row"><span>Transaction</span><b class="tx-link" id="successTx">—</b></div>
+    <div class="modal-qty-row">
+      <label class="modal-qty-label" for="buyQtyInput">Quantity (CC):</label>
+      <input type="number" id="buyQtyInput" min="1" step="1" value="1">
     </div>
-    <button class="modal-close" type="button" id="closeRedemptionModal">Done</button>
+
+    <div class="modal-details">
+      <div class="modal-row"><span>Listing</span><b id="bmListing">&mdash;</b></div>
+      <div class="modal-row"><span>Seller</span><b id="bmSeller">&mdash;</b></div>
+      <div class="modal-row"><span>Available quantity</span><b id="bmAvail">&mdash;</b></div>
+      <div class="modal-row"><span>Price per CC</span><b id="bmPrice">&mdash;</b></div>
+      <div class="modal-row modal-total"><span>Total</span><b id="bmTotal">&mdash;</b></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" id="buyModalCancel">Cancel</button>
+      <button class="modal-confirm" id="buyModalConfirm">Confirm Purchase</button>
+    </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<!-- ===== SUCCESS MODAL ===== -->
+<div class="modal-overlay" id="successModal" role="dialog" aria-modal="true">
+  <div class="modal-card success-card">
+    <div class="success-icon">&#10003;</div>
+    <h3 id="successTitle">Done!</h3>
+    <p id="successMsg">Operation completed successfully.</p>
+    <div class="modal-details" id="successDetails"></div>
+    <button class="modal-close" id="successClose">Close</button>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
 <script src="./js/api.js"></script>
 <script>
 (function(){
-  if(!requireAuth()) return;
+  'use strict';
+  var _api = window.CarbonXAPI;
+  if(!_api.requireAuth()) return;
+  var apiRequest = _api.apiRequest;
+  var unwrap     = _api.unwrap;
+  var getStoredUser = _api.getStoredUser;
 
-  const marketGrid=document.getElementById('creditGrid');
-  const marketSearch=document.querySelector('#marketplacePanel .search-box input');
-  const redeemGrid=document.getElementById('redeemGrid');
-  const redeemSearch=document.querySelector('#redeemPanel .search-box input');
-  const CONTRACT_ADDRESS=localStorage.getItem('carbonxContractAddress') || '';
-  const SEPOLIA_CHAIN_ID='0xaa36a7';
-  const CXC_ABI=['function balanceOf(address owner) view returns (uint256)','function decimals() view returns (uint8)','function redeemCredits(uint256 amount,string redemptionId)'];
-  let listings=[];
-  let offers=[];
-  let backendBalance=0;
-  // Always use the wallet address returned by the authenticated CarbonX backend.
-  // getStoredUser() can be stale after a wallet/account switch.
-  let linkedWalletAddress='';
+  /* ---- State ---- */
+  var allActivities    = [];
+  var allListings      = [];
+  var myListings       = [];
+  var allTx            = [];
+  var walletData       = {};
+  var availableCredits = [];
+  var activeBuyListing = null;
+  var sellBusy         = false;
 
-  function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-  function iconFor(category){
-    const c=String(category||'').toLowerCase();
-    if(c.includes('tree')||c.includes('forest')) return '🌱';
-    if(c.includes('waste')||c.includes('recycl')) return '♻️';
-    if(c.includes('transport')||c.includes('mobility')) return '🚲';
-    return '☀️';
+  /* ---- Helpers ---- */
+  function esc(v){
+    return String(v==null?'':v).replace(/[&<>'"]/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];
+    });
   }
-
-  function setWalletDisplay(balance, value){
-    const creditsEl=document.getElementById('marketCredits');
-    if(creditsEl) creditsEl.innerHTML=`${Number(balance||0).toFixed(2)}<span class="unit">CC</span>`;
-    const valueEl=document.getElementById('marketValue');
-    if(valueEl) valueEl.textContent=`≈ ₹${Math.round(Number(value||0)).toLocaleString('en-IN')} estimated value`;
+  function fmtDate(d){
+    if(!d) return '\u2014';
+    try{ return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
+    catch(e){ return '\u2014'; }
   }
-
-  function shortAddress(address){
-    if(!address) return 'Not connected';
-    return `${address.slice(0,6)}...${address.slice(-4)}`;
+  function fmtDateTime(d){
+    if(!d) return '\u2014';
+    try{ return new Date(d).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+    catch(e){ return '\u2014'; }
   }
-
-  async function getOnChainBalance(walletAddress){
-    if(!window.ethers || !CONTRACT_ADDRESS || !/^0x[a-fA-F0-9]{40}$/.test(CONTRACT_ADDRESS) || !walletAddress) return null;
-    try{
-      if(window.ethereum){
-        const provider=new ethers.BrowserProvider(window.ethereum);
-        const network=await provider.getNetwork();
-        if(`0x${Number(network.chainId).toString(16)}`.toLowerCase()!==SEPOLIA_CHAIN_ID) return null;
-        const contract=new ethers.Contract(CONTRACT_ADDRESS,CXC_ABI,provider);
-        const [raw,decimals]=await Promise.all([contract.balanceOf(walletAddress),contract.decimals().catch(()=>18)]);
-        return Number(ethers.formatUnits(raw,decimals));
-      }
-    }catch(err){
-      console.warn('On-chain CXC balance unavailable:',err.message);
-    }
-    return null;
+  function fmtNum(n,dp){ return Number(n||0).toFixed(dp==null?2:dp); }
+  function fmtINR(n){ return '\u20b9'+Math.round(Number(n||0)).toLocaleString('en-IN'); }
+  function iconFor(cat){
+    var c=String(cat||'').toLowerCase();
+    if(c.indexOf('tree')>=0||c.indexOf('forest')>=0) return '\uD83C\uDF31';
+    if(c.indexOf('waste')>=0||c.indexOf('recycl')>=0) return '\u267B\uFE0F';
+    if(c.indexOf('transport')>=0||c.indexOf('mobil')>=0) return '\uD83D\uDEB2';
+    return '\u2600\uFE0F';
   }
-
-  function renderMarketplace(){
-    const q=(marketSearch?.value||'').toLowerCase().trim();
-    const rows=listings.filter(x=>`${x.activityType||''} ${x.category||''} ${x.title||x.name||''} ${x.seller?.name||x.sellerName||''}`.toLowerCase().includes(q));
-    if(!rows.length){marketGrid.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;color:#78847c">No marketplace listings found.</div>';return;}
-    marketGrid.innerHTML=rows.map(x=>{
-      const id=x._id||x.id||x.listingId;
-      const qty=Number(x.remainingQuantity??x.quantity??x.amount??x.volume??1);
-      const price=Number(x.pricePerCredit??x.price??x.rate??0);
-      const total=Number(x.totalPrice??price*qty);
-      const seller=x.seller?.name||x.sellerName||x.ownerName||'Verified seller';
-      const category=String(x.category||x.activityType||'Carbon Credit').replace(/_/g,' ').toUpperCase();
-      return `<div class="credit-card">
-        <div class="credit-top"><div class="credit-icon icon-solar">${iconFor(category)}</div><div class="credit-category">${escapeHtml(category)}</div></div>
-        <div class="credit-title">${escapeHtml(x.title||x.name||'Carbon Credit')}</div>
-        <div class="credit-seller"><span>Seller: <b>${escapeHtml(seller)}</b></span><span class="verified-tag">✓ Verified</span></div>
-        <div class="credit-desc">${escapeHtml(x.description||'Verified carbon-credit listing on the CarbonX marketplace.')}</div>
-        <div class="credit-price"><div><div class="price-label">VOLUME</div><div class="price-value">${qty.toFixed(2)} CC</div></div><div><div class="price-right">₹${Math.round(total).toLocaleString('en-IN')}</div><div class="price-unit">₹${Math.round(price)} / CC</div></div></div>
-        <button class="buy-btn" data-id="${escapeHtml(id)}">Buy Credit</button>
-      </div>`;
-    }).join('');
-  }
-
-  function renderRedeem(){
-    const q=(redeemSearch?.value||'').toLowerCase().trim();
-    const rows=offers.filter(x=>`${x.category||''} ${x.title||x.name||''} ${x.partner||x.partnerName||''}`.toLowerCase().includes(q));
-    if(!rows.length){redeemGrid.innerHTML='<div style="grid-column:1/-1;padding:30px;text-align:center;color:#78847c">No redemption offers found.</div>';return;}
-    redeemGrid.innerHTML=rows.map(x=>{
-      const id=x._id||x.id||x.offerId;
-      const cost=Number(x.creditCost??x.cost??x.credits??0);
-      const value=x.value??x.rewardValue??'';
-      const category=String(x.category||'Benefit').replace(/_/g,' ').toUpperCase();
-      const partner=x.partner||x.partnerName||'CarbonX Partner';
-      return `<div class="credit-card">
-        <div class="credit-top"><div class="credit-icon icon-solar">🎁</div><div class="credit-category">${escapeHtml(category)}</div></div>
-        <div class="credit-title">${escapeHtml(x.title||x.name||'CarbonX Benefit')}</div>
-        <div class="credit-seller"><span>Partner: <b>${escapeHtml(partner)}</b></span><span class="verified-tag">✓ Verified</span></div>
-        <div class="credit-desc">${escapeHtml(x.description||'Redeem verified carbon credits for this sustainable benefit.')}</div>
-        <div class="credit-price"><div><div class="price-label">VALUE</div><div class="price-value">${escapeHtml(value)}</div></div><div><div class="price-right">${cost.toFixed(2)} CC</div><div class="price-unit">Credit cost</div></div></div>
-        <button class="buy-btn redeem-action" data-id="${escapeHtml(id)}">Redeem ${cost.toFixed(2)} CC</button>
-      </div>`;
-    }).join('');
-  }
-
-  async function loadWallet(){
-    const w=await apiRequest('/wallet');
-    const wd=unwrap(w)||{};
-    const u=wd.user||getStoredUser()||{};
-    const address=u.walletAddress||'';
-    linkedWalletAddress=address;
-    backendBalance=Number(wd.balance??wd.credits?.available??wd.totalCredits??0);
-
-    const chainBalance=await getOnChainBalance(address);
-    // The blockchain is authoritative when available. The backend mirror is the fallback.
-    const bal=chainBalance===null ? backendBalance : chainBalance;
-    const val=bal*200;
-    setWalletDisplay(bal,val);
-
-    const tabCredits=document.getElementById('marketTabCredits');
-    if(tabCredits) tabCredits.textContent=`${bal.toFixed(2)} CC`;
-    const name=u.name||u.fullName||'CarbonX User';
-    const n=document.getElementById('marketUserName'); if(n)n.textContent=name;
-    const a=document.getElementById('marketAvatar'); if(a)a.textContent=name[0]?.toUpperCase()||'C';
-    const ledger=document.getElementById('marketLedgerId'); if(ledger) ledger.textContent=shortAddress(address);
-  }
-
-  async function loadMarketplace(){
-    const m=await apiRequest('/marketplace');
-    const md=unwrap(m)||{};
-    listings=Array.isArray(md)?md:(md.listings||md.items||[]);
-    const count=document.getElementById('marketListingCount');
-    if(count) count.textContent=`${listings.length} Listings`;
-    renderMarketplace();
-  }
-
-  async function loadRedeem(){
-    const o=await apiRequest('/redemptions/offers');
-    const od=unwrap(o)||{};
-    offers=Array.isArray(od)?od:(od.offers||od.items||[]);
-    const count=document.getElementById('redeemOfferCount');
-    if(count) count.textContent=`${offers.length} Offers`;
-    renderRedeem();
-  }
-
-  window.showWalletPanel=function(panel){
-    document.querySelectorAll('.wallet-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===panel));
-    document.querySelectorAll('.tabs-bar .tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===panel));
-    if(panel==='marketplace') loadMarketplace().catch(err=>console.warn(err));
-    if(panel==='redeem') loadRedeem().catch(err=>console.warn(err));
-    window.scrollTo({top:0,behavior:'smooth'});
-  };
-
-  document.getElementById('marketTabBtn')?.addEventListener('click',()=>showWalletPanel('marketplace'));
-  document.getElementById('redeemTabBtn')?.addEventListener('click',()=>showWalletPanel('redeem'));
-  marketSearch?.addEventListener('input',renderMarketplace);
-  redeemSearch?.addEventListener('input',renderRedeem);
-
-  marketGrid.addEventListener('click',async e=>{
-    const btn=e.target.closest('.buy-btn');
-    if(!btn)return;
-    const id=btn.dataset.id;
-    btn.disabled=true; btn.textContent='Buying…';
-    try{
-      await apiRequest(`/marketplace/${encodeURIComponent(id)}/buy`,{method:'POST',body:JSON.stringify({quantity:1})});
-      btn.textContent='✓ Purchased';
-      await Promise.all([loadWallet(),loadMarketplace()]);
-    }catch(err){btn.disabled=false;btn.textContent='Buy Credit';alert(err.message||'Purchase failed.');}
-  });
-
-  function openRedemptionModal({amount,reward,balance,txHash}){
-    const modal=document.getElementById('redemptionSuccessModal');
-    document.getElementById('successAmount').textContent=`${Number(amount||0).toFixed(2)} CC`;
-    document.getElementById('successReward').textContent=reward||'CarbonX Reward';
-    document.getElementById('successBalance').textContent=`${Number(balance||0).toFixed(2)} CC`;
-    document.getElementById('successTx').textContent=txHash ? `${txHash.slice(0,12)}…${txHash.slice(-10)}` : 'Confirmed';
-    document.getElementById('redemptionSuccessMessage').textContent='Your credits were burned on Sepolia and the redemption has been recorded successfully.';
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden','false');
-  }
-
-  function closeRedemptionModal(){
-    const modal=document.getElementById('redemptionSuccessModal');
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden','true');
-  }
-
-  document.getElementById('closeRedemptionModal')?.addEventListener('click',closeRedemptionModal);
-  document.getElementById('redemptionSuccessModal')?.addEventListener('click',e=>{
-    if(e.target.id==='redemptionSuccessModal') closeRedemptionModal();
-  });
-
-  async function redeemOnChain(cost, redemptionId, expectedAddress){
-    if(!window.ethereum) throw new Error('MetaMask is required to redeem credits on Sepolia.');
-    if(!window.ethers) throw new Error('Blockchain library could not be loaded. Refresh the page and try again.');
-    if(!CONTRACT_ADDRESS || !/^0x[a-fA-F0-9]{40}$/.test(CONTRACT_ADDRESS)){
-      throw new Error('CarbonX smart-contract address is not configured.');
-    }
-
-    const provider=new ethers.BrowserProvider(window.ethereum);
-    const network=await provider.getNetwork();
-    if(Number(network.chainId)!==11155111){
-      throw new Error('Please switch MetaMask to the Sepolia network.');
-    }
-
-    const accounts=await window.ethereum.request({method:'eth_requestAccounts'});
-    if(!accounts?.length) throw new Error('No MetaMask account is connected.');
-    const signer=await provider.getSigner();
-    const signerAddress=accounts[0];
-    if(expectedAddress && signerAddress.toLowerCase()!==expectedAddress.toLowerCase()){
-      throw new Error('MetaMask account does not match the CarbonX wallet linked to this account.');
-    }
-
-    const contract=new ethers.Contract(CONTRACT_ADDRESS,CXC_ABI,signer);
-    const decimals=await contract.decimals().catch(()=>18);
-    const rawAmount=ethers.parseUnits(String(cost),decimals);
-    const tx=await contract.redeemCredits(rawAmount,redemptionId);
-    const receipt=await tx.wait();
-
-    return {
-      txHash:receipt.hash || tx.hash,
-      blockNumber:Number(receipt.blockNumber||0),
-      walletAddress:signerAddress
+  function statusBadge(s){
+    var labels={
+      pending:'Pending',under_review:'Under Review',verified:'Verified',
+      issued:'Issued',rejected:'Rejected',draft:'Draft',
+      active:'Active',sold:'Sold',cancelled:'Cancelled',
+      available:'Available',listed:'Listed',
+      purchase:'Purchase',sale:'Sale',issuance:'Issuance',
+      completed:'Completed',failed:'Failed'
     };
+    return '<span class="status-badge status-'+esc(s)+'">'+(labels[s]||esc(s))+'</span>';
   }
 
-  redeemGrid.addEventListener('click',async e=>{
-    const btn=e.target.closest('.redeem-action');
-    if(!btn)return;
-    const id=btn.dataset.id;
-    const offer=offers.find(x=>String(x._id||x.id||x.offerId)===String(id));
-    if(!offer)return;
+  /* ---- Toast ---- */
+  function toast(msg, isError){
+    var c=document.getElementById('toastContainer');
+    var t=document.createElement('div');
+    t.className='toast'+(isError?' toast-error':'');
+    t.textContent=msg;
+    c.appendChild(t);
+    setTimeout(function(){
+      t.style.animation='toastOut .25s ease forwards';
+      setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); },260);
+    },3500);
+  }
 
-    const cost=Number(offer.creditCost??offer.cost??offer.credits??0);
-    if(!Number.isFinite(cost) || cost<=0){
-      alert('This redemption offer has an invalid credit cost.');
+  /* ---- Panel switching ---- */
+  function showWalletPanel(panel){
+    document.querySelectorAll('.wallet-panel').forEach(function(p){
+      p.classList.toggle('active', p.dataset.panel===panel);
+    });
+    document.querySelectorAll('#walletTabsBar .tab').forEach(function(t){
+      t.classList.toggle('active', t.dataset.tab===panel);
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(panel==='buy')          loadMarketplace().catch(function(e){renderBuyError(e.message);});
+    if(panel==='sell')         { loadAvailableCredits(); loadMyListings(); }
+    if(panel==='transactions') loadTransactions().catch(function(e){renderTxError(e.message);});
+  }
+  window.showWalletPanel = showWalletPanel;
+
+  document.querySelectorAll('#walletTabsBar .tab').forEach(function(btn){
+    btn.addEventListener('click', function(){ showWalletPanel(btn.dataset.tab); });
+  });
+  document.getElementById('heroSellBtn').addEventListener('click', function(){ showWalletPanel('sell'); });
+
+  /* ---- Wallet hero ---- */
+  function loadWallet(){
+    return apiRequest('/wallet').then(function(data){
+      walletData = data;
+      var u   = data.user || getStoredUser() || {};
+      var bal = Number(data.balance!=null?data.balance:(data.credits?data.credits.available:0)||0);
+      var listed   = Number(data.credits&&data.credits.listed!=null?data.credits.listed:0);
+      var locked   = Number(data.credits&&data.credits.locked!=null?data.credits.locked:0);
+      var redeemed = Number(data.credits&&data.credits.redeemed!=null?data.credits.redeemed:0);
+
+      document.getElementById('heroCredits').innerHTML = fmtNum(bal)+'<span class="unit">CC</span>';
+      document.getElementById('heroValue').textContent  = '\u2248 '+fmtINR(bal*200)+' estimated value';
+      document.getElementById('heroListed').textContent  = fmtNum(listed);
+      document.getElementById('heroLocked').textContent  = fmtNum(locked);
+      document.getElementById('heroRedeemed').textContent= fmtNum(redeemed);
+
+      var name = u.name||'CarbonX User';
+      document.getElementById('walletUserName').textContent = name;
+      document.getElementById('walletAvatar').textContent   = (name[0]||'C').toUpperCase();
+      document.getElementById('heroLedgerId').textContent   = u.userId||u.carbonxId||'\u2014';
+    });
+  }
+
+  /* ---- MY ACTIVITY CREDITS ---- */
+  function loadMyActivityCredits(){
+    var tbody = document.getElementById('myCreditsBody');
+    tbody.innerHTML = '<tr><td colspan="7"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading&hellip;</p></div></td></tr>';
+    return apiRequest('/wallet/activities').then(function(data){
+      allActivities = data.activities || [];
+      var cnt = document.getElementById('tabMyCreditsCount');
+      cnt.textContent = allActivities.length ? String(allActivities.length) : '';
+      renderMyCredits();
+    }).catch(function(err){
+      tbody.innerHTML='<tr><td colspan="7"><div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(err.message)+'</p></div></td></tr>';
+    });
+  }
+
+  function renderMyCredits(){
+    var q  = (document.getElementById('myCreditsSearch').value||'').toLowerCase().trim();
+    var sf = document.getElementById('myCreditsStatusFilter').value;
+    var rows = allActivities.filter(function(a){
+      var text=(String(a.activityName||'')+' '+String(a.activityType||'')+' '+String(a.description||'')).toLowerCase();
+      return text.indexOf(q)>=0 && (!sf||a.status===sf);
+    });
+    var tbody = document.getElementById('myCreditsBody');
+    if(!rows.length){
+      tbody.innerHTML='<tr><td colspan="7"><div class="state-box"><span class="state-icon">&#128235;</span><p>No activities found.</p></div></td></tr>';
       return;
     }
-    if(backendBalance + 1e-9 < cost){
-      alert(`You need ${cost.toFixed(2)} CC to redeem this reward. Your available balance is ${backendBalance.toFixed(2)} CC.`);
+    tbody.innerHTML = rows.map(function(a){
+      var cr = a.creditRecord;
+      var avl  = cr ? fmtNum(cr.availableAmount) : '\u2014';
+      var lst  = cr ? fmtNum(cr.listedAmount)    : '\u2014';
+      var sld  = cr ? fmtNum(cr.soldAmount)      : '\u2014';
+      var avlStr = cr ? (avl+' / '+lst+' / '+sld) : '\u2014';
+      var issuedCC = cr ? fmtNum(cr.totalIssued) : (a.issuedCreditsFromActivity ? fmtNum(a.issuedCreditsFromActivity) : '\u2014');
+      return '<tr>'
+        +'<td><div class="at-name">'+esc(a.activityName)+'</div>'
+        +'<div class="at-sub">'+esc(String(a.activityType||'').replace(/_/g,' '))+'</div></td>'
+        +'<td>'+fmtDate(a.submittedAt)+'</td>'
+        +'<td>'+statusBadge(a.status)+'</td>'
+        +'<td class="at-num">'+(a.estimatedCredits?fmtNum(a.estimatedCredits):'\u2014')+'</td>'
+        +'<td class="at-num">'+issuedCC+'</td>'
+        +'<td style="font-size:12.5px;">'+avlStr+'</td>'
+        +'<td>'+(cr&&cr.issuanceDate?fmtDate(cr.issuanceDate):'\u2014')+'</td>'
+        +'</tr>';
+    }).join('');
+  }
+
+  document.getElementById('myCreditsSearch').addEventListener('input', renderMyCredits);
+  document.getElementById('myCreditsStatusFilter').addEventListener('change', renderMyCredits);
+
+  /* ---- BUY CREDITS ---- */
+  function loadMarketplace(){
+    document.getElementById('buyGrid').innerHTML='<div class="state-box"><span class="state-icon">&#9203;</span><p>Loading marketplace&hellip;</p></div>';
+    return apiRequest('/marketplace').then(function(data){
+      var raw = data.listings || unwrap(data) || [];
+      allListings = Array.isArray(raw)?raw:[];
+      var cnt=document.getElementById('tabBuyCount');
+      cnt.textContent = allListings.length?String(allListings.length):'';
+      renderBuy();
+    });
+  }
+  function renderBuyError(msg){
+    document.getElementById('buyGrid').innerHTML='<div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(msg)+'</p></div>';
+  }
+  function renderBuy(){
+    var q  = (document.getElementById('buySearch').value||'').toLowerCase().trim();
+    var tf = (document.getElementById('buyTypeFilter').value||'').toLowerCase();
+    var meId = String((walletData.user&&walletData.user.id)||'');
+    var rows = allListings.filter(function(x){
+      var text=(String(x.category||'')+' '+String(x.title||'')+' '+String((x.seller&&x.seller.name)||x.sellerName||'')+' '+String(x.description||'')).toLowerCase();
+      var tm = !tf||(String(x.category||x.activityType||'').toLowerCase().indexOf(tf)>=0);
+      return text.indexOf(q)>=0&&tm;
+    });
+    var grid=document.getElementById('buyGrid');
+    if(!rows.length){
+      grid.innerHTML='<div class="state-box"><span class="state-icon">&#127978;</span><p>No active listings found.</p></div>';
       return;
     }
-    // Use the address returned by /wallet, not a potentially stale localStorage copy.
-    // This fixes false account-mismatch errors after switching/reconnecting MetaMask.
-    let expectedAddress=linkedWalletAddress||'';
-    if(!expectedAddress){
-      try{
-        const walletResponse=await apiRequest('/wallet');
-        const walletData=unwrap(walletResponse)||{};
-        expectedAddress=walletData.user?.walletAddress||'';
-        linkedWalletAddress=expectedAddress;
-      }catch(_){}
+    grid.innerHTML=rows.map(function(x){
+      var id    = x._id||x.id;
+      var qty   = Number(x.remainingQuantity!=null?x.remainingQuantity:(x.quantity||0));
+      var price = Number(x.pricePerCredit!=null?x.pricePerCredit:(x.price||0));
+      var seller= (x.seller&&x.seller.name)||x.sellerName||'Verified Seller';
+      var cat   = String(x.category||x.activityType||'Carbon Credit').replace(/_/g,' ').toUpperCase();
+      var sellerId=String((x.seller&&x.seller.id)||x.sellerId||'');
+      var isOwn = meId&&sellerId&&meId===sellerId;
+      var btnHtml = isOwn
+        ? '<button class="buy-btn" disabled>Your Listing</button>'
+        : '<button class="buy-btn" data-buy-id="'+esc(id)+'">Buy Credits</button>';
+      return '<div class="credit-card">'
+        +'<div class="credit-top">'
+        +'<div class="credit-icon icon-solar">'+iconFor(cat)+'</div>'
+        +'<div class="credit-category">'+esc(cat)+'</div>'
+        +'</div>'
+        +'<div class="credit-title">'+esc(x.title||'Carbon Credit')+'</div>'
+        +'<div class="credit-seller"><span>Seller: <b>'+esc(seller)+'</b></span>'
+        +(isOwn?'<span class="status-badge status-listed" style="margin-left:4px;">Your listing</span>':'<span class="verified-tag">&#10003; Verified</span>')
+        +'</div>'
+        +'<div class="credit-desc">'+esc(x.description||'Verified carbon-credit listing on the CarbonX marketplace.')+'</div>'
+        +'<div class="credit-price">'
+        +'<div><div class="price-label">AVAILABLE</div><div class="price-value">'+fmtNum(qty)+' CC</div></div>'
+        +'<div><div class="price-right">'+fmtINR(price)+'</div><div class="price-unit">per CC</div></div>'
+        +'</div>'
+        +btnHtml
+        +'</div>';
+    }).join('');
+  }
+
+  document.getElementById('buySearch').addEventListener('input', renderBuy);
+  document.getElementById('buyTypeFilter').addEventListener('change', renderBuy);
+
+  /* ---- Buy modal ---- */
+  var buyModal    = document.getElementById('buyModal');
+  var buyQtyInput = document.getElementById('buyQtyInput');
+
+  document.getElementById('buyGrid').addEventListener('click', function(e){
+    var btn=e.target.closest('[data-buy-id]');
+    if(!btn||btn.disabled) return;
+    var id=btn.dataset.buyId;
+    var listing=null;
+    for(var i=0;i<allListings.length;i++){
+      if(String(allListings[i]._id||allListings[i].id)===id){ listing=allListings[i]; break; }
     }
-    const redemptionId=`CX-RED-${Date.now()}`;
+    if(!listing) return;
+    activeBuyListing=listing;
+    var qty=Number(listing.remainingQuantity!=null?listing.remainingQuantity:(listing.quantity||0));
+    var price=Number(listing.pricePerCredit!=null?listing.pricePerCredit:0);
+    buyQtyInput.value=1; buyQtyInput.max=qty;
+    document.getElementById('bmListing').textContent=listing.title||'Carbon Credit';
+    document.getElementById('bmSeller').textContent=(listing.seller&&listing.seller.name)||'Verified Seller';
+    document.getElementById('bmAvail').textContent=fmtNum(qty)+' CC';
+    document.getElementById('bmPrice').textContent=fmtINR(price)+' / CC';
+    document.getElementById('bmTotal').textContent=fmtINR(price*1);
+    var conf=document.getElementById('buyModalConfirm');
+    conf.disabled=false; conf.textContent='Confirm Purchase';
+    buyModal.classList.add('show');
+    buyQtyInput.focus();
+  });
 
-    btn.disabled=true;
-    btn.textContent='Confirm in MetaMask…';
+  buyQtyInput.addEventListener('input', function(){
+    if(!activeBuyListing) return;
+    var price=Number(activeBuyListing.pricePerCredit!=null?activeBuyListing.pricePerCredit:0);
+    var qty=Math.max(1,parseInt(buyQtyInput.value)||1);
+    document.getElementById('bmTotal').textContent=fmtINR(price*qty);
+  });
 
-    let chain=null;
-    try{
-      chain=await redeemOnChain(cost,redemptionId,expectedAddress);
-      btn.textContent='Recording…';
+  document.getElementById('buyModalCancel').addEventListener('click', function(){
+    buyModal.classList.remove('show'); activeBuyListing=null;
+  });
+  buyModal.addEventListener('click', function(e){
+    if(e.target===buyModal){ buyModal.classList.remove('show'); activeBuyListing=null; }
+  });
 
-      const result=await apiRequest('/redemptions',{
-        method:'POST',
-        body:JSON.stringify({
-          offerId:id,
-          redemptionId,
-          txHash:chain.txHash,
-          blockNumber:chain.blockNumber,
-          walletAddress:chain.walletAddress,
-          contractAddress:CONTRACT_ADDRESS
-        })
-      });
+  document.getElementById('buyModalConfirm').addEventListener('click', function(){
+    if(!activeBuyListing) return;
+    var qty=parseInt(buyQtyInput.value)||0;
+    if(qty<1){ toast('Quantity must be at least 1.',true); return; }
+    var avail=Number(activeBuyListing.remainingQuantity!=null?activeBuyListing.remainingQuantity:(activeBuyListing.quantity||0));
+    if(qty>avail){ toast('Only '+fmtNum(avail)+' CC available in this listing.',true); return; }
+    var btn=document.getElementById('buyModalConfirm');
+    btn.disabled=true; btn.textContent='Processing\u2026';
+    var id=activeBuyListing._id||activeBuyListing.id;
+    apiRequest('/marketplace/'+encodeURIComponent(id)+'/buy',{
+      method:'POST',
+      body:JSON.stringify({quantity:qty})
+    }).then(function(data){
+      buyModal.classList.remove('show'); activeBuyListing=null;
+      var p=data.purchase||{};
+      showSuccessModal('Purchase Successful!','Your carbon credits have been added to your wallet.',[
+        ['Credits purchased', qty+' CC'],
+        ['Price per CC', fmtINR(p.pricePerCredit||0)],
+        ['Total (dev mode)', fmtINR(p.totalAmount||0)],
+        ['Currency', p.currency||'INR']
+      ]);
+      return Promise.all([loadWallet(), loadMarketplace(), loadMyActivityCredits()]);
+    }).catch(function(err){
+      btn.disabled=false; btn.textContent='Confirm Purchase';
+      toast(err.message||'Purchase failed.',true);
+    });
+  });
 
-      const data=unwrap(result)||{};
-      await Promise.all([loadWallet(),loadRedeem()]);
-      const newBalance=Number(data.remainingBalance);
-      const displayedBalance=Number.isFinite(newBalance) ? newBalance : backendBalance;
-      btn.textContent='✓ Redeemed';
-      openRedemptionModal({
-        amount:cost,
-        reward:offer.title||offer.name||'CarbonX Reward',
-        balance:displayedBalance,
-        txHash:chain.txHash
-      });
-    }catch(err){
-      btn.disabled=false;
-      btn.textContent=`Redeem ${cost.toFixed(2)} CC`;
-      if(chain?.txHash){
-        alert(`The Sepolia burn was confirmed, but CarbonX could not finish recording the redemption. Do not redeem again. Transaction: ${chain.txHash}`);
-      }else{
-        alert(err.message||'Redemption failed.');
+  /* ---- SELL CREDITS ---- */
+  function loadAvailableCredits(){
+    var sel=document.getElementById('sellCreditSelect');
+    sel.innerHTML='<option value="">Loading\u2026</option>';
+    apiRequest('/wallet/credits').then(function(data){
+      availableCredits=data.credits||[];
+      if(!availableCredits.length){
+        sel.innerHTML='<option value="">No available credits to sell</option>';
+        document.getElementById('sellCreditHint').textContent='You have no unlisted, available credits.';
+        return;
       }
+      sel.innerHTML='<option value="">\u2014 Select a credit holding \u2014</option>'
+        +availableCredits.map(function(c){
+          var label=(c.activity&&c.activity.name)||c.creditId||'Carbon Credit';
+          return '<option value="'+esc(c.id)+'">'+esc(label)+' \u2014 '+fmtNum(c.remainingAmount)+' CC available</option>';
+        }).join('');
+    }).catch(function(){
+      sel.innerHTML='<option value="">Failed to load credits</option>';
+    });
+  }
+
+  function loadMyListings(){
+    var container=document.getElementById('myListingsContainer');
+    container.innerHTML='<div class="state-box"><span class="state-icon">&#9203;</span><p>Loading\u2026</p></div>';
+    apiRequest('/wallet/my-listings').then(function(data){
+      myListings=data.listings||[];
+      renderMyListings();
+    }).catch(function(err){
+      container.innerHTML='<div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(err.message)+'</p></div>';
+    });
+  }
+
+  function renderMyListings(){
+    var container=document.getElementById('myListingsContainer');
+    if(!myListings.length){
+      container.innerHTML='<div class="state-box"><span class="state-icon">&#128203;</span><p>You have no listings yet.</p></div>';
+      return;
     }
+    container.innerHTML=myListings.map(function(l){
+      return '<div class="listing-card">'
+        +'<div class="listing-card-top">'
+        +'<div><div class="listing-card-title">'+esc(l.title)+'</div>'
+        +'<div class="listing-card-sub">Listed '+fmtDate(l.createdAt)+'</div></div>'
+        +statusBadge(l.status)
+        +'</div>'
+        +'<div class="listing-stats">'
+        +'<div class="lstat"><b>'+fmtNum(l.quantity)+'</b>Total</div>'
+        +'<div class="lstat"><b>'+fmtNum(l.remainingQuantity)+'</b>Remaining</div>'
+        +'<div class="lstat"><b>'+fmtNum(l.soldQuantity)+'</b>Sold</div>'
+        +'<div class="lstat"><b>'+fmtINR(l.pricePerCredit)+'</b>/ CC</div>'
+        +'</div>'
+        +(l.status==='active'?'<button class="cancel-btn" data-cancel-id="'+esc(l.id)+'">Cancel Listing</button>':'')
+        +'</div>';
+    }).join('');
+  }
+
+  function updateSellSummary(){
+    var qty   =parseInt(document.getElementById('sellQty').value)||0;
+    var price =parseFloat(document.getElementById('sellPrice').value)||0;
+    var dur   =document.getElementById('sellDuration').value;
+    var creditId=document.getElementById('sellCreditSelect').value;
+    var summary=document.getElementById('sellSummary');
+    var btn   =document.getElementById('sellSubmitBtn');
+    var hintEl=document.getElementById('sellQtyHint');
+    if(qty>0&&price>0&&creditId){
+      var credit=null;
+      for(var i=0;i<availableCredits.length;i++){ if(availableCredits[i].id===creditId){ credit=availableCredits[i]; break; } }
+      var avail=credit?Number(credit.remainingAmount):0;
+      if(qty>avail){
+        hintEl.textContent='\u26A0 Max available: '+fmtNum(avail)+' CC';
+        hintEl.style.color='#b92b27';
+        btn.disabled=true; summary.style.display='none'; return;
+      }
+      hintEl.textContent='Available: '+fmtNum(avail)+' CC'; hintEl.style.color='';
+      document.getElementById('sumQty').textContent=qty+' CC';
+      document.getElementById('sumPrice').textContent=fmtINR(price);
+      document.getElementById('sumTotal').textContent=fmtINR(qty*price);
+      document.getElementById('sumDuration').textContent=dur+' days';
+      summary.style.display='block'; btn.disabled=false;
+    }else{
+      summary.style.display='none'; btn.disabled=true;
+    }
+  }
+
+  ['sellCreditSelect','sellQty','sellPrice','sellDuration'].forEach(function(id){
+    var el=document.getElementById(id);
+    el.addEventListener('input', updateSellSummary);
+    el.addEventListener('change', updateSellSummary);
   });
 
-  document.querySelectorAll('.nav-link').forEach(link=>link.addEventListener('click',e=>{
-    const label=link.textContent.trim().toLowerCase();
-    const urls={'dashboard':'carbonx-dashboard.html','submit activity':'carbonx-submit-activity.html','wallet':'carbonx-wallet.html'};
-    if(label==='wallet'){e.preventDefault();showWalletPanel('marketplace');return;}
-    const url=urls[label];
-    if(url){e.preventDefault();location.href=url;}
-  }));
-
-  Promise.all([loadWallet(),loadMarketplace()]).catch(err=>{
-    marketGrid.innerHTML=`<div style="grid-column:1/-1;padding:30px;color:#a14a44">${escapeHtml(err.message||'Unable to load wallet data.')}</div>`;
+  document.getElementById('sellCreditSelect').addEventListener('change', function(){
+    var id=document.getElementById('sellCreditSelect').value;
+    var credit=null;
+    for(var i=0;i<availableCredits.length;i++){ if(availableCredits[i].id===id){ credit=availableCredits[i]; break; } }
+    if(credit){
+      var label=(credit.activity&&credit.activity.name)||credit.creditId||'Carbon Credit';
+      document.getElementById('sellTitle').value=label;
+      document.getElementById('sellCreditHint').textContent='Available: '+fmtNum(credit.remainingAmount)+' CC';
+    }
+    updateSellSummary();
   });
+
+  document.getElementById('sellSubmitBtn').addEventListener('click', function(){
+    if(sellBusy) return;
+    var creditId=document.getElementById('sellCreditSelect').value;
+    var qty    =parseInt(document.getElementById('sellQty').value)||0;
+    var price  =parseFloat(document.getElementById('sellPrice').value)||0;
+    var title  =document.getElementById('sellTitle').value.trim();
+    var dur    =parseInt(document.getElementById('sellDuration').value)||30;
+    var errEl  =document.getElementById('sellError');
+    errEl.style.display='none';
+    if(!creditId){ errEl.textContent='Please select a credit holding.'; errEl.style.display='block'; return; }
+    if(qty<1)    { errEl.textContent='Quantity must be at least 1.';     errEl.style.display='block'; return; }
+    if(price<1)  { errEl.textContent='Price must be at least \u20b91.'; errEl.style.display='block'; return; }
+    var credit=null;
+    for(var i=0;i<availableCredits.length;i++){ if(availableCredits[i].id===creditId){ credit=availableCredits[i]; break; } }
+    if(credit&&qty>Number(credit.remainingAmount)){
+      errEl.textContent='Cannot list more than '+fmtNum(credit.remainingAmount)+' CC available.';
+      errEl.style.display='block'; return;
+    }
+    sellBusy=true;
+    var btn=document.getElementById('sellSubmitBtn');
+    btn.disabled=true; btn.textContent='Listing\u2026';
+    apiRequest('/marketplace/list',{
+      method:'POST',
+      body:JSON.stringify({creditId:creditId,title:title||'Verified Carbon Credit',quantity:qty,pricePerCredit:price,durationDays:dur,category:'Carbon Credit'})
+    }).then(function(){
+      btn.textContent='List Credits for Sale'; sellBusy=false;
+      document.getElementById('sellCreditSelect').value='';
+      document.getElementById('sellQty').value='';
+      document.getElementById('sellPrice').value='';
+      document.getElementById('sellTitle').value='';
+      document.getElementById('sellSummary').style.display='none';
+      btn.disabled=true;
+      showSuccessModal('Listing Created!','Your credits are now live on the marketplace.',[
+        ['Quantity listed', qty+' CC'],
+        ['Price per CC', fmtINR(price)],
+        ['Duration', dur+' days']
+      ]);
+      return Promise.all([loadWallet(), loadMyListings(), loadAvailableCredits()]);
+    }).catch(function(err){
+      sellBusy=false; btn.disabled=false; btn.textContent='List Credits for Sale';
+      errEl.textContent=err.message||'Failed to create listing.'; errEl.style.display='block';
+    });
+  });
+
+  document.getElementById('myListingsContainer').addEventListener('click', function(e){
+    var btn=e.target.closest('[data-cancel-id]');
+    if(!btn||btn.disabled) return;
+    var id=btn.dataset.cancelId;
+    if(!confirm('Cancel this listing? The remaining unsold credits will be returned to your available balance.')) return;
+    btn.disabled=true; btn.textContent='Cancelling\u2026';
+    apiRequest('/marketplace/'+encodeURIComponent(id),{method:'DELETE'}).then(function(){
+      toast('Listing cancelled. Unsold credits returned to your balance.');
+      return Promise.all([loadWallet(), loadMyListings(), loadAvailableCredits()]);
+    }).catch(function(err){
+      btn.disabled=false; btn.textContent='Cancel Listing';
+      toast(err.message||'Failed to cancel.',true);
+    });
+  });
+
+  /* ---- TRANSACTIONS ---- */
+  function loadTransactions(){
+    var tbody=document.getElementById('txBody');
+    tbody.innerHTML='<tr><td colspan="8"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading\u2026</p></div></td></tr>';
+    return apiRequest('/wallet/transactions').then(function(data){
+      allTx=data.transactions||[];
+      var cnt=document.getElementById('tabTxCount');
+      cnt.textContent=allTx.length?String(allTx.length):'';
+      renderTx();
+    });
+  }
+  function renderTxError(msg){
+    document.getElementById('txBody').innerHTML='<tr><td colspan="8"><div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(msg)+'</p></div></td></tr>';
+  }
+  function renderTx(){
+    var q =( document.getElementById('txSearch').value||'').toLowerCase().trim();
+    var tf=document.getElementById('txTypeFilter').value;
+    var rows=allTx.filter(function(t){
+      var text=(String((t.credit&&t.credit.creditId)||'')+' '+String((t.counterparty&&t.counterparty.name)||'')+' '+String((t.counterparty&&t.counterparty.carbonxId)||'')).toLowerCase();
+      return text.indexOf(q)>=0&&(!tf||t.type===tf);
+    });
+    var tbody=document.getElementById('txBody');
+    if(!rows.length){
+      tbody.innerHTML='<tr><td colspan="8"><div class="state-box"><span class="state-icon">&#128235;</span><p>No transactions found.</p></div></td></tr>';
+      return;
+    }
+    tbody.innerHTML=rows.map(function(t){
+      var party=(t.counterparty&&t.counterparty.name)||(t.isBuyer?'Issuer':'Buyer');
+      var cid=(t.credit&&t.credit.creditId)?t.credit.creditId:'';
+      var cidShort=cid.length>18?cid.slice(0,16)+'\u2026':cid||'\u2014';
+      return '<tr>'
+        +'<td style="white-space:nowrap;">'+fmtDateTime(t.createdAt)+'</td>'
+        +'<td>'+statusBadge(t.type)+'</td>'
+        +'<td><span class="tx-id" title="'+esc(cid)+'">'+esc(cidShort)+'</span></td>'
+        +'<td>'+esc(party)+'</td>'
+        +'<td class="tx-amount">'+fmtNum(t.quantity)+'</td>'
+        +'<td>'+(t.pricePerCredit?fmtINR(t.pricePerCredit):'\u2014')+'</td>'
+        +'<td>'+(t.totalAmount?fmtINR(t.totalAmount):'\u2014')+'</td>'
+        +'<td>'+statusBadge(t.status)+'</td>'
+        +'</tr>';
+    }).join('');
+  }
+  document.getElementById('txSearch').addEventListener('input', renderTx);
+  document.getElementById('txTypeFilter').addEventListener('change', renderTx);
+
+  /* ---- Success modal ---- */
+  function showSuccessModal(title, msg, rows){
+    document.getElementById('successTitle').textContent=title;
+    document.getElementById('successMsg').textContent=msg;
+    document.getElementById('successDetails').innerHTML=(rows||[]).map(function(r){
+      return '<div class="modal-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>';
+    }).join('');
+    document.getElementById('successModal').classList.add('show');
+  }
+  document.getElementById('successClose').addEventListener('click', function(){
+    document.getElementById('successModal').classList.remove('show');
+  });
+  document.getElementById('successModal').addEventListener('click', function(e){
+    if(e.target.id==='successModal') document.getElementById('successModal').classList.remove('show');
+  });
+
+  /* ---- Nav ---- */
+  document.getElementById('navLogout').addEventListener('click', function(e){
+    e.preventDefault(); _api.logout();
+  });
+
+  /* ---- Bootstrap ---- */
+  Promise.all([loadWallet(), loadMyActivityCredits()]).catch(function(err){
+    toast((err&&err.message)||'Failed to load wallet data.',true);
+  });
+
 })();
 </script>
 
