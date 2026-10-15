@@ -140,6 +140,7 @@ const getActivity = async (req, res) => {
         "userId",
         "name email carbonxId walletAddress participantType"
       )
+      .populate("installationId")
       .lean();
 
     if (!activity) {

@@ -16,6 +16,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const walletRoutes = require("./routes/walletRoutes");
 const redemptionRoutes = require("./routes/redemptionRoutes");
 const verifierRoutes = require("./routes/verifierRoutes");
+const installationRoutes = require("./routes/installationRoutes");
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/installations", installationRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/wallet", walletRoutes);

@@ -69,6 +69,101 @@ const activitySchema = new mongoose.Schema(
             emissionFactorUnit: String
         },
 
+        // Solar installation reference & immutable snapshot for audit trail
+        installationId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Installation"
+        },
+
+        installationSnapshot: {
+            installationId: mongoose.Schema.Types.ObjectId,
+            name: String,
+            capacityKw: Number,
+            address: String,
+            meterIdentifier: String,
+            gridConfiguration: String,
+            inverterDetails: String
+        },
+
+        // Reporting period details
+        reportingPeriod: {
+            periodType: {
+                type: String,
+                enum: ["daily", "weekly", "monthly", "custom"],
+                default: "monthly"
+            },
+            startDate: Date,
+            endDate: Date,
+            daysCount: Number
+        },
+
+        // Detailed solar generation & consumption metrics
+        solarMetrics: {
+            generation: {
+                reportedValue: Number,
+                reportedUnit: {
+                    type: String,
+                    enum: ["Wh", "kWh", "MWh"],
+                    default: "kWh"
+                },
+                canonicalKwh: Number
+            },
+            consumption: {
+                reportedValue: Number,
+                reportedUnit: {
+                    type: String,
+                    enum: ["Wh", "kWh", "MWh"],
+                    default: "kWh"
+                },
+                canonicalKwh: Number,
+                consumptionType: {
+                    type: String,
+                    default: "total_premises" // Clearly defined: Total Premises Electricity Consumption
+                }
+            },
+            selfConsumptionKwh: Number,
+            gridExportKwh: Number,
+            gridImportKwh: Number,
+            netDisplacementKwh: Number
+        },
+
+        // Supporting proof references (mandatory for solar)
+        evidence: [
+            {
+                evidenceId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Evidence"
+                },
+                fileName: String,
+                fileType: String,
+                fileSize: Number,
+                fileUrl: String,
+                documentType: String,
+                uploadedAt: {
+                    type: Date,
+                    default: Date.now
+                }
+            }
+        ],
+
+        notes: {
+            type: String,
+            trim: true
+        },
+
+        rejectionReason: String,
+        verificationNotes: String,
+        verifierWallet: String,
+        verifiedAt: Date,
+        rejectedAt: Date,
+
+        blockchain: {
+            contractAddress: String,
+            transactionHash: String,
+            blockNumber: Number,
+            network: String
+        },
+
         status: {
             type: String,
 

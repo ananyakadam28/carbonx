@@ -9,7 +9,8 @@ const evidenceSchema =
 
                 ref: "Activity",
 
-                required: true
+                required: false,
+                default: null
             },
 
             userId: {
@@ -23,11 +24,15 @@ const evidenceSchema =
 
             fileName: String,
 
+            originalName: String,
+
             fileType: String,
 
             fileSize: Number,
 
             fileUrl: String,
+
+            storagePath: String,
 
             documentType: String,
 
