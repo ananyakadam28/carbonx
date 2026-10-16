@@ -1124,7 +1124,7 @@
         <div class="impact-banner">
           <div class="impact-top">
             <div class="impact-stat">
-              <div class="lbl">Clean Solar Generation</div>
+              <div class="lbl">Net Surplus Electricity</div>
               <div class="val" id="prevGenVal">0<span>kWh</span></div>
             </div>
             <div class="impact-stat">
@@ -1816,21 +1816,40 @@
     return convertValue(val, unit, 'kWh');
   }
 
-  function recalcImpactPreview(){
-    const genKwh = getCanonicalGenKwh();
-    const consKwh = getCanonicalConsKwh();
 
-    // Avoided emissions: Eligible clean solar kWh * 0.70 kg CO2e / kWh
-    const avoidedKg = genKwh * STATE.emissionFactor;
-    const avoidedTons = avoidedKg / 1000;
-    const credits = avoidedTons; // 1 CC per 1 metric ton CO2e
-    const value = Math.round(credits * STATE.creditValuePerCc);
 
-    $('prevGenVal').innerHTML = `${formatNumber(genKwh, 1)}<span>kWh</span>`;
-    $('prevCO2Val').innerHTML = `${avoidedTons.toFixed(2)}<span>tCO₂e</span>`;
-    $('prevCreditsVal').innerHTML = `${credits.toFixed(2)}<span>CC</span>`;
-    $('prevValueEst').textContent = `~₹${formatNumber(value, 0)}`;
-  }
+function recalcImpactPreview() {
+  const genKwh = getCanonicalGenKwh();
+  const consKwh = getCanonicalConsKwh();
+
+  // Net surplus electricity
+  const surplusKwh = Math.max(0, genKwh - consKwh);
+
+  // Calculate avoided emissions from surplus electricity
+  const avoidedKg = surplusKwh * STATE.emissionFactor;
+  const avoidedTons = avoidedKg / 1000;
+
+  // 1 Carbon Credit (CC) per metric tonne of CO2e
+  const credits = avoidedTons;
+  const value = Math.round(credits * STATE.creditValuePerCc);
+
+  // Update live calculator
+  // Display net surplus electricity
+  $('prevGenVal').innerHTML =
+    `${formatNumber(surplusKwh, 1)}<span>kWh surplus</span>`;
+
+  // Display avoided emissions in tonnes
+  $('prevCO2Val').innerHTML =
+    `${avoidedTons.toFixed(4)}<span>tCO₂e</span>`;
+
+  // Display estimated carbon credits
+  $('prevCreditsVal').innerHTML =
+    `${credits.toFixed(4)}<span>CC</span>`;
+
+  // Display estimated monetary value
+  $('prevValueEst').textContent =
+    `~₹${formatNumber(value, 0)}`;
+}
 
   // ============================================================
   // SUPPORTING PROOF UPLOAD (MANDATORY)
@@ -2100,11 +2119,17 @@ console.log(
       const act = res.activity || {};
       $('resActivityId').textContent = act.id || act._id || 'Registered';
       $('resGenKwh').textContent = `${formatNumber(act.measurement?.quantity || getCanonicalGenKwh(), 1)} kWh`;
-      $('resCredits').textContent = `${formatNumber(act.credits?.estimated || (getCanonicalGenKwh() * 0.0007), 2)} CC`;
+      $('resCredits').textContent = `${formatNumber(act.credits?.estimated || (Math.max(
+  0,
+  getCanonicalGenKwh() - getCanonicalConsKwh()
+) * 0.0007), 2)} CC`;
       $('resProofFiles').textContent = `${STATE.attachedEvidence.length} document${STATE.attachedEvidence.length === 1 ? '' : 's'}`;
 
       openSuccessModal();
       showToast("Solar activity submitted successfully for MRV verification!");
+
+      console.log(getCanonicalConsKwh());
+      console.log(getCanonicalGenKwh());
 
     } catch(err){
       console.error('Submission failed:', err);
