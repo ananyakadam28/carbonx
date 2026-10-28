@@ -214,6 +214,24 @@ exports.buyListing = async (req, res) => {
             });
         }
 
+                const txHash = String(req.body.txHash || "").trim();
+        const blockNumber = Number(req.body.blockNumber);
+
+        if (!/^0x[a-fA-F0-9]{64}$/.test(txHash)) {
+            return res.status(400).json({
+                message: "A valid blockchain transaction hash is required"
+            });
+        }
+
+        if (
+            !Number.isSafeInteger(blockNumber) ||
+            blockNumber < 0
+        ) {
+            return res.status(400).json({
+                message: "A valid blockchain block number is required"
+            });
+        }
+
         const listing = await MarketplaceListing.findById(listingId);
 
         if (!listing) {
@@ -317,7 +335,7 @@ exports.buyListing = async (req, res) => {
         const totalAmount =
             quantity * Number(listing.pricePerCredit);
 
-        const transaction = await Transaction.create({
+                const transaction = await Transaction.create({
             type: "credit_purchased",
             fromUserId: listing.sellerId,
             toUserId: buyerId,
@@ -327,7 +345,13 @@ exports.buyListing = async (req, res) => {
             totalAmount,
             currency: listing.currency || "INR",
             listingId: listing._id,
-            status: "completed"
+            status: "completed",
+
+            // Confirmed transaction details from the frontend
+            blockchain: {
+                txHash,
+                blockNumber
+            }
         });
 
         res.json({
@@ -338,7 +362,9 @@ exports.buyListing = async (req, res) => {
                 quantity,
                 pricePerCredit: listing.pricePerCredit,
                 totalAmount,
-                currency: listing.currency
+                currency: listing.currency,
+                transactionHash: txHash,
+                blockNumber
             },
             transaction
         });

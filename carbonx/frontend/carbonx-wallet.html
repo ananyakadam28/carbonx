@@ -795,10 +795,11 @@
               <th>Price / CC</th>
               <th>Total (&#8377;)</th>
               <th>Status</th>
+              <th>Transaction Hash</th>
             </tr>
           </thead>
           <tbody id="txBody">
-            <tr><td colspan="8"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading transactions&hellip;</p></div></td></tr>
+            <tr><td colspan="9"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading transactions&hellip;</p></div></td></tr>
           </tbody>
         </table>
       </div>
@@ -847,10 +848,18 @@
 <!-- Toast container -->
 <div class="toast-container" id="toastContainer"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
 <script src="./js/api.js"></script>
 <script>
 (function(){
   'use strict';
+    // CarbonX blockchain configuration
+  var CARBONX_CONTRACT_ADDRESS = '0x874a38C0038823Aa214f20B1a970171501A76Ef8';
+  var SEPOLIA_CHAIN_ID = '0xaa36a7';
+
+  var PURCHASE_ABI = [
+    'function recordPurchase(address seller, string listingId, string creditId, uint256 quantity, uint256 totalAmount) external'
+  ];
   var _api = window.CarbonXAPI;
   if(!_api.requireAuth()) return;
   var apiRequest = _api.apiRequest;
@@ -1009,6 +1018,97 @@
   document.getElementById('myCreditsSearch').addEventListener('input', renderMyCredits);
   document.getElementById('myCreditsStatusFilter').addEventListener('change', renderMyCredits);
 
+    async function recordPurchaseOnChain(listing, quantity) {
+    if (!window.ethereum) {
+      throw new Error('Please install or connect MetaMask.');
+    }
+
+    if (!window.ethers) {
+      throw new Error('Ethers.js failed to load. Refresh the page.');
+    }
+
+    if (
+      !/^0x[a-fA-F0-9]{40}$/.test(CARBONX_CONTRACT_ADDRESS) ||
+      CARBONX_CONTRACT_ADDRESS === 'YOUR_NEW_DEPLOYED_CONTRACT_ADDRESS'
+    ) {
+      throw new Error('Configure the deployed CarbonX contract address first.');
+    }
+
+    var chainId = await window.ethereum.request({
+      method: 'eth_chainId'
+    });
+
+    if (chainId.toLowerCase() !== SEPOLIA_CHAIN_ID) {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: SEPOLIA_CHAIN_ID }]
+      });
+    }
+
+    var provider = new ethers.BrowserProvider(window.ethereum);
+    var signer = await provider.getSigner();
+    var buyerAddress = await signer.getAddress();
+
+    var sellerAddress =
+      listing.seller && listing.seller.walletAddress;
+
+    if (!sellerAddress || !/^0x[a-fA-F0-9]{40}$/.test(sellerAddress)) {
+      throw new Error(
+        'The seller has no valid connected wallet address.'
+      );
+    }
+
+    var listingId = String(listing._id || listing.id || '');
+
+    var creditId = String(
+      listing.creditId && typeof listing.creditId === 'object'
+        ? (listing.creditId._id || listing.creditId.id || '')
+        : (listing.creditId || '')
+    );
+
+    if (!listingId || !creditId) {
+      throw new Error('Listing or carbon credit ID is missing.');
+    }
+
+    var price = Number(listing.pricePerCredit || 0);
+
+    // Recorded as metadata only; no INR payment is made.
+    // The value is represented in paise to avoid decimal uint256 values.
+    var totalAmount = BigInt(
+      Math.round(price * quantity * 100)
+    );
+
+    var contract = new ethers.Contract(
+      CARBONX_CONTRACT_ADDRESS,
+      PURCHASE_ABI,
+      signer
+    );
+
+    toast('Confirm the blockchain transaction in MetaMask.');
+
+    var tx = await contract.recordPurchase(
+      sellerAddress,
+      listingId,
+      creditId,
+      BigInt(quantity),
+      totalAmount
+    );
+
+    toast('Transaction submitted. Waiting for confirmation.');
+
+    var receipt = await tx.wait();
+
+    if (!receipt || receipt.status !== 1) {
+      throw new Error('The blockchain transaction failed.');
+    }
+
+    return {
+      txHash: receipt.hash || tx.hash,
+      blockNumber: Number(receipt.blockNumber),
+      buyerWalletAddress: buyerAddress
+    };
+  }
+
   /* ---- BUY CREDITS ---- */
   function loadMarketplace(){
     document.getElementById('buyGrid').innerHTML='<div class="state-box"><span class="state-icon">&#9203;</span><p>Loading marketplace&hellip;</p></div>';
@@ -1112,32 +1212,109 @@
     if(e.target===buyModal){ buyModal.classList.remove('show'); activeBuyListing=null; }
   });
 
-  document.getElementById('buyModalConfirm').addEventListener('click', function(){
-    if(!activeBuyListing) return;
-    var qty=parseInt(buyQtyInput.value)||0;
-    if(qty<1){ toast('Quantity must be at least 1.',true); return; }
-    var avail=Number(activeBuyListing.remainingQuantity!=null?activeBuyListing.remainingQuantity:(activeBuyListing.quantity||0));
-    if(qty>avail){ toast('Only '+fmtNum(avail)+' CC available in this listing.',true); return; }
-    var btn=document.getElementById('buyModalConfirm');
-    btn.disabled=true; btn.textContent='Processing\u2026';
-    var id=activeBuyListing._id||activeBuyListing.id;
-    apiRequest('/marketplace/'+encodeURIComponent(id)+'/buy',{
-      method:'POST',
-      body:JSON.stringify({quantity:qty})
-    }).then(function(data){
-      buyModal.classList.remove('show'); activeBuyListing=null;
-      var p=data.purchase||{};
-      showSuccessModal('Purchase Successful!','Your carbon credits have been added to your wallet.',[
-        ['Credits purchased', qty+' CC'],
-        ['Price per CC', fmtINR(p.pricePerCredit||0)],
-        ['Total (dev mode)', fmtINR(p.totalAmount||0)],
-        ['Currency', p.currency||'INR']
-      ]);
-      return Promise.all([loadWallet(), loadMarketplace(), loadMyActivityCredits()]);
-    }).catch(function(err){
-      btn.disabled=false; btn.textContent='Confirm Purchase';
-      toast(err.message||'Purchase failed.',true);
-    });
+    document.getElementById('buyModalConfirm').addEventListener('click', function(){
+    if (!activeBuyListing) return;
+
+    var qty = parseInt(buyQtyInput.value, 10) || 0;
+
+    if (qty < 1) {
+      toast('Quantity must be at least 1.', true);
+      return;
+    }
+
+    var listing = activeBuyListing;
+    var avail = Number(
+      listing.remainingQuantity != null
+        ? listing.remainingQuantity
+        : (listing.quantity || 0)
+    );
+
+    if (qty > avail) {
+      toast('Not enough credits available.', true);
+      return;
+    }
+
+    var btn = document.getElementById('buyModalConfirm');
+    btn.disabled = true;
+    btn.textContent = 'Connecting to MetaMask...';
+
+    var id = listing._id || listing.id;
+    var chainResult = null;
+
+    recordPurchaseOnChain(listing, qty)
+      .then(function(result) {
+        chainResult = result;
+
+        // Only update the marketplace database after the chain confirms.
+        btn.textContent = 'Updating CarbonX...';
+
+        return apiRequest(
+          '/marketplace/' + encodeURIComponent(id) + '/buy',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              quantity: qty,
+              txHash: result.txHash,
+              blockNumber: result.blockNumber,
+              buyerWalletAddress: result.buyerWalletAddress
+            })
+          }
+        );
+      })
+      .then(function(data) {
+        buyModal.classList.remove('show');
+        activeBuyListing = null;
+
+        var purchase = data.purchase || {};
+        var txHash =
+          (data.transaction &&
+            data.transaction.blockchain &&
+            data.transaction.blockchain.txHash) ||
+          (purchase.transactionHash) ||
+          chainResult.txHash;
+
+        showSuccessModal(
+          'Purchase Recorded!',
+          'The blockchain transaction is confirmed. No INR payment was processed.',
+          [
+            ['Credits purchased', qty + ' CC'],
+            ['Price per CC', fmtINR(purchase.pricePerCredit || 0)],
+            ['Displayed listing value', fmtINR(purchase.totalAmount || 0)],
+            ['Block number', String(chainResult.blockNumber)]
+          ],
+          txHash
+        );
+
+        return Promise.all([
+          loadWallet(),
+          loadMarketplace(),
+          loadMyActivityCredits(),
+          loadTransactions()
+        ]);
+      })
+      .catch(function(err) {
+        if (chainResult) {
+          // The chain transaction succeeded, so avoid inviting an immediate
+          // repeat transaction if the database update failed.
+          buyModal.classList.remove('show');
+          activeBuyListing = null;
+          btn.textContent = 'Blockchain transaction confirmed';
+          btn.disabled = true;
+
+          toast(
+            'Blockchain transaction confirmed (' +
+              chainResult.txHash.slice(0, 10) +
+              '...). CarbonX database update failed: ' +
+              (err.message || 'Unknown error') +
+              '. Check transaction history before retrying.',
+            true
+          );
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Confirm Purchase';
+          toast(err.message || 'Purchase cancelled or failed.', true);
+        }
+      });
   });
 
   /* ---- SELL CREDITS ---- */
@@ -1304,7 +1481,7 @@
   /* ---- TRANSACTIONS ---- */
   function loadTransactions(){
     var tbody=document.getElementById('txBody');
-    tbody.innerHTML='<tr><td colspan="8"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading\u2026</p></div></td></tr>';
+    tbody.innerHTML='<tr><td colspan="9"><div class="state-box"><span class="state-icon">&#9203;</span><p>Loading\u2026</p></div></td></tr>';
     return apiRequest('/wallet/transactions').then(function(data){
       allTx=data.transactions||[];
       var cnt=document.getElementById('tabTxCount');
@@ -1313,7 +1490,7 @@
     });
   }
   function renderTxError(msg){
-    document.getElementById('txBody').innerHTML='<tr><td colspan="8"><div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(msg)+'</p></div></td></tr>';
+    document.getElementById('txBody').innerHTML='<tr><td colspan="9"><div class="state-box error"><span class="state-icon">&#9888;&#65039;</span><p>'+esc(msg)+'</p></div></td></tr>';
   }
   function renderTx(){
     var q =( document.getElementById('txSearch').value||'').toLowerCase().trim();
@@ -1324,13 +1501,20 @@
     });
     var tbody=document.getElementById('txBody');
     if(!rows.length){
-      tbody.innerHTML='<tr><td colspan="8"><div class="state-box"><span class="state-icon">&#128235;</span><p>No transactions found.</p></div></td></tr>';
+      tbody.innerHTML='<tr><td colspan="9"><div class="state-box"><span class="state-icon">&#128235;</span><p>No transactions found.</p></div></td></tr>';
       return;
     }
     tbody.innerHTML=rows.map(function(t){
       var party=(t.counterparty&&t.counterparty.name)||(t.isBuyer?'Issuer':'Buyer');
       var cid=(t.credit&&t.credit.creditId)?t.credit.creditId:'';
       var cidShort=cid.length>18?cid.slice(0,16)+'\u2026':cid||'\u2014';
+      var txHash = t.blockchain && t.blockchain.txHash
+  ? t.blockchain.txHash
+  : '';
+
+var txHashShort = txHash
+  ? txHash.slice(0, 10) + '...' + txHash.slice(-8)
+  : '\u2014';
       return '<tr>'
         +'<td style="white-space:nowrap;">'+fmtDateTime(t.createdAt)+'</td>'
         +'<td>'+statusBadge(t.type)+'</td>'
@@ -1340,21 +1524,133 @@
         +'<td>'+(t.pricePerCredit?fmtINR(t.pricePerCredit):'\u2014')+'</td>'
         +'<td>'+(t.totalAmount?fmtINR(t.totalAmount):'\u2014')+'</td>'
         +'<td>'+statusBadge(t.status)+'</td>'
+        +'<td style="white-space:nowrap;">'
+  +(txHash
+    ? '<a href="https://sepolia.etherscan.io/tx/'+encodeURIComponent(txHash)+'" target="_blank" rel="noopener noreferrer" title="'+esc(txHash)+'">'+esc(txHashShort)+'</a> '
+      +'<button type="button" class="copy-tx-hash" data-tx-hash="'+esc(txHash)+'" title="Copy transaction hash" aria-label="Copy transaction hash" style="border:0;background:transparent;cursor:pointer;padding:4px;">'
+      +'<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>'
+      +'</button>'
+    : '\u2014')
++'</td>'
+        
         +'</tr>';
     }).join('');
   }
+  document.getElementById('txBody').addEventListener('click', function(e) {
+  var btn = e.target.closest('.copy-tx-hash');
+  if (!btn) return;
+
+  var hash = btn.getAttribute('data-tx-hash');
+  if (!hash) return;
+
+  function fallbackCopy() {
+    var textarea = document.createElement('textarea');
+    textarea.value = hash;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+      var copied = document.execCommand('copy');
+      toast(
+        copied ? 'Transaction hash copied!' : 'Could not copy transaction hash.',
+        !copied
+      );
+    } catch (err) {
+      toast('Could not copy transaction hash.', true);
+    }
+
+    textarea.remove();
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(hash)
+      .then(function() {
+        toast('Transaction hash copied!');
+      })
+      .catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+});
   document.getElementById('txSearch').addEventListener('input', renderTx);
   document.getElementById('txTypeFilter').addEventListener('change', renderTx);
 
   /* ---- Success modal ---- */
-  function showSuccessModal(title, msg, rows){
-    document.getElementById('successTitle').textContent=title;
-    document.getElementById('successMsg').textContent=msg;
-    document.getElementById('successDetails').innerHTML=(rows||[]).map(function(r){
-      return '<div class="modal-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>';
+    function showSuccessModal(title, msg, rows, txHash) {
+    document.getElementById('successTitle').textContent = title;
+    document.getElementById('successMsg').textContent = msg;
+
+    var html = (rows || []).map(function(row) {
+      return '<div class="modal-row"><span>' +
+        esc(row[0]) +
+        '</span><b>' +
+        esc(row[1]) +
+        '</b></div>';
     }).join('');
+
+    if (txHash && /^0x[a-fA-F0-9]{64}$/.test(txHash)) {
+      var shortHash =
+        txHash.slice(0, 10) + '...' + txHash.slice(-8);
+
+      html +=
+        '<div class="modal-row"><span>Blockchain transaction</span>' +
+        '<b title="' + esc(txHash) + '">' + esc(shortHash) + '</b></div>' +
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">' +
+        '<button type="button" data-copy-tx="' + esc(txHash) +
+        '" style="padding:9px 12px;border:1px solid #e7e5dd;' +
+        'border-radius:9px;background:#fff;font-weight:600;">' +
+        'Copy transaction ID</button>' +
+        '<a href="https://sepolia.etherscan.io/tx/' + esc(txHash) +
+        '" target="_blank" rel="noopener noreferrer" ' +
+        'style="padding:9px 12px;border-radius:9px;background:#e8f0e4;' +
+        'color:#12301f;font-weight:600;">View on Etherscan</a>' +
+        '</div>';
+    }
+
+    document.getElementById('successDetails').innerHTML = html;
     document.getElementById('successModal').classList.add('show');
   }
+    document.getElementById('successDetails').addEventListener(
+    'click',
+    function(e) {
+      var button = e.target.closest('[data-copy-tx]');
+      if (!button) return;
+
+      var hash = button.getAttribute('data-copy-tx');
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(hash)
+          .then(function() {
+            toast('Transaction ID copied.');
+          })
+          .catch(function() {
+            toast('Could not copy the transaction ID.', true);
+          });
+      } else {
+        var input = document.createElement('textarea');
+        input.value = hash;
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+
+        try {
+          var copied = document.execCommand('copy');
+          toast(
+            copied ? 'Transaction ID copied.' : 'Copy failed.',
+            !copied
+          );
+        } catch (error) {
+          toast('Could not copy the transaction ID.', true);
+        }
+
+        input.remove();
+      }
+    }
+  );
+
   document.getElementById('successClose').addEventListener('click', function(){
     document.getElementById('successModal').classList.remove('show');
   });
