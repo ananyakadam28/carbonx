@@ -947,27 +947,56 @@
   document.getElementById('heroSellBtn').addEventListener('click', function(){ showWalletPanel('sell'); });
 
   /* ---- Wallet hero ---- */
-  function loadWallet(){
-    return apiRequest('/wallet').then(function(data){
-      walletData = data;
-      var u   = data.user || getStoredUser() || {};
-      var bal = Number(data.balance!=null?data.balance:(data.credits?data.credits.available:0)||0);
-      var listed   = Number(data.credits&&data.credits.listed!=null?data.credits.listed:0);
-      var locked   = Number(data.credits&&data.credits.locked!=null?data.credits.locked:0);
-      var redeemed = Number(data.credits&&data.credits.redeemed!=null?data.credits.redeemed:0);
+  
+function loadWallet() {
+  return apiRequest('/wallet').then(function(data) {
+    walletData = data;
 
-      document.getElementById('heroCredits').innerHTML = fmtNum(bal)+'<span class="unit">CC</span>';
-      document.getElementById('heroValue').textContent  = '\u2248 '+fmtINR(bal*200)+' estimated value';
-      document.getElementById('heroListed').textContent  = fmtNum(listed);
-      document.getElementById('heroLocked').textContent  = fmtNum(locked);
-      document.getElementById('heroRedeemed').textContent= fmtNum(redeemed);
+    var u = data.user || getStoredUser() || {};
+    var bal = Number(
+      data.balance != null
+        ? data.balance
+        : (data.credits ? data.credits.available : 0) || 0
+    );
 
-      var name = u.name||'CarbonX User';
-      document.getElementById('walletUserName').textContent = name;
-      document.getElementById('walletAvatar').textContent   = (name[0]||'C').toUpperCase();
-      document.getElementById('heroLedgerId').textContent   = u.userId||u.carbonxId||'\u2014';
-    });
-  }
+    var listed = Number(
+      data.credits && data.credits.listed != null
+        ? data.credits.listed : 0
+    );
+
+    var locked = Number(
+      data.credits && data.credits.locked != null
+        ? data.credits.locked : 0
+    );
+
+    var redeemed = Number(
+      data.credits && data.credits.redeemed != null
+        ? data.credits.redeemed : 0
+    );
+
+    function setText(id, value) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    var creditsEl = document.getElementById('heroCredits');
+    if (creditsEl) {
+      creditsEl.innerHTML =
+        fmtNum(bal) + '<span class="unit">CC</span>';
+    }
+
+    setText('heroValue', '\u2248 ' + fmtINR(bal * 200) + ' estimated value');
+    setText('heroListed', fmtNum(listed));
+    setText('heroLocked', fmtNum(locked));
+    setText('heroRedeemed', fmtNum(redeemed));
+
+    var name = u.name || 'CarbonX User';
+    setText('walletUserName', name);
+    setText('walletAvatar', (name[0] || 'C').toUpperCase());
+    setText('heroLedgerId', u.carbonxId || u.userId || '\u2014');
+  });
+}
+
 
   /* ---- MY ACTIVITY CREDITS ---- */
   function loadMyActivityCredits(){
