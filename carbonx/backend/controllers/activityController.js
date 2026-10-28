@@ -327,8 +327,14 @@ exports.createActivity = async (req, res) => {
 
             // 5. INDEPENDENT SERVER-SIDE CALCULATION
             // Under ACM0002 / VM0007, Avoided Emissions = Clean Solar kWh * 0.70 kg CO2e/kWh
-            const avoidedCo2Kg = canonicalGenKwh * SOLAR_METHODOLOGY.emissionFactor;
-            const estimatedCredits = avoidedCo2Kg / 1000; // 1 CC per 1000 kg CO2e (1 metric ton)
+            
+            const surplusKwh = Math.max(0, canonicalGenKwh - canonicalConsKwh);
+
+            const avoidedCo2Kg =
+                surplusKwh * SOLAR_METHODOLOGY.emissionFactor;
+
+            const estimatedCredits = avoidedCo2Kg / 1000;
+
 
             const activity = await Activity.create({
                 userId,
