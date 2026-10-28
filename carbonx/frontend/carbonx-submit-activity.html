@@ -2126,7 +2126,7 @@ function formatFileSize(bytes) {
       const act = res.activity || {};
       $('resActivityId').textContent = act.id || act._id || 'Registered';
       $('resGenKwh').textContent = `${formatNumber(act.measurement?.quantity || getCanonicalGenKwh(), 1)} kWh`;
-      $('resCredits').textContent = `${formatNumber(act.credits?.estimated || (Math.max(
+      $('resCredits').textContent = `${formatNumber((Math.max(
   0,
   getCanonicalGenKwh() - getCanonicalConsKwh()
 ) * 0.0007), 2)} CC`;
